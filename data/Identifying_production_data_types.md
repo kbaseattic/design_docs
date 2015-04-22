@@ -6,16 +6,16 @@
 ##Description this stores expression data of a variety of different types (microarray, RNA-Seq, Proteomics, q-PCR)
 
 ##Methods
-These will need to be changed and rewritten.  Currently it is all written in Perl and acesses the data via direct SQL queries against the Central Store.Also many of the methods were geared for searching before search existed.  The search related methods will not be carried over and should be abandoned.
-I envision the following methods:
+These will need to be changed and rewritten.  Currently it is all written in Perl and acesses the data via direct SQL queries against the Central Store.Also many of the methods were geared for searching before search existed.  The search related methods will not be carried over and should be abandoned.  The currented outdated methods exist here: https://github.com/kbase/expression/blob/master/lib/Bio/KBase/KBaseExpression/KBaseExpressionImpl.pm
+I envision the following new methods being done and operating on the workspace objects:
 * Visualize Sample
 * Visualize Series
 * Add annotation
 * Get Data By SampleIDs and FeatureIDs
 * Visualize ReplicateGroup?
 * Not sure what the RNA-Seq people will need.  Currently there are no methods for them in this spec.
-* Visualize the expression data for a genome
-* Visulaize the expression data for a list of features
+* Visualize the expression data for a genome (by samples)
+* Visulaize the expression data for a list of features (by samples)
 * Compare Samples (define denominator as specific sample or average of a group of samples)
 * Average Samples together to make a representative Sample
 * Compare Samples vs default controls?
@@ -132,7 +132,7 @@ It does have a shock_url and shock_id, but these are only set up as strings.
 * name  
 * type
 * created
-* shock_ref (shock_id and shock_url)
+* shock_ref (shock_id and shock_url)A shock url to the read files for RNA-Seq experiments
 * metadata
   * paired
   * platform
@@ -157,7 +157,7 @@ It does have a shock_url and shock_id, but these are only set up as strings.
 * name  
 * paired
 * created
-* shock_ref (shock_id and shock_url)
+* shock_ref (shock_id and shock_url) A shock url to the read files for RNA-Seq experiments
 * metadata
   * paired
   * platform
@@ -182,5 +182,5 @@ It does have a shock_url and shock_id, but these are only set up as strings.
 * title
 * created
 * diff_expression
-  *  RNASeqDifferentialExpressionSet - list of RNASeqDifferentialExpressionFiles (contains name, shock_ref(shock_url,shock_id)
+  *  RNASeqDifferentialExpressionSet - list of RNASeqDifferentialExpressionFiles (contains name, shock_ref(shock_url,shock_id) A shock url to the read files for RNA-Seq experiments
 
