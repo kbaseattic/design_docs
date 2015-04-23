@@ -184,3 +184,33 @@ It does have a shock_url and shock_id, but these are only set up as strings.
 * diff_expression
   *  RNASeqDifferentialExpressionSet - list of RNASeqDifferentialExpressionFiles (contains name, shock_ref(shock_url,shock_id) A shock url to the read files for RNA-Seq experiments
 
+---
+
+#Assembly
+##This service takes read files and assembles them into contigs.
+
+##Methods
+
+##Data Sources
+The data I assume is coming from outside private sources.
+
+##Repo
+https://github.com/kbase/assembly
+
+##Module: KbaseAssembly
+
+##Types
+###ExpressionSeries
+####Description
+The Expression Series is a collection of ExpressionSamples that are linked together in some sort of study. This maps to a GEO GSE.
+####Relationships
+It references Genomes and ExpressionSamples (both by ws reference)
+####Fields:
+* id : Id of the series usually gotten from the id-server for public data
+* source_id : Some string representing the source, in the case of GEO it would be the GSE ID
+* genome_expression_sample_ids_map : A map in which the Genome ID is the key and the values are an array of corresponding expression samples.
+* title
+* summary 
+* design : Design of the study
+* publication_id 
+* external_source_date : Date associated with the external source.
