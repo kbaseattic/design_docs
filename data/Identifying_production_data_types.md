@@ -7,6 +7,13 @@
 
 ##Methods
 These will need to be changed and rewritten.  Currently it is all written in Perl and acesses the data via direct SQL queries against the Central Store.Also many of the methods were geared for searching before search existed.  The search related methods will not be carried over and should be abandoned.  The currented outdated methods exist here: https://github.com/kbase/expression/blob/master/lib/Bio/KBase/KBaseExpression/KBaseExpressionImpl.pm
+The methonds with a * at the end are the ones that should be rewritten to work against the workspace.
+
+*Method Name
+ *Inputs
+ *Outputs
+ *Data hit
+
 I envision the following new methods being done and operating on the workspace objects:
 * Visualize Sample
 * Visualize Series
