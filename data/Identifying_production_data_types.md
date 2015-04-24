@@ -6,13 +6,85 @@
 ##Description this stores expression data of a variety of different types (microarray, RNA-Seq, Proteomics, q-PCR)
 
 ##Methods
-These will need to be changed and rewritten.  Currently it is all written in Perl and acesses the data via direct SQL queries against the Central Store.Also many of the methods were geared for searching before search existed.  The search related methods will not be carried over and should be abandoned.  The currented outdated methods exist here: https://github.com/kbase/expression/blob/master/lib/Bio/KBase/KBaseExpression/KBaseExpressionImpl.pm
+These will need to be changed and rewritten.  Currently it is all written in Perl and acesses the data via direct SQL queries against the Central Store.Also many of the methods were geared for searching before search existed.  The search related methods will not be carried over and should be abandoned.  The current outdated methods exist here: https://github.com/kbase/expression/blob/master/lib/Bio/KBase/KBaseExpression/KBaseExpressionImpl.pm
 The methonds with a * at the end are the ones that should be rewritten to work against the workspace.
 
-*Method Name
- *Inputs
- *Outputs
- *Data hit
+* Method Name - get_expression_samples_data
+  * Description - Based on the list of sample ids it returns a map of samples and their corresponding complex information.  Note this method is the core called by anything that gets expression_samples_data.  The other methods call this method.
+  * Inputs - List of SampleIds
+  * Outputs - Complex data structure that has a map that goes to the information for each sample. expression_data_samples_map
+  * Data hit : CS tables:
+    * Sample
+    * StrainWithSample 
+    * Strain
+    * GenomeParentOf
+    * Genome
+    * PlatformWithSamples
+    * Platform
+    * HasExpressionSample
+    * ExperimentalUnit
+    * HasExperimentalUnit
+    * ExperimentMeta
+    * IsContextOf
+    * Environment
+    * ProtocolForSample 
+    * Protocol
+    * SampleHasAnnotations
+    * SampleAnnotation
+    * OntologyForSample 
+    * Ontology
+    * SampleInSeries
+    * Series
+    * SampleAveragedFrom
+    * SampleContactPerson
+    * Person
+    * SampleMeasurements
+    * Measurement
+    * FeatureMeasuredBy
+    * Feature
+* Method Name - get_expression_data_by_samples_and_features
+  * Description - Based on the list of sample ids, list of feature ids and a numerical interpretation it generates a label_data_mapping. 
+  * Inputs - List of SampleIds, List of FeatureIds, Numerical interpretation
+  * Outputs - label_data_mapping 
+    * mapping kbase feature id as the key and measurement as the value
+      typedef mapping<feature_id featureID, measurement measurement> data_expression_levels_for_sample; 
+    * Mapping from Label (often a sample id, but free text to identif) to DataExpressionLevelsForSample
+      typedef mapping<string label, data_expression_levels_for_sample dataExpressionLevelsForSample> label_data_mapping;)
+  * Data hit : CS tables:
+    * Sample
+    * SampleMeasurements
+    * Measurement
+    * FeatureMeasuredBy
+    * Feature
+* Method Name - get_expression_samples_data_by_series_ids
+  * Description - Gets the same thing as get_expression_samples_data but gets them by series ids, has an outer map of series ids to the list of corresponding samples.
+  * Inputs - List of SeriesIds
+  * Outputs - series_expression_data_samples_mapping : a mapping of series ids to their component expressions samples mapping
+  * Data hit : CS tables: (SAME AS get_expression_samples_data)
+* Method Name - get_expression_sample_ids_by_series_ids
+  * Description - Given a list of series it returns a list of samples associated with those series.
+  * Inputs - List of SeriesIds
+  * Outputs - List of SampleIds
+  * Data hit : CS tables: 
+    * Sample
+    * SampleInSeries
+    * Series
+* Method Name - get_expression_samples_data_by_experimental_unit_ids
+  * Description - Gets the same thing as get_expression_samples_data but gets them by experimental unit ids, has an outer map of experimental unit ids to the list of corresponding samples.  This was designed to work with the Gavin's experiment data.  Which has been since scrapped.
+  * Inputs - List of Experimental Unit Ids
+  * Outputs - mapping of experimental_unit_ids and their corresponding samples data
+  * Data hit : CS tables: (SAME AS get_expression_samples_data)
+* Method Name - get_expression_sample_ids_by_experimental_unit_ids
+  * Description - Given a list of experimental_unit_ids it returns a list of samples associated with them. This was designed to work with the Gavin's experiment data.  Which has been since scrapped.
+  * Inputs - List of ExperimentalUnitIds
+  * Outputs - List of SampleIds
+  * Data hit : CS tables: 
+    * Sample
+    * HasExpressionSample
+    * ExperimentalUnit
+
+
+
 
 I envision the following new methods being done and operating on the workspace objects:
 * Visualize Sample
