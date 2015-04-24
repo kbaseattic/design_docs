@@ -57,7 +57,7 @@ The methonds with a * at the end are the ones that should be rewritten to work a
     * FeatureMeasuredBy
     * Feature
 3. Method Name - get_expression_samples_data_by_series_ids
-  * Description - Gets the same thing as get_expression_samples_data but gets them by series ids, has an outer map of series ids to the list of corresponding samples.
+  * Description - Gets the same thing as get_expression_samples_data but gets them by series ids, has an outer map of series ids to the map of corresponding samples.
   * Inputs - List of SeriesIds
   * Outputs - series_expression_data_samples_mapping : a mapping of series ids to their component expressions samples mapping
   * Data hit : CS tables: (SAME AS get_expression_samples_data)
@@ -70,7 +70,7 @@ The methonds with a * at the end are the ones that should be rewritten to work a
     * SampleInSeries
     * Series
 5. Method Name - get_expression_samples_data_by_experimental_unit_ids
-  * Description - Gets the same thing as get_expression_samples_data but gets them by experimental unit ids, has an outer map of experimental unit ids to the list of corresponding samples.  This was designed to work with the Gavin's experiment data.  Which has been since scrapped.
+  * Description - Gets the same thing as get_expression_samples_data but gets them by experimental unit ids, has an outer map of experimental unit ids to the map of corresponding samples.  This was designed to work with the Gavin's experiment data.  Which has been since scrapped.
   * Inputs - List of Experimental Unit Ids
   * Outputs - mapping of experimental_unit_ids and their corresponding samples data
   * Data hit : CS tables: (SAME AS get_expression_samples_data)
@@ -97,7 +97,34 @@ The methonds with a * at the end are the ones that should be rewritten to work a
     * ExperimentalUnit
     * HasExperimentalUnit
     * ExperimentMeta
-
+9. Method Name - get_expression_samples_data_by_strain_ids
+  * Description - Gets the same thing as get_expression_samples_data but gets them by strain ids, has an outer map of strain ids to the map of corresponding samples.  This was designed to work with the Gavin's strain tables.  Which has been since scrapped.
+  * Inputs - List of StrainIds and Sample Type (Controlled vocabulary : microarray, RNA-Seq, qPCR, or proteomics)
+  * Outputs - mapping of strain_ids and their corresponding samples data
+  * Data hit : CS tables: (SAME AS get_expression_samples_data)
+10. Method Name - get_expression_sample_ids_by_strain_ids
+  * Description - Given a list of strain ids it returns a list of samples associated with them. This was designed to work with the Gavin's strain tables.  Which has been since scrapped.
+  * Inputs - List of StrainIds and Sample Type (Controlled vocabulary : microarray, RNA-Seq, qPCR, or proteomics)
+  * Outputs - List of SampleIds
+  * Data hit : CS tables: 
+    * Sample
+    * StrainWithSample
+    * Strain
+11. Method Name - get_expression_samples_data_by_genome_ids
+  * Description - Gets the same thing as get_expression_samples_data but gets them by genome ids, has an outer map of genome ids to the map of strain_ids, to the corresponding samples.  
+  * Inputs - List of GenomeIds and Sample Type (Controlled vocabulary : microarray, RNA-Seq, qPCR, or proteomics)
+  * Outputs - map of genome ids to the map of strain_ids, to the corresponding samples.  
+  * Data hit : CS tables: (SAME AS get_expression_samples_data)
+12. Method Name - get_expression_sample_ids_by_genome_ids
+  * Description - Given a list of genome ids it returns a list of samples associated with them. 
+  * Inputs - List of GenomeIds and Sample Type (Controlled vocabulary : microarray, RNA-Seq, qPCR, or proteomics)
+  * Outputs - List of SampleIds
+  * Data hit : CS tables: 
+    * Sample
+    * StrainWithSample
+    * Strain
+    * GenomeParentOf
+    * Genome
 
 
 I envision the following new methods being done and operating on the workspace objects:
