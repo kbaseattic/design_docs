@@ -112,12 +112,12 @@ The methonds with a * at the end are the ones that should be rewritten to work a
     * Strain
 11. Method Name - get_expression_samples_data_by_genome_ids
   * Description - Gets the same thing as get_expression_samples_data but gets them by genome ids, has an outer map of genome ids to the map of strain_ids, to the corresponding samples.  
-  * Inputs - List of GenomeIds and Sample Type (Controlled vocabulary : microarray, RNA-Seq, qPCR, or proteomics)
+  * Inputs - List of GenomeIds, Sample Type (Controlled vocabulary : microarray, RNA-Seq, qPCR, or proteomics) and WildTypeOnly (1 = true, 0 = false)
   * Outputs - map of genome ids to the map of strain_ids, to the corresponding samples.  
   * Data hit : CS tables: (SAME AS get_expression_samples_data)
 12. Method Name - get_expression_sample_ids_by_genome_ids
   * Description - Given a list of genome ids it returns a list of samples associated with them. 
-  * Inputs - List of GenomeIds and Sample Type (Controlled vocabulary : microarray, RNA-Seq, qPCR, or proteomics)
+  * Inputs - List of GenomeIds, Sample Type (Controlled vocabulary : microarray, RNA-Seq, qPCR, or proteomics) and WildTypeOnly (1 = true, 0 = false)
   * Outputs - List of SampleIds
   * Data hit : CS tables: 
     * Sample
@@ -125,6 +125,28 @@ The methonds with a * at the end are the ones that should be rewritten to work a
     * Strain
     * GenomeParentOf
     * Genome
+13. Method Name - get_expression_samples_data_by_ontology_ids
+  * Description - Gets the same thing as get_expression_samples_data : Given a list of ontologyIDs, AndOr operator (and requires sample to have all ontology IDs, or sample has to have any of the terms), GenomeId, SampleType ( controlled vocabulary : microarray, RNA-Seq, qPCR, or proteomics), wildTypeOnly returns OntologyID(concatenated if Anded) -> ExpressionDataSample
+  * Inputs - list of ontologyIDs, AndOr operator (and requires sample to have all ontology IDs, or sample has to have any of the terms), GenomeId, SampleType ( controlled vocabulary : microarray, RNA-Seq, qPCR, or proteomics), wildTypeOnly
+  * Outputs - map of ontologogy_ids to the corresponding samples.  
+  * Data hit : CS tables: (SAME AS get_expression_samples_data)
+14. Method Name - get_expression_sample_ids_by_ontology_ids
+  * Description - list of ontologyIDs, AndOr operator (and requires sample to have all ontology IDs, or sample has to have any of the terms), GenomeId, SampleType ( controlled vocabulary : microarray, RNA-Seq, qPCR, or proteomics), wildTypeOnly returns list of sample_ids 
+  * Inputs - list of ontologyIDs, AndOr operator (and requires sample to have all ontology IDs, or sample has to have any of the terms), GenomeId, SampleType ( controlled vocabulary : microarray, RNA-Seq, qPCR, or proteomics), wildTypeOnly
+  * Outputs - List of SampleIds
+  * Data hit : CS tables: 
+    * Sample
+    * StrainWithSample
+    * Strain
+    * GenomeParentOf
+    * Genome
+    * SampleHasAnnotations
+    * OntologyForSample
+    * Ontology
+
+
+
+
 
 
 I envision the following new methods being done and operating on the workspace objects:
