@@ -82,7 +82,21 @@ The methonds with a * at the end are the ones that should be rewritten to work a
     * Sample
     * HasExpressionSample
     * ExperimentalUnit
-
+* Method Name - get_expression_samples_data_by_experimental_meta_ids
+  * Description - Gets the same thing as get_expression_samples_data_by_experimental_unit_ids but gets them by experimental meta ids, has an outer map of experimental meta ids to the get_expression_samples_data_by_experimental_unit_ids return values .  This was designed to work with the Gavin's experiment data.  Which has been since scrapped.
+  * Inputs - List of Experimental Meta Ids
+  * Outputs - mapping of experimental_meta_ids to their corresponding experimental_unit_ids and in turn their corresponding samples data
+  * Data hit : CS tables: (SAME AS get_expression_samples_data)
+* Method Name - get_expression_sample_ids_by_experimental_meta_ids
+  * Description - Given a list of experimental_metat_ids it returns a list of samples associated with them. This was designed to work with the Gavin's experiment data.  Which has been since scrapped.
+  * Inputs - List of ExperimentalMetaIds
+  * Outputs - List of SampleIds
+  * Data hit : CS tables: 
+    * Sample
+    * HasExpressionSample
+    * ExperimentalUnit
+    * HasExperimentalUnit
+    * ExperimentMeta
 
 
 
