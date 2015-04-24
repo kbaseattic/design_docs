@@ -42,7 +42,7 @@ The methonds with a * at the end are the ones that should be rewritten to work a
     * Measurement
     * FeatureMeasuredBy
     * Feature
-2. Method Name - get_expression_data_by_samples_and_features
+2. Method Name - get_expression_data_by_samples_and_features *
   * Description - Based on the list of sample ids, list of feature ids and a numerical interpretation it generates a label_data_mapping. 
   * Inputs - List of SampleIds, List of FeatureIds, Numerical interpretation
   * Outputs - label_data_mapping 
@@ -143,10 +143,24 @@ The methonds with a * at the end are the ones that should be rewritten to work a
     * SampleHasAnnotations
     * OntologyForSample
     * Ontology
-
-
-
-
+15. Method Name - get_expression_data_by_feature_ids
+  * Description - given a list of FeatureIDs, a SampleType ( controlled vocabulary : microarray, RNA-Seq, qPCR, or proteomics) and an int indicating WildType Only (1 = true, 0 = false) returns a FeatureSampleMeasurementMapping: {featureID->{sample_id->measurement}}*/
+  * Inputs - List of feature_ids, sample_type, wild_type_only
+  * Outputs - FeatureSampleMeasurementMapping: {featureID->{sample_id->measurement}}
+  * Data hit : CS tables:
+    * Sample
+    * SampleMeasurements
+    * Measurement
+    * FeatureMeasuredBy
+    * Feature
+    * StrainWithSample
+    * Strain
+16. Method Name - compare_samples *
+  * Description compares to samples vs one another.  Returns only features shared across both samples.
+  * Inputs - Compare samples takes two data structures labelDataMapping  {sampleID or label}->{featureId or label => value}}, the first labelDataMapping is the numerator, the 2nd is the denominator in the comparison. 
+  * Outputs - returns a SampleComparisonMapping {numerator_sample_id(or label)->{denominator_sample_id(or label)->{feature_id(or label) -> value}}} */
+  * Data hit : All data is from the input data structures.
+17. Method Name - compare_samples_vs_default_controls
 
 
 I envision the following new methods being done and operating on the workspace objects:
@@ -167,12 +181,15 @@ I envision the following new methods being done and operating on the workspace o
 
 ##Data
 The data is currently being stored in both the Central Store and the Workspace.  They are not dependent on one another.
-However for uploading from GEO the current pipeline requires getting information from the Genomes and Features in the CS.
+However for uploading from GEO the current public data pipeline requires getting information from the Genomes and Features in the CS.
 
 ##Owner/Author
 Jason Baumohl
 
-##Workspace
+##Workspace Module
+KBaseExpression
+
+##Workspace with Data
 KBasePublicExpression
 
 ##Repo
