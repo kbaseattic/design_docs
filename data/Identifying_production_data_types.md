@@ -143,8 +143,8 @@ The methonds with a * at the end are the ones that should be rewritten to work a
     * SampleHasAnnotations
     * OntologyForSample
     * Ontology
-15. Method Name - get_expression_data_by_feature_ids
-  * Description - given a list of FeatureIDs, a SampleType ( controlled vocabulary : microarray, RNA-Seq, qPCR, or proteomics) and an int indicating WildType Only (1 = true, 0 = false) returns a FeatureSampleMeasurementMapping: {featureID->{sample_id->measurement}}*/
+15. Method Name - get_expression_data_by_feature_ids *
+  * Description - given a list of FeatureIDs, a SampleType ( controlled vocabulary : microarray, RNA-Seq, qPCR, or proteomics) and an int indicating WildType Only (1 = true, 0 = false) returns a FeatureSampleMeasurementMapping: {featureID->{sample_id->measurement}}
   * Inputs - List of feature_ids, sample_type, wild_type_only
   * Outputs - FeatureSampleMeasurementMapping: {featureID->{sample_id->measurement}}
   * Data hit : CS tables:
@@ -156,11 +156,122 @@ The methonds with a * at the end are the ones that should be rewritten to work a
     * StrainWithSample
     * Strain
 16. Method Name - compare_samples *
-  * Description compares to samples vs one another.  Returns only features shared across both samples.
+  * Description - compares to samples vs one another.  Returns only features shared across both samples.
   * Inputs - Compare samples takes two data structures labelDataMapping  {sampleID or label}->{featureId or label => value}}, the first labelDataMapping is the numerator, the 2nd is the denominator in the comparison. 
-  * Outputs - returns a SampleComparisonMapping {numerator_sample_id(or label)->{denominator_sample_id(or label)->{feature_id(or label) -> value}}} */
+  * Outputs - returns a SampleComparisonMapping {numerator_sample_id(or label)->{denominator_sample_id(or label)->{feature_id(or label) -> value}}}
   * Data hit : All data is from the input data structures.
 17. Method Name - compare_samples_vs_default_controls
+  * Description -  Compares samples vs their default control if the default control is specified.  If the Default control is not specified for a sample, then nothing is returned for that sample.
+  * Inputs - Takes a list of sampleIDs 
+  * Outputs - SampleComparisonMapping {sample_id ->{denominator_default_control sample_id ->{feature_id -> log2Ratio}}} 
+  * Data Hit : CS Tables : 
+    * Sample
+    * SampleMeasurements
+    * Measurement
+    * FeatureMeasuredBy
+    * Feature
+    * DefaultControlSample
+18. Method Name - compare_samples_vs_the_average *
+  * Description - Compares each numerator sample vs the average of all the denominator sampleIds.  
+  * Inputs - Take a list of numerator sample IDs and a list of samples Ids to average for the denominator.
+  * Outputs - SampleComparisonMapping {numerator_sample_id->{denominator_sample_id ->{feature_id -> log2Ratio}}}
+  * Data Hit : CS Tables : 
+    * Sample
+    * SampleMeasurements
+    * Measurement
+    * FeatureMeasuredBy
+    * Feature
+19. Method Name - get_on_off_calls *
+  * Description -  Takes in comparison results.  If the value is >= on_threshold it is deemed on (1), if < off_threshold it is off(-1).  Thresholds normally set to zero
+  * Inputs - Takes in comparison results, off threshold, on threshold 
+  * Outputs - SampleComparisonMapping {numerator_sample_id(or label)->{denominator_sample_id(or label)->{feature_id(or label) -> on_off_call (possible values 0,-1,1)}}}
+20. Method Name - get_top_changers *
+  * Description - Returns the top changers from a comparison.
+  * Inputs - Takes in comparison results. Direction must equal 'up', 'down', or 'both'.  Count is the number of changers returned in each direction.
+  * Outputs - SampleComparisonMapping {numerator_sample_id(or label)->{denominator_sample_id(or label)->{feature_id(or label) -> log2Ratio (note that the features listed will be limited to the top changers)}}}
+21. Method Name - get_expression_samples_titles
+  * Description - Gets samples titles
+  * Inputs - List of Sample IDs.
+  * Outputs - Hash (key : SampleID, value: Title of Sample) 
+  * Data Hit : CS Tables : 
+    * Sample
+22. Method Name - get_expression_samples_descriptions
+  * Description - Gets samples descriptions
+  * Inputs - List of Sample IDs.
+  * Outputs - Hash (key : SampleID, value: Description of Sample)
+  * Data Hit : CS Tables : 
+    * Sample
+23. Method Name - get_expression_samples_molecules
+  * Description - Gets samples molecules
+  * Inputs - List of Sample IDs.
+  * Outputs - Hash (key : SampleID, value: Molecules of the Sample) 
+  * Data Hit : CS Tables : 
+    * Sample
+24. Method Name - get_expression_samples_types
+  * Description - Gets samples types
+  * Inputs - List of Sample IDs.
+  * Outputs - Hash (key : SampleID, value: Type of Sample) 
+  * Data Hit : CS Tables : 
+    * Sample
+25. Method Name - get_expression_samples_external_source_ids
+  * Description - Gets samples External Source ID
+  * Inputs - List of Sample IDs.
+  * Outputs - Hash (key : SampleID, value: External Source ID of Sample) 
+  * Data Hit : CS Tables : 
+    * Sample
+26. Method Name - get_expression_samples_original_log2_medians
+  * Description - Gets samples original_log2_medians
+  * Inputs - List of Sample IDs.
+  * Outputs - Hash (key : SampleID, value: original_log2_medians of Sample) 
+  * Data Hit : CS Tables : 
+    * Sample
+27. Method Name - get_expression_series_titles
+  * Description - Get Series titles.
+  * Inputs - List of SeriesIDs
+  * Outputs - a Hash (key : SeriesID, value: Title of Series)
+  * Data Hit : CS Tables : 
+    * Series
+28. Method Name - get_expression_series_summaries
+  * Description - Get Series Summaries.
+  * Inputs - List of SeriesIDs
+  * Outputs - a Hash (key : SeriesID, value: Summary of Series)
+  * Data Hit : CS Tables : 
+    * Series
+29. Method Name - get_expression_series_designs
+  * Description - Get Series Summaries.
+  * Inputs - List of SeriesIDs
+  * Outputs - a Hash (key : SeriesID, value: Design of Series)
+  * Data Hit : CS Tables : 
+    * Series
+30. Method Name - get_expression_series_external_source_ids
+  * Description - Get Series External Source IDs.
+  * Inputs - List of SeriesIDs
+  * Outputs - a Hash (key : SeriesID, value: External Source ID of Series)
+  * Data Hit : CS Tables : 
+    * Series
+31. Method Name - get_expression_sample_ids_by_sample_external_source_ids
+  * Description - Gets a list of sample ids based on a list of external sample ids (typically GSMs)
+  * Inputs - list of sample external source ids
+  * Outputs - a list of sample ids
+  * Data Hit : CS Tables : 
+    * Sample
+32. Method Name - get_expression_sample_ids_by_platform_external_source_ids
+  * Description - get sample ids by the platform's external source id (typically GPLs)
+  * Inputs - list of platform external source ids
+  * Outputs - list of sample ids
+  * Data Hit : CS Tables : 
+    * Sample
+    * PlatformWithSamples
+    * Platform
+33. Method Name - get_expression_series_ids_by_series_external_source_ids
+  * Description - get series ids by the series's external source id (Typically GSEs)
+  * Inputs - Takes a list of series external source ids
+  * Outputs - a list of series ids
+  * Data Hit : CS Tables : 
+    * Series
+34. Method Name - get_GEO_GSE  (NOT NEEDED ANYMORE)
+  * Description - Based on the old uploader of GEO data.  Not used anymore.
+
 
 
 I envision the following new methods being done and operating on the workspace objects:
@@ -344,6 +455,9 @@ It does have a shock_url and shock_id, but these are only set up as strings.
   *  RNASeqDifferentialExpressionSet - list of RNASeqDifferentialExpressionFiles (contains name, shock_ref(shock_url,shock_id) A shock url to the read files for RNA-Seq experiments
 
 ---
+---
+---
+JUST A STARTING OF ASSEMBLY
 
 #Assembly
 ##This service takes read files and assembles them into contigs.
