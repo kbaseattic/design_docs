@@ -272,24 +272,6 @@ The methonds with a * at the end are the ones that should be rewritten to work a
 34. Method Name - get_GEO_GSE  (NOT NEEDED ANYMORE)
   * Description - Based on the old uploader of GEO data.  Not used anymore.
 
-
-
-I envision the following new methods being done and operating on the workspace objects:
-* Visualize Sample
-* Visualize Series
-* Add annotation
-* Get Data By SampleIDs and FeatureIDs
-* Visualize ReplicateGroup?
-* Not sure what the RNA-Seq people will need.  Currently there are no methods for them in this spec.
-* Visualize the expression data for a genome (by samples)
-* Visulaize the expression data for a list of features (by samples)
-* Compare Samples (define denominator as specific sample or average of a group of samples)
-* Average Samples together to make a representative Sample
-* Compare Samples vs default controls?
-* Determine ON and OFF calls
-* Get Top Changers
-* Make new sample with original values
-
 ##Data
 The data is currently being stored in both the Central Store and the Workspace.  They are not dependent on one another.
 However for uploading from GEO the current public data pipeline requires getting information from the Genomes and Features in the CS.
