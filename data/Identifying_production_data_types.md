@@ -296,6 +296,12 @@ https://github.com/kbase/expression
 * Ontologies : EO, PO and ENVO terms
 * The plant group has added annotations for specific samples by hand for ontologies and replicate groups. They supply me with this file for uploading the GEO data.
 
+##Dependencies
+* CS (Methods need to be rewritten to remove the CS dependency and work on WS objects only).
+* Workspace
+* ID Server(for upload pipeline)
+* Blat (for GEO uploan pipeline)
+
 ##Module: KBaseExpression
 
 ##Types
