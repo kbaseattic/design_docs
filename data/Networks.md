@@ -69,39 +69,39 @@ No
     
     
 ## Methods and types used in methods    
+
+gremlin> g.V('moduleName', 'KBaseNetworks').has('nodeType','M').each{println "* " + it.name + ":" ; it.in.dedup.each{println "  * param: " + it.name}; it.out.dedup.each{println "  * return: " + it.name}}
+* M.KBaseNetworks.entity2datasets:
+  * return: D.KBaseNetworks.Dataset
+* M.KBaseNetworks.dataset_source2datasets:
+  * param: D.KBaseNetworks.dataset_source_ref
+  * return: D.KBaseNetworks.Dataset
+* M.KBaseNetworks.build_first_neighbor_network_limted_by_strength:
+  * param: D.KBaseNetworks.edge_type
+  * return: D.KBaseNetworks.Network
+* M.KBaseNetworks.all_network_types:
+  * return: D.KBaseNetworks.network_type
+* M.KBaseNetworks.build_internal_network:
+  * param: D.KBaseNetworks.edge_type
+  * return: D.KBaseNetworks.Network
+* M.KBaseNetworks.build_internal_network_limited_by_strength:
+  * param: D.KBaseNetworks.edge_type
+  * return: D.KBaseNetworks.Network
+* M.KBaseNetworks.all_dataset_sources:
+  * return: D.KBaseNetworks.DatasetSource
+* M.KBaseNetworks.build_first_neighbor_network:
+  * param: D.KBaseNetworks.edge_type
+  * return: D.KBaseNetworks.Network
+* M.KBaseNetworks.all_datasets:
+  * return: D.KBaseNetworks.Dataset
+* M.KBaseNetworks.taxon2datasets:
+  * param: D.KBaseNetworks.taxon
+  * return: D.KBaseNetworks.Dataset
+* M.KBaseNetworks.network_type2datasets:
+  * param: D.KBaseNetworks.network_type
+  * return: D.KBaseNetworks.Dataset    
     
-gremlin> g.V('moduleName', 'KBaseNetworks').has('nodeType','M').each{println it.name + ":" ; it.in.dedup.each{println "\tparam: " + it.name}; it.out.dedup.each{println "\treturn: " + it.name}}  
-M.KBaseNetworks.entity2datasets:  
-	return: D.KBaseNetworks.Dataset  
-M.KBaseNetworks.dataset_source2datasets:  
-	param: D.KBaseNetworks.dataset_source_ref  
-	return: D.KBaseNetworks.Dataset  
-M.KBaseNetworks.build_first_neighbor_network_limted_by_strength:  
-	param: D.KBaseNetworks.edge_type  
-	return: D.KBaseNetworks.Network  
-M.KBaseNetworks.all_network_types:  
-	return: D.KBaseNetworks.network_type  
-M.KBaseNetworks.build_internal_network:  
-	param: D.KBaseNetworks.edge_type  
-	return: D.KBaseNetworks.Network  
-M.KBaseNetworks.build_internal_network_limited_by_strength:  
-	param: D.KBaseNetworks.edge_type  
-	return: D.KBaseNetworks.Network  
-M.KBaseNetworks.all_dataset_sources:  
-	return: D.KBaseNetworks.DatasetSource  
-M.KBaseNetworks.build_first_neighbor_network:  
-	param: D.KBaseNetworks.edge_type  
-	return: D.KBaseNetworks.Network  
-M.KBaseNetworks.all_datasets:  
-	return: D.KBaseNetworks.Dataset  
-M.KBaseNetworks.taxon2datasets:  
-	param: D.KBaseNetworks.taxon  
-	return: D.KBaseNetworks.Dataset  
-M.KBaseNetworks.network_type2datasets:  
-	param: D.KBaseNetworks.network_type  
-	return: D.KBaseNetworks.Dataset    
-    
-## SQL tables used in methods  
+## SQL statements used in methods  
   
 ### loadDatasets  
 select \   
