@@ -21,7 +21,7 @@ https://github.com/kbase/assembly
 * Assembly service uses Shock as its blob storage appliance
   * see https://github.com/MG-RAST/Shock
   * see https://github.com/MG-RAST/Shock/wiki/API
-* Note has an install of SQL but I do not see it being used anywhere. (no select or insert statements)
+* Note this has an install of SQL but I do not see it being used anywhere. (no select or insert statements)(So i do not think this is actually used)
   * https://github.com/kbase/assembly/blob/3818c1e6e7efe70d77e9916559b61b57c66f43f4/tools/add-comp.pl (line 276 and 348)
 * Mongo - references Mongo in 13 places in the repo.  
   * Keith suspects this may be used for job management.  - see https://github.com/kbase/assembly/blob/4e518dc3611294d0be1824ef3a5db5b9d0ee632c/lib/assembly/metadata.py
