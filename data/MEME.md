@@ -57,49 +57,50 @@ No
   
   
 ## Methods and types used in methods  
+
+gremlin> g.V('moduleName', 'MEME').has('nodeType','M').each{println "* " + it.name + ":" ; it.in.dedup.each{println "  * param: " + it.name}; it.out.dedup.each{println "  * return: " + it.name}}
+* M.MEME.find_motifs_with_meme_from_ws:
+  * param: D.MEME.MemeRunParameters
+* M.MEME.compare_motifs_with_tomtom_by_collection:
+  * param: D.MEME.MemePSPMCollection
+  * param: D.MEME.TomtomRunParameters
+  * return: D.MEME.TomtomRunResult
+* M.MEME.find_sites_with_mast_by_collection:
+  * param: D.MEME.MastRunParameters
+  * param: D.MEME.MemePSPMCollection
+  * param: D.KBaseSequences.SequenceSet
+  * return: D.MEME.MastRunResult
+* M.MEME.get_pspm_collection_from_meme_result_from_ws:
+* M.MEME.compare_motifs_with_tomtom_job_by_collection_from_ws:
+  * param: D.MEME.TomtomRunParameters
+* M.MEME.find_motifs_with_meme_job_from_ws:
+  * param: D.MEME.MemeRunParameters
+* M.MEME.compare_motifs_with_tomtom:
+  * param: D.MEME.MemePSPMCollection
+  * param: D.MEME.MemePSPM
+  * param: D.MEME.TomtomRunParameters
+  * return: D.MEME.TomtomRunResult
+* M.MEME.find_motifs_with_meme:
+  * param: D.MEME.MemeRunParameters
+  * param: D.KBaseSequences.SequenceSet
+  * return: D.MEME.MemeRunResult
+* M.MEME.compare_motifs_with_tomtom_by_collection_from_ws:
+  * param: D.MEME.TomtomRunParameters
+* M.MEME.get_pspm_collection_from_meme_result_job_from_ws:
+  * param: D.MEME.meme_run_result_ref
+* M.MEME.find_sites_with_mast_by_collection_from_ws:
+  * param: D.MEME.MastRunParameters
+* M.MEME.find_sites_with_mast_job_by_collection_from_ws:
+  * param: D.MEME.MastRunParameters
+* M.MEME.find_sites_with_mast:
+  * param: D.MEME.MastRunParameters
+  * param: D.KBaseSequences.SequenceSet
+  * param: D.MEME.MemePSPM
+  * return: D.MEME.MastRunResult
+* M.MEME.get_pspm_collection_from_meme_result:
+  * param: D.MEME.MemeRunResult
+  * return: D.MEME.MemePSPMCollection
   
-gremlin> g.V('moduleName', 'MEME').has('nodeType','M').each{println it.name + ":" ; it.in.dedup.each{println "\tparam: " + it.name}; it.out.dedup.each{println "\treturn: " + it.name}}  
-M.MEME.find_motifs_with_meme_from_ws:  
-	param: D.MEME.MemeRunParameters  
-M.MEME.compare_motifs_with_tomtom_by_collection:  
-	param: D.MEME.MemePSPMCollection  
-	param: D.MEME.TomtomRunParameters  
-	return: D.MEME.TomtomRunResult  
-M.MEME.find_sites_with_mast_by_collection:  
-	param: D.MEME.MastRunParameters  
-	param: D.MEME.MemePSPMCollection  
-	param: D.KBaseSequences.SequenceSet  
-	return: D.MEME.MastRunResult  
-M.MEME.get_pspm_collection_from_meme_result_from_ws:  
-M.MEME.compare_motifs_with_tomtom_job_by_collection_from_ws:  
-	param: D.MEME.TomtomRunParameters  
-M.MEME.find_motifs_with_meme_job_from_ws:  
-	param: D.MEME.MemeRunParameters  
-M.MEME.compare_motifs_with_tomtom:  
-	param: D.MEME.MemePSPMCollection  
-	param: D.MEME.MemePSPM  
-	param: D.MEME.TomtomRunParameters  
-	return: D.MEME.TomtomRunResult  
-M.MEME.find_motifs_with_meme:  
-	param: D.MEME.MemeRunParameters  
-	param: D.KBaseSequences.SequenceSet  
-	return: D.MEME.MemeRunResult  
-M.MEME.compare_motifs_with_tomtom_by_collection_from_ws:  
-	param: D.MEME.TomtomRunParameters  
-M.MEME.get_pspm_collection_from_meme_result_job_from_ws:  
-	param: D.MEME.meme_run_result_ref  
-M.MEME.find_sites_with_mast_by_collection_from_ws:  
-	param: D.MEME.MastRunParameters  
-M.MEME.find_sites_with_mast_job_by_collection_from_ws:  
-	param: D.MEME.MastRunParameters  
-M.MEME.find_sites_with_mast:  
-	param: D.MEME.MastRunParameters  
-	param: D.KBaseSequences.SequenceSet  
-	param: D.MEME.MemePSPM  
-	return: D.MEME.MastRunResult  
-M.MEME.get_pspm_collection_from_meme_result:  
-	param: D.MEME.MemeRunResult  
-	return: D.MEME.MemePSPMCollection  
   
   
   
