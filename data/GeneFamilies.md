@@ -22,9 +22,12 @@ https://github.com/kbase/gene_families
 ##Data Sources
 * COGs (clusters of orthologous groups, http://www.ncbi.nlm.nih.gov/COG/) from the NCBI conserved domains database (CDD) version 3.12.
 * NCBI's CDD models from the NCBI conserved domains database (CDD) version 3.12. This dataset includes only the NCBI-curated domains.
-* SMART (Simple Modular Architecture Research Tool, http://smart.embl-heidelberg.de/ version 6.0, from the NCBI conserved domains database (CDD) version 3.12.
+* SMART (Simple Modular Architecture Research Tool, http://smart.embl-heidelberg.de/) version 6.0, from the NCBI conserved domains database (CDD) version 3.12.
 * Pfam version 27.0 hidden Markov models, from http://pfam.xfam.org/.
 * TIGRFAMs version 15.0 hidden Markov models, from the J. Craig Venter Institute.
+
+The licenses for the above external sources are documented here:
+https://github.com/kbase/project_guides/blob/master/External_data_sources.md
 
 ##Third Party Software used
 * RPS-BLAST version 2.2.30, from the BLAST+ package at NCBI
