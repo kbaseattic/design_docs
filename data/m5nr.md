@@ -14,7 +14,20 @@ none
 https://github.com/kbase/m5nr
 
 ##Data Sources
-not clear (since http://kbase.us/services/m5nr/sources returns empty list)
+Based on source code of service (https://github.com/MG-RAST/MG-RAST/blob/develop/src/MGRAST/lib/resources/m5nr.pm), source code of data preparation (https://github.com/MG-RAST/M5nr/tree/master/Babel/bin) and raw data (ftp://ftp.metagenomics.anl.gov/data/MD5nr/20131215/sources/) the list of sources should look like this:
+  * eggNOG (http://eggnog.embl.de/version_4.0.beta/)
+  * FungiDB (http://fungidb.org/fungidb/)
+  * Greengenes (http://greengenes.secondgenome.com/)
+  * InterPro (http://www.ebi.ac.uk/interpro/)
+  * KEGG (http://www.genome.jp/kegg/)
+  * MicrobesOnline (http://www.microbesonline.org/)
+  * NCBI (http://www.ncbi.nlm.nih.gov/)
+  * PATRIC (https://www.patricbrc.org/portal/portal/patric/Home)
+  * PhAnToMe (http://www.phantome.org/)
+  * RDP (http://rdp.cme.msu.edu/)
+  * SEED (http://www.theseed.org/wiki/Main_Page)
+  * Silva (http://www.arb-silva.de/)
+  * UniProt (http://www.uniprot.org/)
 
 ##Production URL
 https://kbase.us/services/m5nr/
