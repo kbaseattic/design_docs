@@ -26,45 +26,73 @@ https://github.com/kbase/ontology_service
     * ontology_enr_anno_val - some top level ontology info.
     * ontologies_int - seems to have infor on kbase features and their corresponding ontology and evidence.
 
-
-
 ##Dependencies
-typecomp
-auth
-erdb_service
-workspace_deluxe
-
-
-*********************************************
-*********************************************
-
-##Workspace with Data
-Private data (creates ProteomeComparison object)
-
-##Workspace Module
-GenomeComparison
+* typecomp
+* auth
+* erdb_service
+* workspace_deluxe
 
 ##Types
-###ProteomComparison
+###Ontology
 ####Description 
-Stores the proteome comparison of two genomes. 
+Appears to be GO term with the genome and gene ids it corresponds to
 
 ####Relationships
-It has two relationships to KBaseGenomes.Genome ws typed objects. 
-These are genome1ref and genome2ref
+In the gene list there is genome id and feature ids.  
+Note both of these are NOT WS references, but based on the documentation thet are assuming it would likely be KBase ids.
 
 ####Fields
-* genome1ws - (depricated, use genome1ref instead)
-* genome1id - (depricated, use genome1ref instead)
-* genome1ref - ws reference to genome 1
-* genome2ws - (depricated, use genome2ref instead)
-* genome2id - (depricated, use genome2ref instead)
-* genome2ref - ws reference to genome 2
-* sub_bbh_percent - optional parameter, minimum percent of bit score compared to best bit score, default is 90
-* max_evalue - optional parameter, maximum evalue, default is 1e-10
-* proteome1names - list of gene names from Genome 1
-* proteome1map - mapping of the genes and their position in Genome 1
-* proteome2names - list of gene names from Genome 2
-* proteome2map - mapping of the genes and their position in Genome 2
-* data1 - List of lists : outer list iterates over positions of genome1 gene names, inner list iterates over hits from given gene1 to genome2
-* data1 - List of lists : outer list iterates over positions of genome2 gene names, inner list iterates over hits from given gene2 to genome1
+* acc - the ontology term GO:NNNN
+* type - string of some sort.  Unknown otherwise
+* name - Name of the ontology?
+* evidence_codes - List of strings, unknown otherwise
+* gene_list - mapping of genome_id to a list of feature ids.
+
+###GeneOntologyAnnotation
+####Description 
+The info for the annotation?
+
+###Relationships
+None from what I can tell
+
+####Fields
+* ga - gene_annotation_map (gene id key, to a OntologyTermAnnontation 
+  * The OntologyTermAnnotation has the following fields
+    * ontology_type
+    * ontology_description
+    * evidence_codes - list of evidenced codes.
+* source - source of the annotation ?
+
+
+###OntologyAccMap
+####Description 
+The information for the ontology term?
+
+###Relationships
+None from what I can tell
+
+####Fields
+* ontology_acc_term_map - this a mapping of the ontology term (typically GO:NNNN) to an ontology term subobject. 
+  * The ontology term subobject has the following fields
+    * type
+    * name
+    * id
+    * parent_list - list of parent term subobjects (contains fields rel_type_id, id)
+
+###Mapping
+####Description 
+Mapping object holds data on subsystems and complexes.  does not seem like it it should be ontology.
+
+###Relationships
+None from what I can tell
+
+####Fields
+* id
+* name
+* roles - list of roles
+* subsystems - list of subsystems
+* complexes - list of complexes
+* role_aliases - mapping of role id to a map (string key? with list of roles aliases as the value)
+* complex_aliases - mapping of complex id to a map (string key? with list of complex aliases as the value)
+* subsytem_aliases - mapping of subsystem id to a map (string key? with list of subsystem aliases as the value)
+
