@@ -1,29 +1,16 @@
 Module: cbd
 
-
-Description: The Compression-Based Distance service allows to compute a relative compression based distance between sequences found in different microbial communities.
-
+Description: The Compression-Based Distance service uses the relative compression of combined and individual datasets to quantify overlaps between microbial communities and builds a distance matrix of the results.
 
 Data: Shock
 
-
 Repo: https://github.com/kbase/cbd
 
+Data Sources: Shock
 
-Data Sources: Shock/MG-RAST ?
+Input Types: A set of sequence files for the microbial community. Sequences are allowed in multiple formats (including FASTQ).
 
-
-Input Types:
-
-? None in type spec 
-Inferred input type is sets of environmental sequences. Sequences are allowed in different formats (including FASTQ).
-
-
-Output types:
-
-? None in type spec 
-Inferred output type is a relative compression-based distance matrix for a set of microbial communities.
-
+Output types: A CSV file with the distance matrix.
 
 Methods:
 
@@ -31,7 +18,6 @@ Method Name - build_matrix
 Description - 
 Inputs - BuildMatrixParams input
 Outputs - string job_id
-
 
 Looked at:
 
