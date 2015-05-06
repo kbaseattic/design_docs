@@ -239,7 +239,218 @@ The Specs are :
 		string format;
     	string auth;
     } export_object_params;
-25.
+25. export_object(export_object_params input) returns (string output);
+  * typedef structure {
+		workspace_ref reference;
+		string type;
+		string format;
+    	string auth;
+    } export_object_params;
+26. export_genome(export_genome_params input) returns (string output);
+  * typedef structure {
+		genome_id genome;
+		workspace_id workspace;
+		string format;
+		string auth;
+    } export_genome_params;
+27. adjust_model_reaction(adjust_model_reaction_params input) returns (object_metadata modelMeta);
+  * typedef structure {
+		fbamodel_id model;
+		workspace_id workspace;
+		list<reaction_id> reaction;
+		list<string> direction;
+		list<compartment_id> compartment;
+		list<int> compartmentIndex;
+		list<string> gpr;
+		bool removeReaction;
+		bool addReaction;
+		bool overwrite;
+		string auth;
+    } adjust_model_reaction_params;
+28. adjust_biomass_reaction(adjust_biomass_reaction_params input) returns (object_metadata modelMeta);
+  * typedef structure {
+		fbamodel_id model;
+		workspace_id workspace;
+		biomass_id biomass;
+		list<float> coefficients;
+		list<compound_id> compounds;
+		list<compartment_id> compartments;
+		list<int> compartmentIndecies;
+		string auth;
+    } adjust_biomass_reaction_params;
+29. addmedia(addmedia_params input) returns (object_metadata mediaMeta);
+  * typedef structure {
+		media_id media;
+		workspace_id workspace;
+		string name;
+		bool isDefined;
+		bool isMinimal;
+		string type;
+		list<string> compounds;
+		list<float> concentrations;
+		list<float> maxflux;
+		list<float> minflux;
+		bool overwrite;
+		string auth;
+    } addmedia_params;
+30. export_media(export_media_params input) returns (string output);
+  * typedef structure {
+		media_id media;
+		workspace_id workspace;
+		string format;
+		string auth;
+    } export_media_params;
+31. runfba(runfba_params input) returns (object_metadata fbaMeta);
+  * typedef structure {
+    	fbamodel_id model;
+		workspace_id model_workspace;
+		FBAFormulation formulation;
+		bool fva;
+		bool simulateko;
+		bool minimizeflux;
+		bool findminmedia;
+		string notes;
+		fba_id fba;
+		workspace_id workspace;
+		string auth;
+		bool overwrite;
+		bool add_to_model;
+    } runfba_params;
+32. quantitative_optimization(quantitative_optimization_params input) returns (object_metadata output);
+  * typedef structure {
+    	fbamodel_id model;
+		workspace_id model_workspace;
+		FBAFormulation formulation;
+		fbamodel_id outputid;
+		workspace_id workspace;
+		string biomass;		
+    } quantitative_optimization_params;
+33. generate_model_stats(generate_model_stats_params input) returns (model_statistics output);
+  * typedef structure {
+    	fbamodel_id model;
+		workspace_id model_workspace;
+    } generate_model_stats_params;
+  * typedef structure {
+    	string name;
+    	string class;
+    	string subclass;
+    	int genes;
+    	int reactions;
+    	int model_genes;
+    	int minimal_essential_genes;
+    	int complete_essential_genes;
+		int minimal_essential_reactions;
+    	int complete_essential_reactions;
+    	int minimal_blocked_reactions;
+    	int complete_blocked_reactions;
+    	int minimal_variable_reactions;
+    	int complete_variable_reactions;
+    } subsystem_statistics;
+  * typedef structure {
+    	int total_reactions;
+    	int total_genes;
+    	int total_compounds;
+    	int extracellular_compounds;
+    	int intracellular_compounds;
+    	int transport_reactions;
+    	int subsystem_reactions;
+    	int subsystem_genes;
+    	int spontaneous_reactions;
+    	int reactions_with_genes;
+    	int gapfilled_reactions;
+    	int model_genes;
+    	int minimal_essential_genes;
+    	int complete_essential_genes;
+		int minimal_essential_reactions;
+    	int complete_essential_reactions;
+    	int minimal_blocked_reactions;
+    	int complete_blocked_reactions;
+    	int minimal_variable_reactions;
+    	int complete_variable_reactions;
+    	
+    	bool growth_complete_media;
+    	bool growth_minimal_media;
+    	
+    	list<subsystem_statistics> subsystems;
+    } model_statistics;
+34. minimize_reactions(minimize_reactions_params input) returns (object_metadata fbaMeta);
+  * typedef structure {
+    	fbamodel_id model;
+		workspace_id model_workspace;
+		workspace_id workspace;
+		FBAFormulation formulation;
+		list<string> reactions;
+		bool all_model_reactions;
+		mapping<string,float> reaction_costs;
+		fba_id output_id;
+    } minimize_reactions_params;
+35. funcdef export_fba(export_fba_params input) returns (string output);
+  * typedef structure {
+		fba_id fba;
+		workspace_id workspace;
+		string format;
+		string auth;
+    } export_fba_params;
+36. import_phenotypes(import_phenotypes_params input) returns (object_metadata output);
+  * typedef structure {
+		phenotype_set_id phenotypeSet;
+		workspace_id workspace;
+		genome_id genome;
+		workspace_id genome_workspace;
+		list<Phenotype> phenotypes;
+		string name;
+		string source;
+		bool ignore_errors;
+		string auth;
+    } import_phenotypes_params;
+37. simulate_phenotypes (simulate_phenotypes_params input) returns (object_metadata output);
+  * typedef structure {
+		fbamodel_id model;
+		workspace_id model_workspace;
+		phenotype_set_id phenotypeSet;
+		workspace_id phenotypeSet_workspace;
+		FBAFormulation formulation;
+		string notes;
+		phenotypeSimulationSet_id phenotypeSimulationSet;
+		workspace_id workspace;
+		bool overwrite;
+		string auth;
+		bool all_transporters;
+		bool positive_transporters;
+    } simulate_phenotypes_params;
+38. add_media_transporters (add_media_transporters_params input) returns (object_metadata output);
+  * typedef structure {
+		phenotype_set_id phenotypeSet;
+		workspace_id phenotypeSet_workspace;
+		fbamodel_id model;
+		workspace_id model_workspace;
+		fbamodel_id outmodel;
+		workspace_id workspace;
+		bool overwrite;
+		string auth;
+		bool all_transporters;
+		bool positive_transporters;
+    } add_media_transporters_params;
+39. export_phenotypeSimulationSet (export_phenotypeSimulationSet_params input) returns (string output);
+  * typedef structure {
+		phenotypeSimulationSet_id phenotypeSimulationSet;
+		workspace_id workspace;
+		string format;
+		string auth;
+    } export_phenotypeSimulationSet_params;
+40. integrate_reconciliation_solutions(integrate_reconciliation_solutions_params input) returns (object_metadata modelMeta);
+  * typedef structure {
+		fbamodel_id model;
+		workspace_id model_workspace;
+		list<gapfillsolution_id> gapfillSolutions;
+		list<gapgensolution_id> gapgenSolutions;
+		fbamodel_id out_model;
+		workspace_id workspace;
+		string auth;
+		bool overwrite;
+    } integrate_reconciliation_solutions_params;
+41. 
+
 
 
 
