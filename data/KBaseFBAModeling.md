@@ -149,7 +149,98 @@ The Specs are :
 		bool overwrite;
 		Genome_uid uid;
     } genome_to_workspace_params;
-14. 
+14. domains_to_workspace(domains_to_workspace_params input) returns (object_metadata GenomeDomainMeta);
+  * typedef structure {
+		genome_id genome;
+		string output_id;
+		workspace_id workspace;
+		string auth;
+    } domains_to_workspace_params;
+15. compute_domains(compute_domains_params params) returns (object_metadata output);
+  * typedef structure {
+		string genome;
+		string genome_workspace;
+		list<tuple<string,string>> proteins;
+		workspace_id workspace;
+    } compute_domains_params;
+16. add_feature_translation(add_feature_translation_params input) returns (object_metadata genomeMeta);
+  * typedef structure {
+		genome_id genome;
+		workspace_id workspace;
+		list<translation> translations;
+		string id_type;
+		string auth;
+		bool overwrite;
+    } add_feature_translation_params;
+17. genome_to_fbamodel(genome_to_fbamodel_params input) returns (object_metadata modelMeta);
+  * typedef structure {
+		genome_id genome;
+		workspace_id genome_workspace;
+		template_id templatemodel;
+		workspace_id templatemodel_workspace;
+		fbamodel_id model;
+		bool coremodel;
+		workspace_id workspace;
+		string auth;
+		bool fulldb;
+    } genome_to_fbamodel_params;
+18. translate_fbamodel(translate_fbamodel_params input) returns (object_metadata modelMeta);
+  * typedef structure {
+		list<string> genomes;
+		list<string> genome_workspace;
+		workspace_id workspace;
+    } build_pangenome_params;
+19. build_pangenome(build_pangenome_params input) returns (object_metadata output);
+  * typedef structure {
+		list<string> genomes;
+		list<string> genome_workspace;
+		workspace_id workspace;
+    } build_pangenome_params;
+20. genome_heatmap_from_pangenome(genome_heatmap_from_pangenome_params input) returns (heat_map_matrix output);
+  * typedef structure {
+		string pangenome;
+		string pangenome_workspace;
+		string workspace;
+    } genome_heatmap_from_pangenome_params;
+21. ortholog_family_from_pangenome(ortholog_family_from_pangenome_params input) returns (ortholog_data output);
+  * typedef structure {
+		list<tuple<string,string,string,string,float>> gene_data;
+		heat_map_matrix protein_heatmap;
+    } ortholog_data;
+  * typedef structure {
+		string pangenome;
+		string pangenome_workspace;
+		string orthologid;
+		string workspace;
+    } ortholog_family_from_pangenome_params;
+22. pangenome_to_proteome_comparison(pangenome_to_proteome_comparison_params input) returns (object_metadata output);
+  * typedef structure {
+		string pangenome;
+		string pangenome_workspace;
+		string outputid;
+		string workspace;
+    } pangenome_to_proteome_comparison_params;
+23. import_fbamodel(import_fbamodel_params input) returns (object_metadata modelMeta);
+  * typedef structure {
+		genome_id genome;
+		workspace_id genome_workspace;
+		string biomass;
+		list<tuple<string id,string direction,string compartment,string gpr>> reactions;
+		fbamodel_id model;
+		workspace_id workspace;
+		bool ignore_errors;
+		string auth;
+		bool overwrite;
+    } import_fbamodel_params;
+24. export_object(export_object_params input) returns (string output);
+  * typedef structure {
+		workspace_ref reference;
+		string type;
+		string format;
+    	string auth;
+    } export_object_params;
+25.
+
 
 
 
