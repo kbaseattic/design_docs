@@ -54,22 +54,33 @@ The Specs are :
 		list<fbamodel_id> models - a list of the model IDs for the models to be returned (a required argument)
 		list<workspace_id> workspaces - a list of the workspaces contianing the models to be returned (a required argument)
         string id_type - the type of ID that should be used in the output data (a optional argument; default is 'ModelSEED')
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-*/
-	typedef structure {
+		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)*/
+  * typedef structure {
 		list<fbamodel_id> models;
 		list<workspace_id> workspaces;
 		string auth;
         string id_type;
     } get_models_params
 2. get_fbas(get_fbas_params input) returns (list<FBA> out_fbas);
+  * /* Input parameters for the "get_fbas" function.
+	
+		list<fba_id> fbas - a list of the FBA study IDs for the FBA studies to be returned (a required argument)
+		list<workspace_id> workspaces - a list of the workspaces contianing the FBA studies to be returned (a required argument)
+        string id_type - the type of ID that should be used in the output data (a optional argument; default is 'ModelSEED')
+		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)*/
   * typedef structure {
 		list<fba_id> fbas;
 		list<workspace_id> workspaces; 
 		string auth;
         string id_type;
-    } get_fbas_params;
+    } get_fbas_params
 3. get_gapfills(get_gapfills_params input) returns (list<GapFill> out_gapfills);
+  * /* Input parameters for the "get_gapfills" function.
+	
+		list<gapfill_id> gapfills - a list of the gapfill study IDs for the gapfill studies to be returned (a required argument)
+		list<workspace_id> workspaces - a list of the workspaces contianing the gapfill studies to be returned (a required argument)
+        string id_type - the type of ID that should be used in the output data (a optional argument; default is 'ModelSEED')
+		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)*/
   * typedef structure {
 		list<gapfill_id> gapfills;
 		list<workspace_id> workspaces; 
@@ -77,6 +88,12 @@ The Specs are :
         string id_type;
     } get_gapfills_params;
 4. get_gapgens(get_gapgens_params input) returns (list<GapGen> out_gapgens);
+  * /* Input parameters for the "get_gapgens" function.
+	
+		list<gapgen_id> gapgens - a list of the gapgen study IDs for the gapgen studies to be returned (a required argument)
+		list<workspace_id> workspaces - a list of the workspaces contianing the gapgen studies to be returned (a required argument)
+        string id_type - the type of ID that should be used in the output data (a optional argument; default is 'ModelSEED')
+		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)*/
   * typedef structure {
 		list<gapgen_id> gapgens;
 		list<workspace_id> workspaces;
@@ -84,12 +101,22 @@ The Specs are :
         string id_type;
     } get_gapgens_params;
 5. get_reactions(get_reactions_params input) returns (list<Reaction> out_reactions);
+  * /* Input parameters for the "get_reactions" function.
+	
+		list<reaction_id> reactions - a list of the reaction IDs for the reactions to be returned (a required argument)
+		string id_type - the type of ID that should be used in the output data (a optional argument; default is 'ModelSEED')
+		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)*/
   * typedef structure {
 		list<reaction_id> reactions;
 		string auth;
         string id_type;
     } get_reactions_params;
 6. get_compounds(get_compounds_params input) returns (list<Compound> out_compounds);
+  * /* 
+	        Input parameters for the "get_compounds" function.	
+		list<compound_id> compounds - a list of the compound IDs for the compounds to be returned (a required argument)
+		string id_type - the type of ID that should be used in the output data (a optional argument; default is 'ModelSEED')
+		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)*/
   * typedef structure {
 		list<compound_id> compounds;
 		string auth;
