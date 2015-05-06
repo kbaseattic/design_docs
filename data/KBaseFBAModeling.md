@@ -49,7 +49,14 @@ The Specs are :
 95 Methods.
 
 1. get_models(get_models_params input) returns (list<FBAModel> out_models);
-  * typedef structure {
+  * /* Input parameters for the "get_models" function.
+	
+		list<fbamodel_id> models - a list of the model IDs for the models to be returned (a required argument)
+		list<workspace_id> workspaces - a list of the workspaces contianing the models to be returned (a required argument)
+        string id_type - the type of ID that should be used in the output data (a optional argument; default is 'ModelSEED')
+		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+*/
+	typedef structure {
 		list<fbamodel_id> models;
 		list<workspace_id> workspaces;
 		string auth;
