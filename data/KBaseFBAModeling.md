@@ -112,8 +112,44 @@ The Specs are :
 		string auth;
     } get_media_params;
 10. get_biochemistry(get_biochemistry_params input) returns (Biochemistry out_biochemistry);
+  * typedef structure {
+        biochemistry_id biochemistry;
+        workspace_id biochemistry_workspace;
+        string id_type;
+        string auth;
+    } get_biochemistry_params;
 11. import_probanno(import_probanno_params input) returns (object_metadata probannoMeta);
-12. genome_to_workspace(genome_to_workspace_params input) returns (object_metadata genomeMeta);
+  * typedef structure {
+		probanno_id probanno;
+		workspace_id workspace;		
+		genome_id genome;
+		workspace_id genome_workspace;
+		list<annotationProbability> annotationProbabilities;
+		bool ignore_errors;
+		string auth;
+		bool overwrite;
+    } import_probanno_params;
+12. genome_object_to_workspace(genome_object_to_workspace_params input) returns (object_metadata genomeMeta);
+  * typedef string Genome_uid;
+  * typedef structure {
+		Genome_uid uid;
+		GenomeObject genomeobj;
+		workspace_id workspace;
+		string auth;
+		bool overwrite;
+    } genome_object_to_workspace_params;
+13. genome_to_workspace(genome_to_workspace_params input) returns (object_metadata genomeMeta);
+  * typedef structure {
+		genome_id genome;
+		workspace_id workspace;
+		string sourceLogin;
+		string sourcePassword;
+		string source;
+		string auth;
+		bool overwrite;
+		Genome_uid uid;
+    } genome_to_workspace_params;
+14. 
 
 
 
