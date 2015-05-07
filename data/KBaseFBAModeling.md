@@ -476,22 +476,23 @@ The Specs are :
 	    */
 	    authentication required;
 
-	21. funcdef ortholog_family_from_pangenome(ortholog_family_from_pangenome_params input) returns (ortholog_data output);    
-			/*gene ID,gene ref,protein sequence,function,score*/
-			typedef structure {
-				list<tuple<string,string,string,string,float>> gene_data;
-				heat_map_matrix protein_heatmap;
-		    } ortholog_data;
-		    
-		    typedef structure {
-				string pangenome;
-				string pangenome_workspace;
-				string orthologid;
-				string workspace;
-		    } ortholog_family_from_pangenome_params;
-		    /*
-		        Returns more detailed data from a single ortholog family from a pangenome object
-		    */
+21. funcdef ortholog_family_from_pangenome(ortholog_family_from_pangenome_params input) returns (ortholog_data output);
+
+		/*gene ID,gene ref,protein sequence,function,score*/
+		typedef structure {
+			list<tuple<string,string,string,string,float>> gene_data;
+			heat_map_matrix protein_heatmap;
+		} ortholog_data;
+		
+		typedef structure {
+			string pangenome;
+			string pangenome_workspace;
+			string orthologid;
+			string workspace;
+		} ortholog_family_from_pangenome_params;
+		/*
+		Returns more detailed data from a single ortholog family from a pangenome object
+		*/
 
 22. funcdef pangenome_to_proteome_comparison(pangenome_to_proteome_comparison_params input) returns (object_metadata output);    
 	
