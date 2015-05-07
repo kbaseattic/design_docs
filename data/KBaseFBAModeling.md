@@ -712,178 +712,173 @@ The Specs are :
 	        Exports media in specified format (html,readable)
 	    */
 
+31. funcdef runfba(runfba_params input) returns (object_metadata fbaMeta);    
     
+	    /* Input parameters for the "addmedia" function.
+			fbamodel_id model - ID of the model that FBA should be run on (a required argument)
+			workspace_id model_workspace - workspace where model for FBA should be run (an optional argument; default is the value of the workspace argument)
+			FBAFormulation formulation - a hash specifying the parameters for the FBA study (an optional argument)
+			bool fva - a flag indicating if flux variability should be run (an optional argument: default is '0')
+			bool simulateko - a flag indicating if flux variability should be run (an optional argument: default is '0')
+			bool minimizeflux - a flag indicating if flux variability should be run (an optional argument: default is '0')
+			bool findminmedia - a flag indicating if flux variability should be run (an optional argument: default is '0')
+			string notes - a string of notes to attach to the FBA study (an optional argument; defaul is '')
+			fba_id fba - ID under which the FBA results should be saved (an optional argument; defaul is 'undef')
+			workspace_id workspace - workspace where FBA results will be saved (a required argument)
+			bool add_to_model - a flag indicating if the FBA study should be attached to the model to support viewing results (an optional argument: default is '0')
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+	    typedef structure {
+	    	fbamodel_id model;
+			workspace_id model_workspace;
+			FBAFormulation formulation;
+			bool fva;
+			bool simulateko;
+			bool minimizeflux;
+			bool findminmedia;
+			string notes;
+			fba_id fba;
+			workspace_id workspace;
+			string auth;
+			bool overwrite;
+			bool add_to_model;
+	    } runfba_params;
+	    /*
+	        Run flux balance analysis and return ID of FBA object with results 
+	    */
+
+32. funcdef quantitative_optimization(quantitative_optimization_params input) returns (object_metadata output);
     
-    /* Input parameters for the "addmedia" function.
-	
-		fbamodel_id model - ID of the model that FBA should be run on (a required argument)
-		workspace_id model_workspace - workspace where model for FBA should be run (an optional argument; default is the value of the workspace argument)
-		FBAFormulation formulation - a hash specifying the parameters for the FBA study (an optional argument)
-		bool fva - a flag indicating if flux variability should be run (an optional argument: default is '0')
-		bool simulateko - a flag indicating if flux variability should be run (an optional argument: default is '0')
-		bool minimizeflux - a flag indicating if flux variability should be run (an optional argument: default is '0')
-		bool findminmedia - a flag indicating if flux variability should be run (an optional argument: default is '0')
-		string notes - a string of notes to attach to the FBA study (an optional argument; defaul is '')
-		fba_id fba - ID under which the FBA results should be saved (an optional argument; defaul is 'undef')
-		workspace_id workspace - workspace where FBA results will be saved (a required argument)
-		bool add_to_model - a flag indicating if the FBA study should be attached to the model to support viewing results (an optional argument: default is '0')
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+	    /* Input parameters for the "addmedia" function.
+			fbamodel_id model - ID of the model that FBA should be run on (a required argument)
+			workspace_id model_workspace - workspace where model for FBA should be run (an optional argument; default is the value of the workspace argument)
+			FBAFormulation formulation - a hash specifying the parameters for the FBA study (an optional argument)
+			fbamodel_id outputid - ID of model to be saved with quantitative optimization solution (an optional argument)
+			workspace_id workspace - workspace where all output objects will be saved (a required argument)
+			string biomass - ID of biomass reaction as target for quantitative optimization (an optional argument)
+			
+		*/
+	    typedef structure {
+	    	fbamodel_id model;
+			workspace_id model_workspace;
+			FBAFormulation formulation;
+			fbamodel_id outputid;
+			workspace_id workspace;
+			string biomass;		
+	    } quantitative_optimization_params;
+	    /*
+	        Identify ways to adjust model to quantitatively match specified uptake, growth, and excretion constraints
+	    */
+    
+33.  funcdef generate_model_stats(generate_model_stats_params input) returns (model_statistics output);
+   
+	    /* Input parameters for the "generate_model_stats" function.
+			fbamodel_id model - ID of the models that FBA should be run on (a required argument)
+			workspace_id model_workspace - workspaces where model for FBA should be run (an optional argument; default is the value of the workspace argument)
+			
+		*/
+	    typedef structure {
+	    	fbamodel_id model;
+			workspace_id model_workspace;
+	    } generate_model_stats_params;
+	    
+	    typedef structure {
+	    	string name;
+	    	string class;
+	    	string subclass;
+	    	int genes;
+	    	int reactions;
+	    	int model_genes;
+	    	int minimal_essential_genes;
+	    	int complete_essential_genes;
+			int minimal_essential_reactions;
+	    	int complete_essential_reactions;
+	    	int minimal_blocked_reactions;
+	    	int complete_blocked_reactions;
+	    	int minimal_variable_reactions;
+	    	int complete_variable_reactions;
+	    } subsystem_statistics;
+	    
+	    typedef structure {
+	    	int total_reactions;
+	    	int total_genes;
+	    	int total_compounds;
+	    	int extracellular_compounds;
+	    	int intracellular_compounds;
+	    	int transport_reactions;
+	    	int subsystem_reactions;
+	    	int subsystem_genes;
+	    	int spontaneous_reactions;
+	    	int reactions_with_genes;
+	    	int gapfilled_reactions;
+	    	int model_genes;
+	    	int minimal_essential_genes;
+	    	int complete_essential_genes;
+			int minimal_essential_reactions;
+	    	int complete_essential_reactions;
+	    	int minimal_blocked_reactions;
+	    	int complete_blocked_reactions;
+	    	int minimal_variable_reactions;
+	    	int complete_variable_reactions;
+	    	
+	    	bool growth_complete_media;
+	    	bool growth_minimal_media;
+	    	
+	    	list<subsystem_statistics> subsystems;
+	    } model_statistics;
+	    
+	    /*
+	        Generate statistics with model and associated genome properties
+	    */
+
+34. funcdef minimize_reactions(minimize_reactions_params input) returns (object_metadata fbaMeta);   
+    
+	    /* Input parameters for the "minimize_reactions" function.
+			fbamodel_id model - ID of the model that FBA should be run on (a required argument)
+			workspace_id model_workspace - workspace where model for FBA should be run (an optional argument; default is the value of the workspace argument)
+			workspace_id workspace - workspace where FBA results will be saved (a required argument)
+			FBAFormulation formulation - a hash specifying the parameters for the FBA study (an optional argument)
+			list<string> reactions - list of model reactions to be minimized (an optional argument)
+			bool all_model_reactions - minimize all reactions in the model (default is 'false' unless 'reactions' list is empty)
+			mapping<string,float> reaction_costs - hash of costs for each reaction to be minimized (default is '1' for every reaction)
+			fba_id output_id - id to which FBA result should be saved
+					
+		*/
+	    typedef structure {
+	    	fbamodel_id model;
+			workspace_id model_workspace;
+			workspace_id workspace;
+			FBAFormulation formulation;
+			list<string> reactions;
+			bool all_model_reactions;
+			mapping<string,float> reaction_costs;
+			fba_id output_id;
+	    } minimize_reactions_params;
+	    /*
+	        Minimize the specified set of reactions while maintaining the FBA objective above a specified threshold
+	    */
+35. funcdef export_fba(export_fba_params input) returns (string output);    
+    
+	    /* Input parameters for the "addmedia" function.
 		
-	*/
-    typedef structure {
-    	fbamodel_id model;
-		workspace_id model_workspace;
-		FBAFormulation formulation;
-		bool fva;
-		bool simulateko;
-		bool minimizeflux;
-		bool findminmedia;
-		string notes;
-		fba_id fba;
-		workspace_id workspace;
-		string auth;
-		bool overwrite;
-		bool add_to_model;
-    } runfba_params;
-    /*
-        Run flux balance analysis and return ID of FBA object with results 
-    */
-    authentication required;
-    funcdef runfba(runfba_params input) returns (object_metadata fbaMeta);
+			fba_id fba - ID of the FBA study to be exported (a required argument)
+			workspace_id workspace - workspace where FBA study is stored (a required argument)
+			string format - format to which the FBA study should be exported (i.e. html, json, readable) (a required argument)
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+	    typedef structure {
+			fba_id fba;
+			workspace_id workspace;
+			string format;
+			string auth;
+	    } export_fba_params;
+	    /*
+	        Export an FBA solution for viewing
+	    */
+
     
-    /* Input parameters for the "addmedia" function.
-	
-		fbamodel_id model - ID of the model that FBA should be run on (a required argument)
-		workspace_id model_workspace - workspace where model for FBA should be run (an optional argument; default is the value of the workspace argument)
-		FBAFormulation formulation - a hash specifying the parameters for the FBA study (an optional argument)
-		fbamodel_id outputid - ID of model to be saved with quantitative optimization solution (an optional argument)
-		workspace_id workspace - workspace where all output objects will be saved (a required argument)
-		string biomass - ID of biomass reaction as target for quantitative optimization (an optional argument)
-		
-	*/
-    typedef structure {
-    	fbamodel_id model;
-		workspace_id model_workspace;
-		FBAFormulation formulation;
-		fbamodel_id outputid;
-		workspace_id workspace;
-		string biomass;		
-    } quantitative_optimization_params;
-    /*
-        Identify ways to adjust model to quantitatively match specified uptake, growth, and excretion constraints
-    */
-    authentication required;
-    funcdef quantitative_optimization(quantitative_optimization_params input) returns (object_metadata output);
-    
-    /* Input parameters for the "generate_model_stats" function.
-	
-		fbamodel_id model - ID of the models that FBA should be run on (a required argument)
-		workspace_id model_workspace - workspaces where model for FBA should be run (an optional argument; default is the value of the workspace argument)
-		
-	*/
-    typedef structure {
-    	fbamodel_id model;
-		workspace_id model_workspace;
-    } generate_model_stats_params;
-    
-    typedef structure {
-    	string name;
-    	string class;
-    	string subclass;
-    	int genes;
-    	int reactions;
-    	int model_genes;
-    	int minimal_essential_genes;
-    	int complete_essential_genes;
-		int minimal_essential_reactions;
-    	int complete_essential_reactions;
-    	int minimal_blocked_reactions;
-    	int complete_blocked_reactions;
-    	int minimal_variable_reactions;
-    	int complete_variable_reactions;
-    } subsystem_statistics;
-    
-    typedef structure {
-    	int total_reactions;
-    	int total_genes;
-    	int total_compounds;
-    	int extracellular_compounds;
-    	int intracellular_compounds;
-    	int transport_reactions;
-    	int subsystem_reactions;
-    	int subsystem_genes;
-    	int spontaneous_reactions;
-    	int reactions_with_genes;
-    	int gapfilled_reactions;
-    	int model_genes;
-    	int minimal_essential_genes;
-    	int complete_essential_genes;
-		int minimal_essential_reactions;
-    	int complete_essential_reactions;
-    	int minimal_blocked_reactions;
-    	int complete_blocked_reactions;
-    	int minimal_variable_reactions;
-    	int complete_variable_reactions;
-    	
-    	bool growth_complete_media;
-    	bool growth_minimal_media;
-    	
-    	list<subsystem_statistics> subsystems;
-    } model_statistics;
-    
-    /*
-        Generate statistics with model and associated genome properties
-    */
-    authentication required;
-    funcdef generate_model_stats(generate_model_stats_params input) returns (model_statistics output);
-    
-    /* Input parameters for the "minimize_reactions" function.
-	
-		fbamodel_id model - ID of the model that FBA should be run on (a required argument)
-		workspace_id model_workspace - workspace where model for FBA should be run (an optional argument; default is the value of the workspace argument)
-		workspace_id workspace - workspace where FBA results will be saved (a required argument)
-		FBAFormulation formulation - a hash specifying the parameters for the FBA study (an optional argument)
-		list<string> reactions - list of model reactions to be minimized (an optional argument)
-		bool all_model_reactions - minimize all reactions in the model (default is 'false' unless 'reactions' list is empty)
-		mapping<string,float> reaction_costs - hash of costs for each reaction to be minimized (default is '1' for every reaction)
-		fba_id output_id - id to which FBA result should be saved
-				
-	*/
-    typedef structure {
-    	fbamodel_id model;
-		workspace_id model_workspace;
-		workspace_id workspace;
-		FBAFormulation formulation;
-		list<string> reactions;
-		bool all_model_reactions;
-		mapping<string,float> reaction_costs;
-		fba_id output_id;
-    } minimize_reactions_params;
-    /*
-        Minimize the specified set of reactions while maintaining the FBA objective above a specified threshold
-    */
-    authentication required;
-    funcdef minimize_reactions(minimize_reactions_params input) returns (object_metadata fbaMeta);
-    
-    /* Input parameters for the "addmedia" function.
-	
-		fba_id fba - ID of the FBA study to be exported (a required argument)
-		workspace_id workspace - workspace where FBA study is stored (a required argument)
-		string format - format to which the FBA study should be exported (i.e. html, json, readable) (a required argument)
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		
-	*/
-    typedef structure {
-		fba_id fba;
-		workspace_id workspace;
-		string format;
-		string auth;
-    } export_fba_params;
-    /*
-        Export an FBA solution for viewing
-    */
-    authentication optional;
-    funcdef export_fba(export_fba_params input) returns (string output);
     
     /*********************************************************************************
     Code relating to phenotype simulation and reconciliation
