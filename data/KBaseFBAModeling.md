@@ -443,20 +443,20 @@ The Specs are :
 
 19. funcdef build_pangenome(build_pangenome_params input) returns (object_metadata output);    
 
-	/* Input parameters for the "translate_fbamodel" function.
-		gencomp
-		gencomp_workspace
-		fbamodel_id model;
-		fbamodel_id model_workspace;
-	*/
-    typedef structure {
-		list<string> genomes;
-		list<string> genome_workspace;
-		workspace_id workspace;
-    } build_pangenome_params;
-    /*
-        Translate an existing model to a new genome based on the genome comparison object
-    */
+		/* Input parameters for the "translate_fbamodel" function.
+			gencomp
+			gencomp_workspace
+			fbamodel_id model;
+			fbamodel_id model_workspace;
+		*/
+	    typedef structure {
+			list<string> genomes;
+			list<string> genome_workspace;
+			workspace_id workspace;
+	    } build_pangenome_params;
+	    /*
+	        Translate an existing model to a new genome based on the genome comparison object
+	    */
     
 20. funcdef genome_heatmap_from_pangenome(genome_heatmap_from_pangenome_params input) returns (heat_map_matrix output);
     
@@ -476,22 +476,22 @@ The Specs are :
 	    */
 	    authentication required;
 
-21. funcdef ortholog_family_from_pangenome(ortholog_family_from_pangenome_params input) returns (ortholog_data output);    
-		/*gene ID,gene ref,protein sequence,function,score*/
-		typedef structure {
-			list<tuple<string,string,string,string,float>> gene_data;
-			heat_map_matrix protein_heatmap;
-	    } ortholog_data;
-	    
-	    typedef structure {
-			string pangenome;
-			string pangenome_workspace;
-			string orthologid;
-			string workspace;
-	    } ortholog_family_from_pangenome_params;
-	    /*
-	        Returns more detailed data from a single ortholog family from a pangenome object
-	    */
+	21. funcdef ortholog_family_from_pangenome(ortholog_family_from_pangenome_params input) returns (ortholog_data output);    
+			/*gene ID,gene ref,protein sequence,function,score*/
+			typedef structure {
+				list<tuple<string,string,string,string,float>> gene_data;
+				heat_map_matrix protein_heatmap;
+		    } ortholog_data;
+		    
+		    typedef structure {
+				string pangenome;
+				string pangenome_workspace;
+				string orthologid;
+				string workspace;
+		    } ortholog_family_from_pangenome_params;
+		    /*
+		        Returns more detailed data from a single ortholog family from a pangenome object
+		    */
 
 22. funcdef pangenome_to_proteome_comparison(pangenome_to_proteome_comparison_params input) returns (object_metadata output);    
 	
