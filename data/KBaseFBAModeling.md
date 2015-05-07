@@ -123,6 +123,14 @@ The Specs are :
         string id_type;
     } get_compounds_params;
 7. get_alias(get_alias_params input) returns (list<get_alias_outputs> output);
+  * /* Input parameters for the get_alias function
+
+                string object_type    - The type of object (e.g. Compound or Reaction)
+                string input_id_type - The type (e.g. ModelSEED) of alias to be inputted
+		string output_id_type - The type (e.g. KEGG) of alias to be outputted
+		list<string> input_ids - A list of input IDs
+		string auth; - The authentication token of the KBase account (optional)
+    */
   * typedef structure {
 		string object_type;
 		string input_id_type;
@@ -130,16 +138,31 @@ The Specs are :
 		list<string> input_ids;
 		string auth;
     } get_alias_params;
+  * /* Output for get_alias function
+
+              string original_id - The original ID
+	      list<string> aliases - Aliases for the original ID in the new format
+*/
   * typedef structure {
 		string original_id;
 		list<string> aliases;
     } get_alias_outputs;
 8. get_aliassets(get_aliassets_params input) returns ( list<string> aliassets );
+  * /* Input parameters for the get_aliassets function
+
+              string auth; - The authentication token of the KBase account (optional)
+	      string object_type; - The type of object (e.g. Compound or Reaction)
+    */
   * typedef structure {
 	string object_type;
 	string auth;
     } get_aliassets_params;
 9. get_media(get_media_params input) returns (list<Media> out_media);
+  * /* Input parameters for the "get_media" function.
+		list<media_id> medias - a list of the media IDs for the media to be returned (a required argument)
+		string id_type - the type of ID that should be used in the output data (a optional argument; default is 'ModelSEED')
+		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+	*/
   * typedef structure {
 		list<media_id> medias;
 		list<workspace_id> workspaces;
