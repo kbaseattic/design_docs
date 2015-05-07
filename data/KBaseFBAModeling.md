@@ -123,14 +123,20 @@ The Specs are :
         string id_type;
     } get_compounds_params;
 7. get_alias(get_alias_params input) returns (list<get_alias_outputs> output);
-  * /* Input parameters for the get_alias function
+  * Input parameters for the "get_models" function.
+	
+		list<fbamodel_id> models - a list of the model IDs for the models to be returned (a required argument)
+		list<workspace_id> workspaces - a list of the workspaces contianing the models to be returned (a required argument)
+        string id_type - the type of ID that should be used in the output data (a optional argument; default is 'ModelSEED')
+		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+
+  * Input parameters for the get_alias function
 
                 string object_type    - The type of object (e.g. Compound or Reaction)
                 string input_id_type - The type (e.g. ModelSEED) of alias to be inputted
 		string output_id_type - The type (e.g. KEGG) of alias to be outputted
 		list<string> input_ids - A list of input IDs
 		string auth; - The authentication token of the KBase account (optional)
-    */
   * typedef structure {
 		string object_type;
 		string input_id_type;
