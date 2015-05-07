@@ -5,11 +5,11 @@ alternative annotations for genes, each attached to a likelihood score, and to
 translate these likelihood scores into likelihood scores for the existence of
 reactions in metabolic models.
 
-Data: WS, Shock, local?
+Data: WS, Shock, CDS, local
 
 Repo: https://github.com/kbase/probabilistic_annotation
 
-Data Sources: ?
+Data Sources: SEED, literature?, CDS, KEGG
 
 Input Types:
 
@@ -18,7 +18,7 @@ This service implements an algorithm from this publication:
 for Gap Filling and Quality Assessment in Genome-Scale Metabolic
 Models](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003882)
 
-Many different types from different sources are used but developer input is needed to map out the details of which function requires which data types.
+Many different data types from different sources are used.
 
 from ProbabilisticAnnotation.spec -
 
@@ -26,6 +26,7 @@ genome_id
 feature_id
 reaction_id
 
+This implies these data types: genome, genome feature (protein?), chemical reaction
 
 from DataExtractor.py -
 
@@ -42,6 +43,8 @@ from DataExtractor.py -
 # - Metabolites
 # -[Growth data? ]
 
+This implies these data types: protein sequence, SEED subsystems, organism/species/taxonomy, OTU, genomic context for gene
+
 from DataParser.py -
 
 # Exception thrown when makeblastdb command failed
@@ -49,7 +52,9 @@ from DataParser.py -
  # The direct literature-supported feature ID file is a list of feature IDs identified in the
     # literature. 
     
-    
+This implies these data types: protein sequence, BLAST db, BLAST output, gene-to-literature mapping
+
+
 from Imply.py -
 
 # Exception thrown when role not found in roleToTotalProb dictionary
@@ -60,8 +65,10 @@ This seems to refer to protein complexes but its unclear what the source of that
 # Separate out cases where no genes seem to exist in the organism for the reaction
 # from cases where there is a database deficiency.
 
+This implies these data types: SEED subsystem, protein sequence, taxonomy, chemical reaction, 'database' in 'database deficiency'?
 
-It is also probably that some form of 'metabolic model' objects is used, however its unclear whether this is just the list of molecules and reactions or something more.
+
+It is also probable that some form of 'metabolic model' object is used, however its unclear whether this is just the list of molecules and reactions or something more.
 
 
 from test-python-client.py:
@@ -69,7 +76,8 @@ from test-python-client.py:
 # We also need to put in a mapping and a biochemistry object somewhere.
 # To do this, I just create a "dependency workspace" and pull them from there.
  
-Based on probabilistic_annotation/client-tests I am inferring that the biochemistry and mapping data is provided locally?
+Based on probabilistic_annotation/client-tests the biochemistry and mapping data is provided locally after a precomputation step (upon deploy?) which generates static local files.
+
 E.g.:
 testdefault.biochemistry
 testdefault.mapping
@@ -78,10 +86,6 @@ Although I don't see where in the client tests these objects get uploaded to a W
 
 The input genome data goes to a WS:
 wsClient.save_objects( { 'workspace': self._config['test_ws'], 'objects': [ genomeSaveData, contigSetSaveData ] } )
-
-
-At some point, for some service functions, BLAST is run and BLAST output is used as an input data type.
-
 
 
 
@@ -100,25 +104,25 @@ Method Name - annotate
 Description - Generate alternative annotations for every gene in a genome together with their likelihoods.
 Inputs - AnnotateParams input
 Outputs - job_id jobid
-Data hit -
+Data hit - CDS, WS, local?
 
 Method Name - calculate
 Description -  Calculate reaction likelihoods from a probabilistic annotation and a template model.
 Inputs - CalculateParams input
 Outputs - object_metadata output
-Data hit -
+Data hit - WS, local?
 
 Method Name - get_rxnprobs
 Description - Convert a reaction probability object into a human-readable table.
 Inputs - GetRxnprobsParams input
 Outputs - reaction_probability_list output
-Data hit -
+Data hit - WS, local?
 
 Method Name - get_probanno
 Description - Convert a ProbAnno object into a human-readbale table
 Inputs - GetProbannoParams input 
 Outputs - roleset_probabilities output
-Data hit - 
+Data hit - WS, local?
 
 
 Looked at:
@@ -127,3 +131,5 @@ README.md
 ProbabilisticAnnotation.spec 
 probabilistic_annotation/lib/biokbase/probabilistic_annotation/*
 client-tests/*
+scripts/*
+lib/Bio/KBase/*
