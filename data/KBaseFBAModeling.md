@@ -576,22 +576,22 @@ The Specs are :
 
 26. funcdef export_genome(export_genome_params input) returns (string output);    
 	
-	/* Input parameters for the "export_genome" function.
-		genome_id genome - ID of the genome to be exported (a required argument)
-		workspace_id workspace - workspace containing the model to be exported (a required argument)
-		string format - format to which the model should be exported (sbml, html, json, readable, cytoseed) (a required argument)
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		
-	*/
-    typedef structure {
-		genome_id genome;
-		workspace_id workspace;
-		string format;
-		string auth;
-    } export_genome_params;
-    /*
-        This function exports the specified FBAModel to a specified format (sbml,html)
-    */
+		/* Input parameters for the "export_genome" function.
+			genome_id genome - ID of the genome to be exported (a required argument)
+			workspace_id workspace - workspace containing the model to be exported (a required argument)
+			string format - format to which the model should be exported (sbml, html, json, readable, cytoseed) (a required argument)
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+		typedef structure {
+			genome_id genome;
+			workspace_id workspace;
+			string format;
+			string auth;
+		} export_genome_params;
+		/*
+		This function exports the specified FBAModel to a specified format (sbml,html)
+		*/
  
 27. funcdef adjust_model_reaction(adjust_model_reaction_params input) returns (object_metadata modelMeta);  
 	
@@ -630,70 +630,68 @@ The Specs are :
 	    */
 28. funcdef adjust_biomass_reaction(adjust_biomass_reaction_params input) returns (object_metadata modelMeta);   
     
-    /* Input parameters for the "adjust_biomass_reaction" function.
-	
-		fbamodel_id model - ID of model to be adjusted
-		workspace_id workspace - workspace containing model to be adjusted
-		biomass_id biomass - ID of biomass reaction to adjust
-		list<float> coefficients - coefficient of biomass compound
-		list<compound_id> compounds - ID of biomass compound to adjust in biomass
-		list<compartment_id> compartments - ID of compartment containing compound to adjust in biomass
-		list<int> compartmentIndecies - index of compartment containing compound to adjust in biomass
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-	*/
-    typedef structure {
-		fbamodel_id model;
-		workspace_id workspace;
-		biomass_id biomass;
-		list<float> coefficients;
-		list<compound_id> compounds;
-		list<compartment_id> compartments;
-		list<int> compartmentIndecies;
-		string auth;
-    } adjust_biomass_reaction_params;
-    /*
-        Enables the manual adjustment of model biomass reaction
-    */
+	    /* Input parameters for the "adjust_biomass_reaction" function.
+			fbamodel_id model - ID of model to be adjusted
+			workspace_id workspace - workspace containing model to be adjusted
+			biomass_id biomass - ID of biomass reaction to adjust
+			list<float> coefficients - coefficient of biomass compound
+			list<compound_id> compounds - ID of biomass compound to adjust in biomass
+			list<compartment_id> compartments - ID of compartment containing compound to adjust in biomass
+			list<int> compartmentIndecies - index of compartment containing compound to adjust in biomass
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+		*/
+	    typedef structure {
+			fbamodel_id model;
+			workspace_id workspace;
+			biomass_id biomass;
+			list<float> coefficients;
+			list<compound_id> compounds;
+			list<compartment_id> compartments;
+			list<int> compartmentIndecies;
+			string auth;
+	    } adjust_biomass_reaction_params;
+	    /*
+	        Enables the manual adjustment of model biomass reaction
+	    */
     
     
     /*********************************************************************************
     Code relating to flux balance analysis
-   	*********************************************************************************/
+   *********************************************************************************/
 
 29. funcdef addmedia(addmedia_params input) returns (object_metadata mediaMeta);
 
-    /* Input parameters for the "addmedia" function.
-	
-		media_id media - ID of the new media to be added (a required argument)
-		workspace_id workspace - workspace where the new media should be created (a required argument)
-		string name - name of the new media to be added  (an optional argument: default is the value of the media argument)
-		bool isDefined - boolean indicating if new media is defined (an optional argument: default is '0')
-		bool isMinimal - boolean indicating if new media is mininal (an optional argument: default is '0')
-		string type - the type of the new media (e.g. Biolog) (an optional argument: default is 'unknown')
-		list<string> compounds - a list of the compounds to be included in the new media (a required argument)
-		list<float> concentrations - a list of the concentrations for compounds in the new media (an optional argument: default is 0.001 M for all compounds)
-		list<float> maxflux - a list of the maximum uptakes for compounds in the new media (an optional argument: default is 100 mmol/hr gm CDW for all compounds)
-		list<float> minflux - a list of the minimum uptakes for compounds in the new media (an optional argument: default is 100 mmol/hr gm CDW for all compounds)
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		
-	*/
-    typedef structure {
-		media_id media;
-		workspace_id workspace;
-		string name;
-		bool isDefined;
-		bool isMinimal;
-		string type;
-		list<string> compounds;
-		list<float> concentrations;
-		list<float> maxflux;
-		list<float> minflux;
-		bool overwrite;
-		string auth;
-    } addmedia_params;
-    /*
-        Add media condition to workspace
-    */
+	    /* Input parameters for the "addmedia" function.
+			media_id media - ID of the new media to be added (a required argument)
+			workspace_id workspace - workspace where the new media should be created (a required argument)
+			string name - name of the new media to be added  (an optional argument: default is the value of the media argument)
+			bool isDefined - boolean indicating if new media is defined (an optional argument: default is '0')
+			bool isMinimal - boolean indicating if new media is mininal (an optional argument: default is '0')
+			string type - the type of the new media (e.g. Biolog) (an optional argument: default is 'unknown')
+			list<string> compounds - a list of the compounds to be included in the new media (a required argument)
+			list<float> concentrations - a list of the concentrations for compounds in the new media (an optional argument: default is 0.001 M for all compounds)
+			list<float> maxflux - a list of the maximum uptakes for compounds in the new media (an optional argument: default is 100 mmol/hr gm CDW for all compounds)
+			list<float> minflux - a list of the minimum uptakes for compounds in the new media (an optional argument: default is 100 mmol/hr gm CDW for all compounds)
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+	    typedef structure {
+			media_id media;
+			workspace_id workspace;
+			string name;
+			bool isDefined;
+			bool isMinimal;
+			string type;
+			list<string> compounds;
+			list<float> concentrations;
+			list<float> maxflux;
+			list<float> minflux;
+			bool overwrite;
+			string auth;
+	    } addmedia_params;
+	    /*
+	        Add media condition to workspace
+	    */
  
 30. funcdef export_media(export_media_params input) returns (string output);    
     
