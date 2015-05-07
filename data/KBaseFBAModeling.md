@@ -393,66 +393,61 @@ The Specs are :
 	        Adds a new set of alternative feature IDs to the specified genome typed object
 	    */
 
-
+17. funcdef genome_to_fbamodel(genome_to_fbamodel_params input) returns (object_metadata modelMeta);
     
-    /* Input parameters for the "genome_to_fbamodel" function.
+	    /* Input parameters for the "genome_to_fbamodel" function.
+			genome_id genome - ID of the genome for which a model is to be built (a required argument)
+			workspace_id genome_workspace - ID of the workspace containing the target genome (an optional argument; default is the workspace argument)
+			template_id templatemodel - 
+			workspace_id templatemodel_workspace - 
+			bool probannoOnly - a boolean indicating if only the probabilistic annotation should be used in building the model (an optional argument; default is '0')
+			fbamodel_id model - ID that should be used for the newly constructed model (an optional argument; default is 'undef')
+			bool coremodel - indicates that a core model should be constructed instead of a genome scale model (an optional argument; default is '0')
+			workspace_id workspace - ID of the workspace where the newly developed model will be stored; also the default assumed workspace for input objects (a required argument)
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+	    typedef structure {
+			genome_id genome;
+			workspace_id genome_workspace;
+			template_id templatemodel;
+			workspace_id templatemodel_workspace;
+			fbamodel_id model;
+			bool coremodel;
+			workspace_id workspace;
+			string auth;
+			bool fulldb;
+	    } genome_to_fbamodel_params;
+	    /*
+	        Build a genome-scale metabolic model based on annotations in an input genome typed object
+	    */
+
+18. funcdef translate_fbamodel(translate_fbamodel_params input) returns (object_metadata modelMeta);
 	
-		genome_id genome - ID of the genome for which a model is to be built (a required argument)
-		workspace_id genome_workspace - ID of the workspace containing the target genome (an optional argument; default is the workspace argument)
-		template_id templatemodel - 
-		workspace_id templatemodel_workspace - 
-		bool probannoOnly - a boolean indicating if only the probabilistic annotation should be used in building the model (an optional argument; default is '0')
-		fbamodel_id model - ID that should be used for the newly constructed model (an optional argument; default is 'undef')
-		bool coremodel - indicates that a core model should be constructed instead of a genome scale model (an optional argument; default is '0')
-		workspace_id workspace - ID of the workspace where the newly developed model will be stored; also the default assumed workspace for input objects (a required argument)
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		
-	*/
-    typedef structure {
-		genome_id genome;
-		workspace_id genome_workspace;
-		template_id templatemodel;
-		workspace_id templatemodel_workspace;
-		fbamodel_id model;
-		bool coremodel;
-		workspace_id workspace;
-		string auth;
-		bool fulldb;
-    } genome_to_fbamodel_params;
-    /*
-        Build a genome-scale metabolic model based on annotations in an input genome typed object
-    */
-    authentication required;
-    funcdef genome_to_fbamodel(genome_to_fbamodel_params input) returns (object_metadata modelMeta);
-	
-	/* Input parameters for the "translate_fbamodel" function.
-	
-		gencomp
-		gencomp_workspace
-		fbamodel_id model;
-		fbamodel_id model_workspace;
-		
-	*/
-    typedef structure {
-		string protcomp;
-		string protcomp_workspace;
-		string model;
-		string model_workspace;
-		workspace_id workspace;
-    } translate_fbamodel_params;
-    /*
-        Translate an existing model to a new genome based on the genome comparison object
-    */
-    authentication required;
-    funcdef translate_fbamodel(translate_fbamodel_params input) returns (object_metadata modelMeta);
+		/* Input parameters for the "translate_fbamodel" function.
+			gencomp
+			gencomp_workspace
+			fbamodel_id model;
+			fbamodel_id model_workspace;
+		*/
+	    typedef structure {
+			string protcomp;
+			string protcomp_workspace;
+			string model;
+			string model_workspace;
+			workspace_id workspace;
+	    } translate_fbamodel_params;
+	    /*
+	        Translate an existing model to a new genome based on the genome comparison object
+	    */
+
+19. funcdef build_pangenome(build_pangenome_params input) returns (object_metadata output);    
 
 	/* Input parameters for the "translate_fbamodel" function.
-	
 		gencomp
 		gencomp_workspace
 		fbamodel_id model;
 		fbamodel_id model_workspace;
-		
 	*/
     typedef structure {
 		list<string> genomes;
@@ -462,129 +457,126 @@ The Specs are :
     /*
         Translate an existing model to a new genome based on the genome comparison object
     */
-    authentication required;
-    funcdef build_pangenome(build_pangenome_params input) returns (object_metadata output);
     
-    typedef structure {
-    	bool is_refs;
-		list<string> labels;
-		list<list<float>> matrix;
-    } heat_map_matrix;
+20. funcdef genome_heatmap_from_pangenome(genome_heatmap_from_pangenome_params input) returns (heat_map_matrix output);
     
-    typedef structure {
-		string pangenome;
-		string pangenome_workspace;
-		string workspace;
-    } genome_heatmap_from_pangenome_params;
-    /*
-        Builds a comparason matrix for genomes included in a pangenome object
-    */
-    authentication required;
-    funcdef genome_heatmap_from_pangenome(genome_heatmap_from_pangenome_params input) returns (heat_map_matrix output);
+	    typedef structure {
+	    	bool is_refs;
+			list<string> labels;
+			list<list<float>> matrix;
+	    } heat_map_matrix;
+	    
+	    typedef structure {
+			string pangenome;
+			string pangenome_workspace;
+			string workspace;
+	    } genome_heatmap_from_pangenome_params;
+	    /*
+	        Builds a comparason matrix for genomes included in a pangenome object
+	    */
+	    authentication required;
+
+21. funcdef ortholog_family_from_pangenome(ortholog_family_from_pangenome_params input) returns (ortholog_data output);    
+		/*gene ID,gene ref,protein sequence,function,score*/
+		typedef structure {
+			list<tuple<string,string,string,string,float>> gene_data;
+			heat_map_matrix protein_heatmap;
+	    } ortholog_data;
+	    
+	    typedef structure {
+			string pangenome;
+			string pangenome_workspace;
+			string orthologid;
+			string workspace;
+	    } ortholog_family_from_pangenome_params;
+	    /*
+	        Returns more detailed data from a single ortholog family from a pangenome object
+	    */
+
+22. funcdef pangenome_to_proteome_comparison(pangenome_to_proteome_comparison_params input) returns (object_metadata output);    
 	
-	/*gene ID,gene ref,protein sequence,function,score*/
-	typedef structure {
-		list<tuple<string,string,string,string,float>> gene_data;
-		heat_map_matrix protein_heatmap;
-    } ortholog_data;
-    
-    typedef structure {
-		string pangenome;
-		string pangenome_workspace;
-		string orthologid;
-		string workspace;
-    } ortholog_family_from_pangenome_params;
-    /*
-        Returns more detailed data from a single ortholog family from a pangenome object
-    */
-    authentication required;
-    funcdef ortholog_family_from_pangenome(ortholog_family_from_pangenome_params input) returns (ortholog_data output);
+		typedef structure {
+			string pangenome;
+			string pangenome_workspace;
+			string outputid;
+			string workspace;
+	    } pangenome_to_proteome_comparison_params;
+	    /*
+	        Builds a proteome comparison object from a pangenome object
+	    */
+
+23. funcdef import_fbamodel(import_fbamodel_params input) returns (object_metadata modelMeta);
 	
-	typedef structure {
-		string pangenome;
-		string pangenome_workspace;
-		string outputid;
-		string workspace;
-    } pangenome_to_proteome_comparison_params;
-    /*
-        Builds a proteome comparison object from a pangenome object
-    */
-    authentication required;
-    funcdef pangenome_to_proteome_comparison(pangenome_to_proteome_comparison_params input) returns (object_metadata output);
+		/* Input parameters for the "import_fbamodel" function.
+			genome_id genome - ID of the genome for which a model is to be built (a required argument)
+			workspace_id genome_workspace - ID of the workspace containing the target genome (an optional argument; default is the workspace argument)
+			string biomass - biomass equation for model (an essential argument)
+			list<tuple<string id,string direction,string compartment,string gpr> reactions - list of reactions to appear in imported model (an essential argument)
+			fbamodel_id model - ID that should be used for the newly imported model (an optional argument; default is 'undef')
+			workspace_id workspace - ID of the workspace where the newly developed model will be stored; also the default assumed workspace for input objects (a required argument)
+			bool ignore_errors - ignores missing genes or reactions and imports model anyway
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+	    typedef structure {
+			genome_id genome;
+			workspace_id genome_workspace;
+			string biomass;
+			list<tuple<string id,string direction,string compartment,string gpr>> reactions;
+			fbamodel_id model;
+			workspace_id workspace;
+			bool ignore_errors;
+			string auth;
+			bool overwrite;
+	    } import_fbamodel_params;
+	    /*
+	        Import a model from an input table of model and gene IDs
+	    */
+
+24. funcdef export_fbamodel(export_fbamodel_params input) returns (string output);    
 	
-	/* Input parameters for the "import_fbamodel" function.
-	
-		genome_id genome - ID of the genome for which a model is to be built (a required argument)
-		workspace_id genome_workspace - ID of the workspace containing the target genome (an optional argument; default is the workspace argument)
-		string biomass - biomass equation for model (an essential argument)
-		list<tuple<string id,string direction,string compartment,string gpr> reactions - list of reactions to appear in imported model (an essential argument)
-		fbamodel_id model - ID that should be used for the newly imported model (an optional argument; default is 'undef')
-		workspace_id workspace - ID of the workspace where the newly developed model will be stored; also the default assumed workspace for input objects (a required argument)
-		bool ignore_errors - ignores missing genes or reactions and imports model anyway
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+	    /* Input parameters for the "export_fbamodel" function.
 		
-	*/
-    typedef structure {
-		genome_id genome;
-		workspace_id genome_workspace;
-		string biomass;
-		list<tuple<string id,string direction,string compartment,string gpr>> reactions;
-		fbamodel_id model;
-		workspace_id workspace;
-		bool ignore_errors;
-		string auth;
-		bool overwrite;
-    } import_fbamodel_params;
-    /*
-        Import a model from an input table of model and gene IDs
-    */
-    authentication required;
-    funcdef import_fbamodel(import_fbamodel_params input) returns (object_metadata modelMeta);
-	
-    /* Input parameters for the "export_fbamodel" function.
-	
-		fbamodel_id model - ID of the model to be exported (a required argument)
-		workspace_id workspace - workspace containing the model to be exported (a required argument)
-		fba_id fba - A FBA object related to the model. (an optional argument)
-		string format - format to which the model should be exported (sbml, html, json, readable, cytoseed) (a required argument)
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		
-	*/
-    typedef structure {
-		fbamodel_id model;
-		workspace_id workspace;
-		list<fba_id> fbas;
-		string format;
-		string auth;
-    } export_fbamodel_params;
-    /*
-        This function exports the specified FBAModel to a specified format (sbml,html)
-    */
-    authentication optional;
-    funcdef export_fbamodel(export_fbamodel_params input) returns (string output);
+			fbamodel_id model - ID of the model to be exported (a required argument)
+			workspace_id workspace - workspace containing the model to be exported (a required argument)
+			fba_id fba - A FBA object related to the model. (an optional argument)
+			string format - format to which the model should be exported (sbml, html, json, readable, cytoseed) (a required argument)
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+	    typedef structure {
+			fbamodel_id model;
+			workspace_id workspace;
+			list<fba_id> fbas;
+			string format;
+			string auth;
+	    } export_fbamodel_params;
+	    /*
+	        This function exports the specified FBAModel to a specified format (sbml,html)
+	    */
+
+25. funcdef export_object(export_object_params input) returns (string output);    
     
-    /* Input parameters for the "export_object" function.
-	
-		workspace_ref reference - reference of object to print in html (a required argument)
-		string type - type of the object to be exported (a required argument)
-		string format - format to which data should be exported (an optional argument; default is html)
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		
-	*/
-    typedef structure {
-		workspace_ref reference;
-		string type;
-		string format;
-    	string auth;
-    } export_object_params;
-    /*
-        This function prints the object pointed to by the input reference in the specified format
-    */
-    authentication optional;
-    funcdef export_object(export_object_params input) returns (string output);
+	    /* Input parameters for the "export_object" function.
+			workspace_ref reference - reference of object to print in html (a required argument)
+			string type - type of the object to be exported (a required argument)
+			string format - format to which data should be exported (an optional argument; default is html)
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+	    typedef structure {
+			workspace_ref reference;
+			string type;
+			string format;
+	    	string auth;
+	    } export_object_params;
+	    /*
+	        This function prints the object pointed to by the input reference in the specified format
+	    */
+
+26. funcdef export_genome(export_genome_params input) returns (string output);    
 	
 	/* Input parameters for the "export_genome" function.
-	
 		genome_id genome - ID of the genome to be exported (a required argument)
 		workspace_id workspace - workspace containing the model to be exported (a required argument)
 		string format - format to which the model should be exported (sbml, html, json, readable, cytoseed) (a required argument)
@@ -600,45 +592,43 @@ The Specs are :
     /*
         This function exports the specified FBAModel to a specified format (sbml,html)
     */
-    authentication optional;
-    funcdef export_genome(export_genome_params input) returns (string output);
+ 
+27. funcdef adjust_model_reaction(adjust_model_reaction_params input) returns (object_metadata modelMeta);  
 	
-    /* Input parameters for the "adjust_model_reaction" function.
+	    /* Input parameters for the "adjust_model_reaction" function.
+			fbamodel_id model - ID of model to be adjusted
+			workspace_id workspace - workspace containing model to be adjusted
+			list<reaction_id> reaction - List of IDs of reactions to be added, removed, or adjusted
+			list<string> direction - directions to set for reactions being added or adjusted
+			list<compartment_id> compartment - IDs of compartment containing reaction being added or adjusted
+			list<int> compartmentIndex - indexes of compartment containing reaction being altered or adjusted
+			list<string> gpr - array specifying gene-protein-reaction association(s)
+			bool removeReaction - boolean indicating listed reaction(s) should be removed
+			bool addReaction - boolean indicating reaction(s) should be added
+			bool overwrite - boolean indicating whether or not to overwrite model object in the workspace
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
 	
-		fbamodel_id model - ID of model to be adjusted
-		workspace_id workspace - workspace containing model to be adjusted
-		list<reaction_id> reaction - List of IDs of reactions to be added, removed, or adjusted
-		list<string> direction - directions to set for reactions being added or adjusted
-		list<compartment_id> compartment - IDs of compartment containing reaction being added or adjusted
-		list<int> compartmentIndex - indexes of compartment containing reaction being altered or adjusted
-		list<string> gpr - array specifying gene-protein-reaction association(s)
-		bool removeReaction - boolean indicating listed reaction(s) should be removed
-		bool addReaction - boolean indicating reaction(s) should be added
-		bool overwrite - boolean indicating whether or not to overwrite model object in the workspace
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-
-		For all of the lists above, if only one element is specified it is assumed the user wants to apply the same
-		to all the listed reactions.
-		
-	*/
-    typedef structure {
-		fbamodel_id model;
-		workspace_id workspace;
-		list<reaction_id> reaction;
-		list<string> direction;
-		list<compartment_id> compartment;
-		list<int> compartmentIndex;
-		list<string> gpr;
-		bool removeReaction;
-		bool addReaction;
-		bool overwrite;
-		string auth;
-    } adjust_model_reaction_params;
-    /*
-        Enables the manual addition of a reaction to model
-    */
-    authentication required;
-    funcdef adjust_model_reaction(adjust_model_reaction_params input) returns (object_metadata modelMeta);
+			For all of the lists above, if only one element is specified it is assumed the user wants to apply the same
+			to all the listed reactions.
+			
+		*/
+	    typedef structure {
+			fbamodel_id model;
+			workspace_id workspace;
+			list<reaction_id> reaction;
+			list<string> direction;
+			list<compartment_id> compartment;
+			list<int> compartmentIndex;
+			list<string> gpr;
+			bool removeReaction;
+			bool addReaction;
+			bool overwrite;
+			string auth;
+	    } adjust_model_reaction_params;
+	    /*
+	        Enables the manual addition of a reaction to model
+	    */
+28. funcdef adjust_biomass_reaction(adjust_biomass_reaction_params input) returns (object_metadata modelMeta);   
     
     /* Input parameters for the "adjust_biomass_reaction" function.
 	
@@ -664,12 +654,14 @@ The Specs are :
     /*
         Enables the manual adjustment of model biomass reaction
     */
-    authentication required;
-    funcdef adjust_biomass_reaction(adjust_biomass_reaction_params input) returns (object_metadata modelMeta);
+    
     
     /*********************************************************************************
     Code relating to flux balance analysis
    	*********************************************************************************/
+
+29. funcdef addmedia(addmedia_params input) returns (object_metadata mediaMeta);
+
     /* Input parameters for the "addmedia" function.
 	
 		media_id media - ID of the new media to be added (a required argument)
@@ -702,28 +694,27 @@ The Specs are :
     /*
         Add media condition to workspace
     */
-    authentication required;
-    funcdef addmedia(addmedia_params input) returns (object_metadata mediaMeta);
+ 
+30. funcdef export_media(export_media_params input) returns (string output);    
     
-    /* Input parameters for the "export_media" function.
-	
-		media_id media - ID of the media to be exported (a required argument)
-		workspace_id workspace - workspace containing the media to be exported (a required argument)
-		string format - format to which the media should be exported (html, json, readable) (a required argument)
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		
-	*/
-    typedef structure {
-		media_id media;
-		workspace_id workspace;
-		string format;
-		string auth;
-    } export_media_params;
-    /*
-        Exports media in specified format (html,readable)
-    */
-    authentication optional;
-    funcdef export_media(export_media_params input) returns (string output);
+	    /* Input parameters for the "export_media" function.
+			media_id media - ID of the media to be exported (a required argument)
+			workspace_id workspace - workspace containing the media to be exported (a required argument)
+			string format - format to which the media should be exported (html, json, readable) (a required argument)
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+	    typedef structure {
+			media_id media;
+			workspace_id workspace;
+			string format;
+			string auth;
+	    } export_media_params;
+	    /*
+	        Exports media in specified format (html,readable)
+	    */
+
+    
     
     /* Input parameters for the "addmedia" function.
 	
