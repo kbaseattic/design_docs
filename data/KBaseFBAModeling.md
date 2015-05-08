@@ -918,37 +918,37 @@ The Specs are :
 
 37. funcdef simulate_phenotypes (simulate_phenotypes_params input) returns (object_metadata output);    
     
-    /* Input parameters for the "simulate_phenotypes" function.
-	
-		fbamodel_id model - ID of the model to be used for the simulation (a required argument)
-		workspace_id model_workspace - workspace containing the model for the simulation (an optional argument: default is value of workspace argument)
-		phenotype_set_id phenotypeSet - ID of the phenotypes set to be simulated (a required argument)
-		workspace_id phenotypeSet_workspace - workspace containing the phenotype set to be simulated (an optional argument: default is value of workspace argument)
-		FBAFormulation formulation - parameters for the simulation flux balance analysis (an optional argument: default is 'undef')
-		string notes - string of notes to associate with the phenotype simulation (an optional argument: default is '')
-		phenotypeSimulationSet_id phenotypeSimulationSet - ID of the phenotype simulation set to be generated (an optional argument: default is 'undef')
-		workspace_id workspace - workspace where the phenotype simulation set should be saved (a required argument)
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		bool all_transporters - Set to TRUE if you want to add transporters for ALL media in the phenotypeset before simulating
-		bool positive_transporters - Set to TRUE if you want to add transporters for POSITIVE (non-zero growth) media only before simulating
-	*/
-    typedef structure {
-		fbamodel_id model;
-		workspace_id model_workspace;
-		phenotype_set_id phenotypeSet;
-		workspace_id phenotypeSet_workspace;
-		FBAFormulation formulation;
-		string notes;
-		phenotypeSimulationSet_id phenotypeSimulationSet;
-		workspace_id workspace;
-		bool overwrite;
-		string auth;
-		bool all_transporters;
-		bool positive_transporters;
-    } simulate_phenotypes_params;
-    /*
-        Simulates the specified phenotype set
-    */
+		/* Input parameters for the "simulate_phenotypes" function.
+		
+			fbamodel_id model - ID of the model to be used for the simulation (a required argument)
+			workspace_id model_workspace - workspace containing the model for the simulation (an optional argument: default is value of workspace argument)
+			phenotype_set_id phenotypeSet - ID of the phenotypes set to be simulated (a required argument)
+			workspace_id phenotypeSet_workspace - workspace containing the phenotype set to be simulated (an optional argument: default is value of workspace argument)
+			FBAFormulation formulation - parameters for the simulation flux balance analysis (an optional argument: default is 'undef')
+			string notes - string of notes to associate with the phenotype simulation (an optional argument: default is '')
+			phenotypeSimulationSet_id phenotypeSimulationSet - ID of the phenotype simulation set to be generated (an optional argument: default is 'undef')
+			workspace_id workspace - workspace where the phenotype simulation set should be saved (a required argument)
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			bool all_transporters - Set to TRUE if you want to add transporters for ALL media in the phenotypeset before simulating
+			bool positive_transporters - Set to TRUE if you want to add transporters for POSITIVE (non-zero growth) media only before simulating
+		*/
+		typedef structure {
+			fbamodel_id model;
+			workspace_id model_workspace;
+			phenotype_set_id phenotypeSet;
+			workspace_id phenotypeSet_workspace;
+			FBAFormulation formulation;
+			string notes;
+			phenotypeSimulationSet_id phenotypeSimulationSet;
+			workspace_id workspace;
+			bool overwrite;
+			string auth;
+			bool all_transporters;
+			bool positive_transporters;
+		} simulate_phenotypes_params;
+		/*
+		Simulates the specified phenotype set
+		*/
     
 38. funcdef add_media_transporters (add_media_transporters_params input) returns (object_metadata output);
     
@@ -1112,7 +1112,8 @@ The Specs are :
 	    */
 
 44. funcdef queue_gapgen_model(gapgen_model_params input) returns (JobObject job);    
-same as 45.
+
+	same as 45.
 
 45. funcdef gapgen_model(gapgen_model_params input) returns (object_metadata modelMeta);
 
