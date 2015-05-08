@@ -147,7 +147,7 @@ The Specs are :
 	    */
 
     
-6.  funcdef get_compounds(get_compounds_params input) returns (list<Compound> out_compounds);	
+6. funcdef get_compounds(get_compounds_params input) returns (list<Compound> out_compounds);	
 	
 		/* 
 		        Input parameters for the "get_compounds" function.	
