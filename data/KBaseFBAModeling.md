@@ -1487,35 +1487,35 @@ The Specs are :
 
 55. funcdef gtf_to_genome(gtf_to_genome_params params) returns (object_metadata output);
 
-	/* Input parameters for the "gtf_to_genome" function.
-		string contigset;
-		workspace_id contigset_ws;
-		workspace_id workspace;	
-		string genome_uid;
-		string source_id - source ID of the genome (optional)
-		string source - source of the genome(optional)
-		string scientific_name;
-		string domain;
-		int genetic_code;
-		string taxonomy;
-		string gtf_file;
-	*/
-	typedef structure {
-		string contigset;
-		workspace_id contigset_ws;
-		workspace_id workspace;	
-		string genome_uid;
-		string source_id;
-		string source;
-		string scientific_name;
-		string domain;
-		int genetic_code;
-		string taxonomy;
-		string gtf_file;
-    } gtf_to_genome_params;
-    /*
-		Loads a gtf file to a genome typed object in the workspace      
-    */
+		/* Input parameters for the "gtf_to_genome" function.
+			string contigset;
+			workspace_id contigset_ws;
+			workspace_id workspace;	
+			string genome_uid;
+			string source_id - source ID of the genome (optional)
+			string source - source of the genome(optional)
+			string scientific_name;
+			string domain;
+			int genetic_code;
+			string taxonomy;
+			string gtf_file;
+		*/
+		typedef structure {
+			string contigset;
+			workspace_id contigset_ws;
+			workspace_id workspace;	
+			string genome_uid;
+			string source_id;
+			string source;
+			string scientific_name;
+			string domain;
+			int genetic_code;
+			string taxonomy;
+			string gtf_file;
+	    } gtf_to_genome_params;
+	    /*
+			Loads a gtf file to a genome typed object in the workspace      
+	    */
     
 56. funcdef fasta_to_ProteinSet(fasta_to_ProteinSet_params params) returns (object_metadata output);
 	
@@ -1601,40 +1601,39 @@ The Specs are :
 	    */
 	    authentication required;
     
+59. funcdef ContigSet_to_Genome(ContigSet_to_Genome_params params) returns (object_metadata output);    
+		/* Input parameters for the "ContigSet_to_Genome" function.
+			string ContigSet_uid - ID to be assigned to the ContigSet (required argument)
+			workspace_id ContigSet_ws - ID of workspace with the ContigSet (optional argument; default is value of workspace argument)
+			string uid - user assigned ID for the Genome (optional)
+			workspace_id workspace - ID of workspace for storing objects (required argument)
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			string scientific_name - scientific name to assign to genome
+			string domain - domain of life for genome
+			int genetic_code - genetic code to assign to genome
+			AnnotationParameters annotation_parameters - parameters for annotation of the genome
+			
+		*/
+		typedef structure {
+			string ContigSet_uid;
+			workspace_id ContigSet_ws;
+			workspace_id workspace;
+			string uid;
+			string auth;
+			string scientific_name;
+			string domain;
+			int genetic_code;
+			AnnotationParameters annotation_parameters;
+	    } ContigSet_to_Genome_params;
+	    /*
+			Creates a genome associated with the ContigSet object   
+	    */
+	    authentication required;
     
-	/* Input parameters for the "ContigSet_to_Genome" function.
-	
-		string ContigSet_uid - ID to be assigned to the ContigSet (required argument)
-		workspace_id ContigSet_ws - ID of workspace with the ContigSet (optional argument; default is value of workspace argument)
-		string uid - user assigned ID for the Genome (optional)
-		workspace_id workspace - ID of workspace for storing objects (required argument)
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		string scientific_name - scientific name to assign to genome
-		string domain - domain of life for genome
-		int genetic_code - genetic code to assign to genome
-		AnnotationParameters annotation_parameters - parameters for annotation of the genome
-		
-	*/
-	typedef structure {
-		string ContigSet_uid;
-		workspace_id ContigSet_ws;
-		workspace_id workspace;
-		string uid;
-		string auth;
-		string scientific_name;
-		string domain;
-		int genetic_code;
-		AnnotationParameters annotation_parameters;
-    } ContigSet_to_Genome_params;
-    /*
-		Creates a genome associated with the ContigSet object   
-    */
-    authentication required;
-    funcdef ContigSet_to_Genome(ContigSet_to_Genome_params params) returns (object_metadata output);
     
-	/*********************************************************************************
-	Code relating to analysis of probabilistic annotations
-   	*********************************************************************************/
+
+###Code relating to analysis of probabilistic annotations
+
 	/* Input parameters for the "probanno_to_genome" function.
 	
 		probanno_id pa_id - ID of the probanno object (required)
