@@ -1111,245 +1111,235 @@ The Specs are :
 	        Queues an FBAModel gapfilling job in single media condition
 	    */
 
+44. funcdef queue_gapgen_model(gapgen_model_params input) returns (JobObject job);    
+same as 45.
+
+45. funcdef gapgen_model(gapgen_model_params input) returns (object_metadata modelMeta);
+
+	    /* Input parameters for the "queue_gapgen_model" function.
+			fbamodel_id model - ID of the model that gapgen should be run on (a required argument)
+			workspace_id model_workspace - workspace where model for gapgen should be run (an optional argument; default is the value of the workspace argument)
+			GapgenFormulation formulation - a hash specifying the parameters for the gapgen study (an optional argument)
+			phenotype_set_id phenotypeSet - ID of a phenotype set against which gapgened model should be simulated (an optional argument: default is 'undef')
+			workspace_id phenotypeSet_workspace - workspace containing phenotype set to be simulated (an optional argument; default is the value of the workspace argument)
+			bool integrate_solution - a flag indicating if the first solution should be integrated in the model (an optional argument: default is '0')
+			fbamodel_id out_model - ID where the gapgened model will be saved (an optional argument: default is 'undef')
+			gapgen_id gapGen - ID to which gapgen solution will be saved (an optional argument: default is 'undef')
+			workspace_id workspace - workspace where gapgen results will be saved (a required argument)
+			int timePerSolution - maximum time to spend to obtain each solution
+			int totalTimeLimit - maximum time to spend to obtain all solutions
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+	    typedef structure {
+			fbamodel_id model;
+			workspace_id model_workspace;
+			GapgenFormulation formulation;
+			phenotype_set_id phenotypeSet;
+			workspace_id phenotypeSet_workspace;
+			bool integrate_solution;
+			fbamodel_id out_model;
+			workspace_id workspace;
+			gapgen_id gapGen;
+			string auth;
+			int timePerSolution;
+			int totalTimeLimit;
+			bool overwrite;
+	    } gapgen_model_params;
+	    /*
+	        Queues an FBAModel gapfilling job in single media condition
+	    */
+
+46. funcdef queue_wildtype_phenotype_reconciliation(wildtype_phenotype_reconciliation_params input) returns (JobObject job);    
+
+	    /* Input parameters for the "queue_wildtype_phenotype_reconciliation" function.
+			fbamodel_id model - ID of the model that reconciliation should be run on (a required argument)
+			workspace_id model_workspace - workspace where model for reconciliation should be run (an optional argument; default is the value of the workspace argument)
+			FBAFormulation formulation - a hash specifying the parameters for the reconciliation study (an optional argument)
+			GapfillingFormulation gapfill_formulation - a hash specifying the parameters for the gapfill study (an optional argument)
+			GapgenFormulation gapgen_formulation - a hash specifying the parameters for the gapgen study (an optional argument)
+			phenotype_set_id phenotypeSet - ID of a phenotype set against which reconciled model should be simulated (an optional argument: default is 'undef')
+			workspace_id phenotypeSet_workspace - workspace containing phenotype set to be simulated (an optional argument; default is the value of the workspace argument)
+			fbamodel_id out_model - ID where the reconciled model will be saved (an optional argument: default is 'undef')
+			list<gapgen_id> gapGens - IDs of gapgen solutions (an optional argument: default is 'undef')
+			list<gapfill_id> gapFills - IDs of gapfill solutions (an optional argument: default is 'undef')
+			bool queueSensitivityAnalysis - flag indicating if sensitivity analysis should be queued to run on solutions (an optional argument: default is '0')
+			bool queueReconciliationCombination - flag indicating if reconcilication combination should be queued to run on solutions (an optional argument: default is '0')
+			workspace_id workspace - workspace where reconciliation results will be saved (a required argument)
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+	    typedef structure {
+			fbamodel_id model;
+			workspace_id model_workspace;
+			FBAFormulation fba_formulation;
+			GapfillingFormulation gapfill_formulation;
+			GapgenFormulation gapgen_formulation;
+			phenotype_set_id phenotypeSet;
+			workspace_id phenotypeSet_workspace;
+			fbamodel_id out_model;
+			workspace_id workspace;
+			list<gapfill_id> gapFills;
+			list<gapgen_id> gapGens;
+			bool queueSensitivityAnalysis;
+			bool queueReconciliationCombination;
+			string auth;
+			bool overwrite;
+	    } wildtype_phenotype_reconciliation_params;
+	    /*
+	        Queues an FBAModel reconciliation job
+	    */
+
+47. funcdef queue_reconciliation_sensitivity_analysis(wildtype_phenotype_reconciliation_params input) returns (JobObject job);
     
+	    /* Input parameters for the "queue_reconciliation_sensitivity_analysis" function.
+			fbamodel_id model - ID of the model that sensitivity analysis should be run on (a required argument)
+			workspace_id model_workspace - workspace where model for sensitivity analysis should be run (an optional argument; default is the value of the workspace argument)
+			FBAFormulation formulation - a hash specifying the parameters for the sensitivity analysis study (an optional argument)
+			GapfillingFormulation gapfill_formulation - a hash specifying the parameters for the gapfill study (an optional argument)
+			GapgenFormulation gapgen_formulation - a hash specifying the parameters for the gapgen study (an optional argument)
+			phenotype_set_id phenotypeSet - ID of a phenotype set against which sensitivity analysis model should be simulated (an optional argument: default is 'undef')
+			workspace_id phenotypeSet_workspace - workspace containing phenotype set to be simulated (an optional argument; default is the value of the workspace argument)
+			fbamodel_id out_model - ID where the sensitivity analysis model will be saved (an optional argument: default is 'undef')
+			list<gapgen_id> gapGens - IDs of gapgen solutions (an optional argument: default is 'undef')
+			list<gapfill_id> gapFills - IDs of gapfill solutions (an optional argument: default is 'undef')
+			bool queueReconciliationCombination - flag indicating if sensitivity analysis combination should be queued to run on solutions (an optional argument: default is '0')
+			workspace_id workspace - workspace where sensitivity analysis results will be saved (a required argument)
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+	    typedef structure {
+			fbamodel_id model;
+			workspace_id workspace;
+			phenotype_set_id phenotypeSet;
+			
+			FBAFormulation fba_formulation;
+			workspace_id model_workspace;
+			workspace_id phenotypeSet_workspace;
+			
+			list<gapfill_id> gapFills;
+			list<gapgen_id> gapGens;
+			bool queueReconciliationCombination;
+			string auth;
+			bool overwrite;
+	    } queue_reconciliation_sensitivity_analysis_params;
+	    /*
+	        Queues an FBAModel reconciliation job
+	    */
+
+48. funcdef queue_combine_wildtype_phenotype_reconciliation(combine_wildtype_phenotype_reconciliation_params input) returns (JobObject job);
     
-  
-    
-    
-    /* Input parameters for the "queue_gapgen_model" function.
-	
-		fbamodel_id model - ID of the model that gapgen should be run on (a required argument)
-		workspace_id model_workspace - workspace where model for gapgen should be run (an optional argument; default is the value of the workspace argument)
-		GapgenFormulation formulation - a hash specifying the parameters for the gapgen study (an optional argument)
-		phenotype_set_id phenotypeSet - ID of a phenotype set against which gapgened model should be simulated (an optional argument: default is 'undef')
-		workspace_id phenotypeSet_workspace - workspace containing phenotype set to be simulated (an optional argument; default is the value of the workspace argument)
-		bool integrate_solution - a flag indicating if the first solution should be integrated in the model (an optional argument: default is '0')
-		fbamodel_id out_model - ID where the gapgened model will be saved (an optional argument: default is 'undef')
-		gapgen_id gapGen - ID to which gapgen solution will be saved (an optional argument: default is 'undef')
-		workspace_id workspace - workspace where gapgen results will be saved (a required argument)
-		int timePerSolution - maximum time to spend to obtain each solution
-		int totalTimeLimit - maximum time to spend to obtain all solutions
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		
-	*/
-    typedef structure {
-		fbamodel_id model;
-		workspace_id model_workspace;
-		GapgenFormulation formulation;
-		phenotype_set_id phenotypeSet;
-		workspace_id phenotypeSet_workspace;
-		bool integrate_solution;
-		fbamodel_id out_model;
-		workspace_id workspace;
-		gapgen_id gapGen;
-		string auth;
-		int timePerSolution;
-		int totalTimeLimit;
-		bool overwrite;
-    } gapgen_model_params;
-    /*
-        Queues an FBAModel gapfilling job in single media condition
-    */
-    authentication required;
-    funcdef queue_gapgen_model(gapgen_model_params input) returns (JobObject job);
-    
-    authentication required;
-    funcdef gapgen_model(gapgen_model_params input) returns (object_metadata modelMeta);
-    
-    /* Input parameters for the "queue_wildtype_phenotype_reconciliation" function.
-	
-		fbamodel_id model - ID of the model that reconciliation should be run on (a required argument)
-		workspace_id model_workspace - workspace where model for reconciliation should be run (an optional argument; default is the value of the workspace argument)
-		FBAFormulation formulation - a hash specifying the parameters for the reconciliation study (an optional argument)
-		GapfillingFormulation gapfill_formulation - a hash specifying the parameters for the gapfill study (an optional argument)
-		GapgenFormulation gapgen_formulation - a hash specifying the parameters for the gapgen study (an optional argument)
-		phenotype_set_id phenotypeSet - ID of a phenotype set against which reconciled model should be simulated (an optional argument: default is 'undef')
-		workspace_id phenotypeSet_workspace - workspace containing phenotype set to be simulated (an optional argument; default is the value of the workspace argument)
-		fbamodel_id out_model - ID where the reconciled model will be saved (an optional argument: default is 'undef')
-		list<gapgen_id> gapGens - IDs of gapgen solutions (an optional argument: default is 'undef')
-		list<gapfill_id> gapFills - IDs of gapfill solutions (an optional argument: default is 'undef')
-		bool queueSensitivityAnalysis - flag indicating if sensitivity analysis should be queued to run on solutions (an optional argument: default is '0')
-		bool queueReconciliationCombination - flag indicating if reconcilication combination should be queued to run on solutions (an optional argument: default is '0')
-		workspace_id workspace - workspace where reconciliation results will be saved (a required argument)
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		
-	*/
-    typedef structure {
-		fbamodel_id model;
-		workspace_id model_workspace;
-		FBAFormulation fba_formulation;
-		GapfillingFormulation gapfill_formulation;
-		GapgenFormulation gapgen_formulation;
-		phenotype_set_id phenotypeSet;
-		workspace_id phenotypeSet_workspace;
-		fbamodel_id out_model;
-		workspace_id workspace;
-		list<gapfill_id> gapFills;
-		list<gapgen_id> gapGens;
-		bool queueSensitivityAnalysis;
-		bool queueReconciliationCombination;
-		string auth;
-		bool overwrite;
-    } wildtype_phenotype_reconciliation_params;
-    /*
-        Queues an FBAModel reconciliation job
-    */
-    authentication required;
-    funcdef queue_wildtype_phenotype_reconciliation(wildtype_phenotype_reconciliation_params input) returns (JobObject job);
-    
-    /* Input parameters for the "queue_reconciliation_sensitivity_analysis" function.
-	
-		fbamodel_id model - ID of the model that sensitivity analysis should be run on (a required argument)
-		workspace_id model_workspace - workspace where model for sensitivity analysis should be run (an optional argument; default is the value of the workspace argument)
-		FBAFormulation formulation - a hash specifying the parameters for the sensitivity analysis study (an optional argument)
-		GapfillingFormulation gapfill_formulation - a hash specifying the parameters for the gapfill study (an optional argument)
-		GapgenFormulation gapgen_formulation - a hash specifying the parameters for the gapgen study (an optional argument)
-		phenotype_set_id phenotypeSet - ID of a phenotype set against which sensitivity analysis model should be simulated (an optional argument: default is 'undef')
-		workspace_id phenotypeSet_workspace - workspace containing phenotype set to be simulated (an optional argument; default is the value of the workspace argument)
-		fbamodel_id out_model - ID where the sensitivity analysis model will be saved (an optional argument: default is 'undef')
-		list<gapgen_id> gapGens - IDs of gapgen solutions (an optional argument: default is 'undef')
-		list<gapfill_id> gapFills - IDs of gapfill solutions (an optional argument: default is 'undef')
-		bool queueReconciliationCombination - flag indicating if sensitivity analysis combination should be queued to run on solutions (an optional argument: default is '0')
-		workspace_id workspace - workspace where sensitivity analysis results will be saved (a required argument)
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		
-	*/
-    typedef structure {
-		fbamodel_id model;
-		workspace_id workspace;
-		phenotype_set_id phenotypeSet;
-		
-		FBAFormulation fba_formulation;
-		workspace_id model_workspace;
-		workspace_id phenotypeSet_workspace;
-		
-		list<gapfill_id> gapFills;
-		list<gapgen_id> gapGens;
-		bool queueReconciliationCombination;
-		string auth;
-		bool overwrite;
-    } queue_reconciliation_sensitivity_analysis_params;
-    /*
-        Queues an FBAModel reconciliation job
-    */
-    authentication required;
-    funcdef queue_reconciliation_sensitivity_analysis(wildtype_phenotype_reconciliation_params input) returns (JobObject job);
-    
-    /* Input parameters for the "queue_combine_wildtype_phenotype_reconciliation" function.
-	
-		fbamodel_id model - ID of the model that solution combination should be run on (a required argument)
-		workspace_id model_workspace - workspace where model for solution combination should be run (an optional argument; default is the value of the workspace argument)
-		FBAFormulation formulation - a hash specifying the parameters for the solution combination study (an optional argument)
-		GapfillingFormulation gapfill_formulation - a hash specifying the parameters for the gapfill study (an optional argument)
-		GapgenFormulation gapgen_formulation - a hash specifying the parameters for the gapgen study (an optional argument)
-		phenotype_set_id phenotypeSet - ID of a phenotype set against which solution combination model should be simulated (an optional argument: default is 'undef')
-		workspace_id phenotypeSet_workspace - workspace containing phenotype set to be simulated (an optional argument; default is the value of the workspace argument)
-		fbamodel_id out_model - ID where the solution combination model will be saved (an optional argument: default is 'undef')
-		list<gapgen_id> gapGens - IDs of gapgen solutions (an optional argument: default is 'undef')
-		list<gapfill_id> gapFills - IDs of gapfill solutions (an optional argument: default is 'undef')
-		workspace_id workspace - workspace where solution combination results will be saved (a required argument)
-		int timePerSolution - maximum time spent per solution
-		int totalTimeLimit - maximum time allowed to work on problem
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		
-	*/
-    typedef structure {
-		fbamodel_id model;
-		workspace_id model_workspace;
-		FBAFormulation fba_formulation;
-		GapfillingFormulation gapfill_formulation;
-		GapgenFormulation gapgen_formulation;
-		phenotype_set_id phenotypeSet;
-		workspace_id phenotypeSet_workspace;
-		fbamodel_id out_model;
-		workspace_id workspace;
-		list<gapfill_id> gapFills;
-		list<gapgen_id> gapGens;
-		string auth;
-		bool overwrite;
-    } combine_wildtype_phenotype_reconciliation_params;
-    /*
-        Queues an FBAModel reconciliation job
-    */
-    authentication required;
-    funcdef queue_combine_wildtype_phenotype_reconciliation(combine_wildtype_phenotype_reconciliation_params input) returns (JobObject job);
+	    /* Input parameters for the "queue_combine_wildtype_phenotype_reconciliation" function.
+			fbamodel_id model - ID of the model that solution combination should be run on (a required argument)
+			workspace_id model_workspace - workspace where model for solution combination should be run (an optional argument; default is the value of the workspace argument)
+			FBAFormulation formulation - a hash specifying the parameters for the solution combination study (an optional argument)
+			GapfillingFormulation gapfill_formulation - a hash specifying the parameters for the gapfill study (an optional argument)
+			GapgenFormulation gapgen_formulation - a hash specifying the parameters for the gapgen study (an optional argument)
+			phenotype_set_id phenotypeSet - ID of a phenotype set against which solution combination model should be simulated (an optional argument: default is 'undef')
+			workspace_id phenotypeSet_workspace - workspace containing phenotype set to be simulated (an optional argument; default is the value of the workspace argument)
+			fbamodel_id out_model - ID where the solution combination model will be saved (an optional argument: default is 'undef')
+			list<gapgen_id> gapGens - IDs of gapgen solutions (an optional argument: default is 'undef')
+			list<gapfill_id> gapFills - IDs of gapfill solutions (an optional argument: default is 'undef')
+			workspace_id workspace - workspace where solution combination results will be saved (a required argument)
+			int timePerSolution - maximum time spent per solution
+			int totalTimeLimit - maximum time allowed to work on problem
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+	    typedef structure {
+			fbamodel_id model;
+			workspace_id model_workspace;
+			FBAFormulation fba_formulation;
+			GapfillingFormulation gapfill_formulation;
+			GapgenFormulation gapgen_formulation;
+			phenotype_set_id phenotypeSet;
+			workspace_id phenotypeSet_workspace;
+			fbamodel_id out_model;
+			workspace_id workspace;
+			list<gapfill_id> gapFills;
+			list<gapgen_id> gapGens;
+			string auth;
+			bool overwrite;
+	    } combine_wildtype_phenotype_reconciliation_params;
+	    /*
+	        Queues an FBAModel reconciliation job
+	    */
+
+49. funcdef set_cofactors(set_cofactors_params input) returns (object_metadata output);
     	
-	/* Input parameters for the "run_job" function.
-	
-		job_id job - ID of the job object (a required argument)
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+		/* Input parameters for the "run_job" function.
+			job_id job - ID of the job object (a required argument)
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+		typedef structure {
+			job_id job;
+			string auth;
+	    } run_job_params;
+		/*
+	        Runs specified job
+	    */
+		authentication required;
+		funcdef run_job(run_job_params input) returns (JobObject job);
 		
-	*/
-	typedef structure {
-		job_id job;
-		string auth;
-    } run_job_params;
-	/*
-        Runs specified job
-    */
-	authentication required;
-	funcdef run_job(run_job_params input) returns (JobObject job);
-	
-	/* Input parameters for the "queue_job" function.
-	
-		string method;
-		mapping<string,string> parameters;
-				
-	*/
-	typedef structure {
-		string method;
-		mapping<string,string> parameters;
-    } queue_job_params;
-	/*
-        Queues the specified command to run as a job
-    */
-	authentication required;
-	funcdef queue_job(queue_job_params input) returns (JobObject job);
-	
-	/* Input parameters for the "set_cofactors" function.
-	
-		list<compound_id> cofactors - list of compounds that are universal cofactors (required)
-		biochemistry_id biochemistry - ID of biochemistry database (optional, default is "default") 
-		workspace_id biochemistry_workspace - ID of workspace containing biochemistry database (optional, default is current workspace)
-		bool reset - true to reset (turn off) compounds as universal cofactors (optional, default is false)
-		bool overwrite - true to overwrite existing object (optional, default is false)
-		string auth - the authentication token of the KBase account (optional, default user is "public")
-	
-	*/
-	typedef structure {
-		list<compound_id> cofactors;
-		biochemistry_id biochemistry;
-		workspace_id biochemistry_workspace;
-		bool reset;
-		bool overwrite;
-		string auth;
-	} set_cofactors_params;
-	authentication required;	
-	funcdef set_cofactors(set_cofactors_params input) returns (object_metadata output);
-	
-	/* Input parameters for the "find_reaction_synonyms" function.
-	
-		reaction_synonyms - ID of reaction synonyms object (required argument)
-		workspace_id workspace - ID of workspace for storing objects (optional argument, default is current workspace)
-		biochemistry_id biochemistry - ID of the biochemistry database (optional argument, default is default)
-		workspace_id biochemistry_workspace - ID of workspace containing biochemistry database (optional argument, default is kbase)
-		overwrite - True to overwrite existing object (optional argument, default is false)
-		string auth - the authentication token of the KBase account (optional argument, default user is "public")
+		/* Input parameters for the "queue_job" function.
 		
-	 */
-	typedef structure {
-		reaction_synonyms_id reaction_synonyms;
-		workspace_id workspace;
-		biochemistry_id biochemistry;
-		workspace_id biochemistry_workspace;
-		bool overwrite;
-		string auth;
-	} find_reaction_synonyms_params;
-	authentication optional;
-	funcdef find_reaction_synonyms(find_reaction_synonyms_params input) returns (object_metadata output);		
+			string method;
+			mapping<string,string> parameters;
+					
+		*/
+		typedef structure {
+			string method;
+			mapping<string,string> parameters;
+	    } queue_job_params;
+		/*
+	        Queues the specified command to run as a job
+	    */
+		authentication required;
+		funcdef queue_job(queue_job_params input) returns (JobObject job);
+		
+		/* Input parameters for the "set_cofactors" function.
+		
+			list<compound_id> cofactors - list of compounds that are universal cofactors (required)
+			biochemistry_id biochemistry - ID of biochemistry database (optional, default is "default") 
+			workspace_id biochemistry_workspace - ID of workspace containing biochemistry database (optional, default is current workspace)
+			bool reset - true to reset (turn off) compounds as universal cofactors (optional, default is false)
+			bool overwrite - true to overwrite existing object (optional, default is false)
+			string auth - the authentication token of the KBase account (optional, default user is "public")
+		
+		*/
+		typedef structure {
+			list<compound_id> cofactors;
+			biochemistry_id biochemistry;
+			workspace_id biochemistry_workspace;
+			bool reset;
+			bool overwrite;
+			string auth;
+		} set_cofactors_params;
 	
+50.funcdef find_reaction_synonyms(find_reaction_synonyms_params input) returns (object_metadata output);	
+	
+		/* Input parameters for the "find_reaction_synonyms" function.
+			reaction_synonyms - ID of reaction synonyms object (required argument)
+			workspace_id workspace - ID of workspace for storing objects (optional argument, default is current workspace)
+			biochemistry_id biochemistry - ID of the biochemistry database (optional argument, default is default)
+			workspace_id biochemistry_workspace - ID of workspace containing biochemistry database (optional argument, default is kbase)
+			overwrite - True to overwrite existing object (optional argument, default is false)
+			string auth - the authentication token of the KBase account (optional argument, default user is "public")
+			
+		 */
+		typedef structure {
+			reaction_synonyms_id reaction_synonyms;
+			workspace_id workspace;
+			biochemistry_id biochemistry;
+			workspace_id biochemistry_workspace;
+			bool overwrite;
+			string auth;
+		} find_reaction_synonyms_params;
+			
+51. funcdef role_to_reactions(role_to_reactions_params params) returns (list<RoleComplexReactions> output);
+
 	/* Input parameters for the "role_to_reactions" function.
-	
 		template_id templateModel - ID of the template model to be used to determine mapping (default is '')
 		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
 		
@@ -1362,12 +1352,11 @@ The Specs are :
     /*
         Retrieves a list of roles mapped to reactions based on input template model
     */
-    authentication optional;
-    funcdef role_to_reactions(role_to_reactions_params params) returns (list<RoleComplexReactions> output);
+    
 	
-	/*********************************************************************************
-	Code relating to assessing model sensitivity to reaction knockouts
-   	*********************************************************************************/
+
+###Code relating to assessing model sensitivity to reaction knockouts
+
 	/*
 	  @id kbsub
 	*/
