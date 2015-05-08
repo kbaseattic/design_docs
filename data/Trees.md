@@ -1,8 +1,5 @@
 #Trees Service (KBaseTrees)
-##Description This service provides a set of methods for querying,
-manipulating, and analyzing multiple sequence alignments and
-phylogenetic trees.  It also has functions to build alignments and
-trees.
+##Description This service provides a set of methods for querying, manipulating, and analyzing multiple sequence alignments and phylogenetic trees.  It also has functions to build alignments and trees.
 
 Note that some of the methods are implemented in Java (where all
 current development is taking place) and other methods are forwarded
