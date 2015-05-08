@@ -48,6 +48,8 @@ The Specs are :
 ##Methods from https://github.com/kbase/KBaseFBAModeling/blob/master/fbaModelServices.spec
 95 Methods.
 
+###Function definitions relating to data retrieval for Model Objects
+
 1. funcdef get_models(get_models_params input) returns (list<FBAModel> out_models);
 
 			/* Input parameters for the "get_models" function.
@@ -246,6 +248,8 @@ The Specs are :
 	    /*
 	    	Returns biochemistry object
 	    */
+
+###Code relating to reconstruction of metabolic models
 
 11. funcdef import_probanno(import_probanno_params input) returns (object_metadata probannoMeta);    
 	
@@ -656,9 +660,8 @@ The Specs are :
 	    */
     
     
-    /*********************************************************************************
-    Code relating to flux balance analysis
-   *********************************************************************************/
+###Code relating to flux balance analysis
+
 
 29. funcdef addmedia(addmedia_params input) returns (object_metadata mediaMeta);
 
@@ -881,9 +884,9 @@ The Specs are :
 
     
     
-    /*********************************************************************************
-    Code relating to phenotype simulation and reconciliation
-   	*********************************************************************************/
+
+###Code relating to phenotype simulation and reconciliation
+
 
 36. funcdef import_phenotypes(import_phenotypes_params input) returns (object_metadata output);
 
@@ -1027,10 +1030,8 @@ The Specs are :
 	    */
 
     
-    
-    /*********************************************************************************
-    Code relating to queuing long running jobs
-   	*********************************************************************************/ 
+### Code relating to queuing long running jobs
+
 41. funcdef queue_runfba(queue_runfba_params input) returns (JobObject job);
 
 	    /* Input parameters for the "queue_runfba" function.
