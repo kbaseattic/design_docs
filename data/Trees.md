@@ -1,5 +1,5 @@
 #Trees Service (KBaseTrees)
-##Description This service provides a set of methods for querying, manipulating, and analyzing multiple sequence alignments and phylogenetic trees.  It also has functions to build alignments and trees.
+##Description: This service provides a set of methods for querying, manipulating, and analyzing multiple sequence alignments and phylogenetic trees.  It also has functions to build alignments and trees.
 
 Note that some of the methods are implemented in Java (where all
 current development is taking place) and other methods are forwarded
@@ -25,7 +25,7 @@ KBasePublicGenomesV3
 https://github.com/kbase/trees
 
 ##Data Sources
-* Central Store - Tables used: Tree, HasTreeAttribute, IsBuiltFromAlignment, IsTreeFrom, Alignment, WasAlignedBy, HasAlignmentAttribute, IncludesAlignmentRow, AlignmentRow, ContainsAlignedProtein, Feature, IsProteinFor, Genome, IsOwnedBy
+* Central Store Tables Used: Tree, HasTreeAttribute, IsBuiltFromAlignment, IsTreeFrom, Alignment, WasAlignedBy, HasAlignmentAttribute, IncludesAlignmentRow, AlignmentRow, ContainsAlignedProtein, Feature, IsProteinFor, Genome, IsOwnedBy, IsAlignmentRowIn, ProteinSequence, IsProteinFor, IsAlignedProteinComponentOf, IsUsedToBuildTree
 * Shock - Sequences belonging to a given MG-RAST sample ID are needed for the compute_abundance_profile method
 
 ##Third Party Software used
@@ -56,11 +56,11 @@ Can optionally contain references to all the following types of objects: Genome 
 * string description;
 * string type;
 * newick_tree tree;
-* mapping <string,string> tree_attributes;
-* mapping <node_id,label> default_node_labels;
-* mapping <node_id,mapping<ref_type,list<ws_obj_id>>> ws_refs;
-* mapping <node_id,mapping<ref_type,list<kbase_id>>> kb_refs;
-* list <node_id> leaf_list;
+* mapping \<string,string\> tree_attributes;
+* mapping \<node_id,label\> default_node_labels;
+* mapping \<node_id,mapping\<ref_type,list\<ws_obj_id\>\>\> ws_refs;
+* mapping \<node_id,mapping\<ref_type,list\<kbase_id\>\>\> kb_refs;
+* list \<node_id\> leaf_list;
 
 ###TreeDecoration
 ####Description
@@ -71,17 +71,17 @@ Refers to a single Tree object in the workspace.
 (not documented further)
 * ws_tree_id tree_id;
 * string viz_title;
-* list<string> string_dataset_labels;
-* list<string> string_dataset_viz_types;
-* list<string> int_dataset_labels;
-* list<string> int_dataset_viz_types;
-* list<string> float_dataset_labels;
-* list<string> float_dataset_viz_types;
-* mapping<tree_elt_id,list<viz_val_string>> tree_val_list_string;
-* mapping<tree_elt_id,list<viz_val_int>> tree_val_list_int;
-* mapping<tree_elt_id,list<viz_val_float>> tree_val_list_float;
-* mapping<tree_node_id,collapsed_node_flag> collapsed_by_node;
-* mapping<tree_node_id,substructure> substructure_by_node;
+* list\<string\> string_dataset_labels;
+* list\<string\> string_dataset_viz_types;
+* list\<string\> int_dataset_labels;
+* list\<string\> int_dataset_viz_types;
+* list\<string\> float_dataset_labels;
+* list\<string\> float_dataset_viz_types;
+* mapping\<tree_elt_id,list\<viz_val_string\>\> tree_val_list_string;
+* mapping\<tree_elt_id,list\<viz_val_int\>\> tree_val_list_int;
+* mapping\<tree_elt_id,list\<viz_val_float\>\> tree_val_list_float;
+* mapping\<tree_node_id,collapsed_node_flag\> collapsed_by_node;
+* mapping\<tree_node_id,substructure\> substructure_by_node;
 * string rooted_flag;
 * node_id alt_root_id;
 
@@ -97,13 +97,13 @@ Can optionally contain references to all the following types of objects: Genome 
 * sequence_type : 'protein' in case sequences are amino acids, 'dna' in ca
 se of nucleotides.
 * int alignment_length : number of columns in alignment.
-* mapping<row_id, sequence> alignment : mapping from sequence id to aligned sequence.
-* mapping <row_id, trim_info> trim_info;
-* mapping <string,string> alignment_attributes;
-* list<row_id> row_order : list of sequence ids defining alignment order (optional). 
-* mapping <node_id,label> default_row_labels;
-* mapping <node_id,mapping<ref_type,list<ws_obj_id>>> ws_refs;
-* mapping <node_id,mapping<ref_type,list<kbase_id>>> kb_refs;
+* mapping\<row_id, sequence\> alignment : mapping from sequence id to aligned sequence.
+* mapping \<row_id, trim_info\> trim_info;
+* mapping \<string,string\> alignment_attributes;
+* list\<row_id\> row_order : list of sequence ids defining alignment order (optional). 
+* mapping \<node_id,label\> default_row_labels;
+* mapping \<node_id,mapping\<ref_type,list\<ws_obj_id\>\>\> ws_refs;
+* mapping \<node_id,mapping\<ref_type,list\<kbase_id\>\>\> kb_refs;
 * ws_alignment_id parent_msa_ref : reference to parental alignment object to which this object adds some new aligned sequences (it could be useful in case of profile alignments where you don't need to insert new gaps in or iginal msa).
 
 ###MSASetElement
@@ -112,7 +112,7 @@ An element in a collection of MSAs.
 ####Relationships
 Contains either (i.e., exclusively) a reference to a MSA in the WS, or an encapsulated MSA.
 ####Fields:
-* mapping<string, string> metadata;
+* mapping\<string, string\> metadata;
 * ws_alignment_id : a reference to a MSA in the workspace, if data is null.
 * MSA data : an encapsulated MSA, if ref is null.
 
@@ -123,7 +123,7 @@ A collection of MSAs.
 Contains list of MSASetElements
 ####Fields:
 * string description;
-* list<MSASetElement> elements;
+* list\<MSASetElement\> elements;
 
 ###TreeMetaData
 ####Description
@@ -149,7 +149,7 @@ Metadata associated with an alignment
 ####Relationships
 Optionally refers to trees in the CS
 ####Fields:
-* list<kbase_id> tree_ids : the set of trees that were built from this alignment
+* list\<kbase_id\> tree_ids : the set of trees that were built from this alignment
 * string status : set to 'active' if this is the latest alignment for a particular set of sequences
 * string sequence_type : indicates what type of sequence is aligned (e.g. protein vs. dna)
 * boolean is_concatenation : true if the alignment is based on the concatenation of multiple non-contiguous sequences, false if each row cooresponds to exactly one sequence (possibly with gaps)
@@ -261,9 +261,9 @@ Optionally refers to trees in the CS
     * kbase_id tree_id;
     * load_alignment_for_tree : if true, load the alignment that was used to build the tree (default = false)
     * string ws_tree_name;
-    * mapping <string,string> additional_tree_ws_metadata;
+    * mapping \<string,string\> additional_tree_ws_metadata;
     * string ws_alignment_name;
-    * mapping <string,string> additional_alignment_ws_metadata;
+    * mapping \<string,string\> additional_alignment_ws_metadata;
     * boolean link_nodes_to_best_feature;
     * boolean link_nodes_to_best_genome;
     * boolean link_nodes_to_best_genome_name;
@@ -285,7 +285,7 @@ Optionally refers to trees in the CS
     * int match_length_threshold;
     * string mg_auth_key;
   * Outputs - 
-    * mapping <string,int> abundances;
+    * mapping \<string,int\> abundances;
     * int n_hits;
     * int n_reads;
   * Data hit : gets MG sequences using the MG-RAST REST API.  CS Tables: ProteinSequence, IsAlignedProteinComponentOf, AlignmentRow, IsAlignmentRowIn, Alignment, IsUsedToBuildTree
@@ -313,7 +313,7 @@ Optionally refers to trees in the CS
 20. Method Name - construct_species_tree [Java, used in Methods insert_genomeset_into_species_tree_generic and insert_set_of_genomes_into_species_tree_generic]
   * Description - Builds a new species tree from Genome objects in the WS
   * Inputs - 
-    * list<genome_ref> new_genomes : (optional) the list of genome references to use in constructing a tree; either new_genomes or genomeset_ref field should be defined.
+    * list\<genome_ref\> new_genomes : (optional) the list of genome references to use in constructing a tree; either new_genomes or genomeset_ref field should be defined.
     * ws_genomeset_id genomeset_ref : (optional) reference to genomeset object; either new_genomes or genomeset_ref field should be defined.
     * string out_workspace;
     * string out_tree_id;
