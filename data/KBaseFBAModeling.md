@@ -1318,7 +1318,7 @@ The Specs are :
 			string auth;
 		} set_cofactors_params;
 	
-50.funcdef find_reaction_synonyms(find_reaction_synonyms_params input) returns (object_metadata output);	
+50. funcdef find_reaction_synonyms(find_reaction_synonyms_params input) returns (object_metadata output);	
 	
 		/* Input parameters for the "find_reaction_synonyms" function.
 			reaction_synonyms - ID of reaction synonyms object (required argument)
@@ -1340,245 +1340,154 @@ The Specs are :
 			
 51. funcdef role_to_reactions(role_to_reactions_params params) returns (list<RoleComplexReactions> output);
 
-	/* Input parameters for the "role_to_reactions" function.
-		template_id templateModel - ID of the template model to be used to determine mapping (default is '')
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		
-	*/
-	typedef structure {
-		template_id templateModel;
-		workspace_id workspace;
-		string auth;
-    } role_to_reactions_params;
-    /*
-        Retrieves a list of roles mapped to reactions based on input template model
-    */
+		/* Input parameters for the "role_to_reactions" function.
+			template_id templateModel - ID of the template model to be used to determine mapping (default is '')
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+		typedef structure {
+			template_id templateModel;
+			workspace_id workspace;
+			string auth;
+		} role_to_reactions_params;
+		/*
+		Retrieves a list of roles mapped to reactions based on input template model
+		*/
     
-	
-
 ###Code relating to assessing model sensitivity to reaction knockouts
 
-	/*
-	  @id kbsub
-	*/
-	typedef string kb_sub_id;
-	
-	/*
-	  @id kb
-	*/
-	typedef string kb_id;
-	
-	/*
-	  @id ws
-	*/
-	typedef string ws_id;
-	
-	/*
-	  @id wssub
-	*/
-	typedef string ws_sub_id;
-	
-	/* ReactionSensitivityAnalysisCorrectedReaction object
-		
-		kb_sub_id kbid - KBase ID for reaction knockout corrected reaction
-		ws_sub_id model_reaction_wsid - ID of model reaction
-		float normalized_required_reaction_count - Normalized count of reactions required for this reaction to function
-		list<ws_sub_id> required_reactions - list of reactions required for this reaction to function
-		
-		@searchable ws_subset kbid model_reaction_kbid required_reactions
-		@optional
-		
-	*/
-	typedef structure {
-		kb_sub_id kbid;
-		ws_sub_id model_reaction_wsid;
-		float normalized_required_reaction_count;
-		list<ws_sub_id> required_reactions;
-    } ReactionSensitivityAnalysisCorrectedReaction;
-	
-	/* Object for holding reaction knockout sensitivity reaction data
-		
-		kb_sub_id kbid - KBase ID for reaction knockout sensitivity reaction
-		ws_sub_id model_reaction_wsid - ID of model reaction
-		bool delete - indicates if reaction is to be deleted
-		bool deleted - indicates if the reaction has been deleted
-		string direction - Direction of reaction that was tested (> is forward, < backward and = both)
-		float growth_fraction - Fraction of wild-type growth after knockout
-		float normalized_activated_reaction_count - Normalized number of activated reactions
-		list<ws_sub_id> biomass_compounds  - List of biomass compounds that depend on the reaction
-		list<ws_sub_id> new_inactive_rxns - List of new reactions dependant upon reaction KO
-		list<ws_sub_id> new_essentials - List of new essential genes with reaction knockout
-	
-	*/
-	typedef structure {
-		kb_sub_id kbid;
-		ws_sub_id model_reaction_wsid;
-		float growth_fraction;
-		bool delete;
-		bool deleted;
-		string direction;
-		float normalized_activated_reaction_count;
-		list<ws_sub_id> biomass_compounds;
-		list<ws_sub_id> new_inactive_rxns;
-		list<ws_sub_id> new_essentials;
-    } ReactionSensitivityAnalysisReaction;
-	
-	/* Object for holding reaction knockout sensitivity results
-	
-		kb_id kbid - KBase ID of reaction sensitivity object
-		ws_id model_wsid - Workspace reference to associated model
-		string type - type of reaction KO sensitivity object
-		bool deleted_noncontributing_reactions - boolean indicating if noncontributing reactions were deleted
-		bool integrated_deletions_in_model - boolean indicating if deleted reactions were implemented in the model
-		list<ReactionSensitivityAnalysisReaction> reactions - list of sensitivity data for tested reactions
-		list<ReactionSensitivityAnalysisCorrectedReaction> corrected_reactions - list of reactions dependant upon tested reactions
-		
-	*/
-    typedef structure {
-		kb_id kbid;
-		ws_id model_wsid;
-		string type;
-		bool deleted_noncontributing_reactions;
-		bool integrated_deletions_in_model;
-		list<ReactionSensitivityAnalysisReaction> reactions;
-		list<ReactionSensitivityAnalysisCorrectedReaction> corrected_reactions;
-    } ReactionSensitivityAnalysis;
+52. funcdef reaction_sensitivity_analysis(reaction_sensitivity_analysis_params input) returns (object_metadata output);
 
-    /* ID for a RxnProbs T.O. (defined in the probabilistic annotation spec) */
-    typedef string rxnprob_id;
-
-	/* Input parameters for the "reaction_sensitivity_analysis" function.
-	
-		fbamodel_id model - ID of model to be analyzed (a required argument)
-		workspace_id model_ws - ID of workspace with model to be analyzed (an optional argument - default is value of workspace argument)
-		string rxnsens_uid - Name of RxnSensitivity object in workspace (an optional argument - default is KBase ID)
-		workspace_id workspace - ID of workspace where output and default inputs will be selected from (a required argument)
-		list<reaction_id> reactions_to_delete - list of reactions to delete in sensitiviity analysis; note, order of the reactions matters (a required argument unless gapfill solution ID is provided)		
-		gapfillsolution_id gapfill_solution_id - A Gapfill solution ID. If provided, all reactions in the provided solution will be tested for deletion.
-		bool delete_noncontributing_reactions - a boolean indicating if unuseful reactions should be deleted when running the analysis (an optional argument - default is "0")
-		rxnprob_id rxnprobs_id - ID for a RxnProbs object in a workspace. If provided less likely reactions will be tested for deletion first in the sensitivity analysis (optional).
-		workspace_id rxnprobs_ws - Workspace in which the RxnProbs object is located (optional - default is the value of the workspace argument).
-		string type - type of Reaction sensitivity analysis (an optional argument - default is "unknown")
-		string auth  - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument)
-	*/
-    typedef structure {
-		fbamodel_id model;
-		workspace_id model_ws;
-		string rxnsens_uid;
-		workspace_id workspace;
-		list<reaction_id> reactions_to_delete;
-		gapfillsolution_id gapfill_solution_id;
-		bool delete_noncontributing_reactions;
-		rxnprob_id rxnprobs_id;
-		workspace_id rxnprobs_ws;
-		string type;
-		string auth;
-    } reaction_sensitivity_analysis_params;
-    /*
-        Queues a sensitivity analysis on the knockout of model reactions
-    */
-    authentication required;
-    funcdef reaction_sensitivity_analysis(reaction_sensitivity_analysis_params input) returns (object_metadata output);
-	
-        /* Input parameters for the "filter_iterative_solutions" function.
-	        fbamodel_id model - Model ID for which to filter iterative gapfill solutions (a required argument)
-		fbamodel_id outmodel - ModelID to which to save the filtered results (by default the filtered model is given the same ID as the input model)
-		float cutoff - Cutoff for cost per reaction above which to remove iterative gapfill solution reactions (a required argument)
-		gapfillsolution_id gapfillsln - Gapfill_solution ID (UUID.solution.#) containing the iterative gapfill solutions to filter (a required argument)
-                string auth - The authorization token of the KBase account with workspace permissions.
-                workspace_id workspace - ID of workspace where output and default inputs will be selected from (a required argument)
-		workspace_id input_model_ws - ID of workspace containing the input model 
+		/* Input parameters for the "reaction_sensitivity_analysis" function.
+			fbamodel_id model - ID of model to be analyzed (a required argument)
+			workspace_id model_ws - ID of workspace with model to be analyzed (an optional argument - default is value of workspace argument)
+			string rxnsens_uid - Name of RxnSensitivity object in workspace (an optional argument - default is KBase ID)
+			workspace_id workspace - ID of workspace where output and default inputs will be selected from (a required argument)
+			list<reaction_id> reactions_to_delete - list of reactions to delete in sensitiviity analysis; note, order of the reactions matters (a required argument unless gapfill solution ID is provided)		
+			gapfillsolution_id gapfill_solution_id - A Gapfill solution ID. If provided, all reactions in the provided solution will be tested for deletion.
+			bool delete_noncontributing_reactions - a boolean indicating if unuseful reactions should be deleted when running the analysis (an optional argument - default is "0")
+			rxnprob_id rxnprobs_id - ID for a RxnProbs object in a workspace. If provided less likely reactions will be tested for deletion first in the sensitivity analysis (optional).
+			workspace_id rxnprobs_ws - Workspace in which the RxnProbs object is located (optional - default is the value of the workspace argument).
+			string type - type of Reaction sensitivity analysis (an optional argument - default is "unknown")
+			string auth  - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument)
 		*/
-    typedef structure {
-	fbamodel_id model;
-	fbamodel_id outmodel;
-	float cutoff;
-	gapfillsolution_id gapfillsln;
-	workspace_id workspace;
-	workspace_id input_model_ws;
-	string auth;
-    } filter_iterative_solutions_params;
+	    typedef structure {
+			fbamodel_id model;
+			workspace_id model_ws;
+			string rxnsens_uid;
+			workspace_id workspace;
+			list<reaction_id> reactions_to_delete;
+			gapfillsolution_id gapfill_solution_id;
+			bool delete_noncontributing_reactions;
+			rxnprob_id rxnprobs_id;
+			workspace_id rxnprobs_ws;
+			string type;
+			string auth;
+	    } reaction_sensitivity_analysis_params;
+	    /*
+	        Queues a sensitivity analysis on the knockout of model reactions
+	    */
 
-    /* 
-        Apply a cutoff to remove high-cost iterations from an iterative gapfill run.
-	*/
-	authentication required;
-	funcdef filter_iterative_solutions(filter_iterative_solutions_params input) returns (object_metadata output);
-	
-	/* Input parameters for the "delete_noncontributing_reactions" function.
-	      workspace_id workspae - Workspace for outputs and default inputs (a required argument)
-	      workspace_id rxn_sensitivity_ws - Workspace for reaction sensitivity object used as input
-	      string rxn_sensitivity - Reaction sensitivity ID
-	      fbamodel_id new_model_uid - ID for output model with noncontributing reactions deleted
-	      string new_rxn_sensitivity_uid - ID for rxnsensitivity object with bits set to indicate reactions were deleted
-	      string auth - Authorization token for user (must have appropriate permissions to read and write objects)
-	*/
-    typedef structure {
-		workspace_id rxn_sensitivity_ws;
-		string rxn_sensitivity;
+53. funcdef delete_noncontributing_reactions(delete_noncontributing_reactions_params input) returns (object_metadata output);
+    
+	        /* Input parameters for the "filter_iterative_solutions" function.
+		        fbamodel_id model - Model ID for which to filter iterative gapfill solutions (a required argument)
+			fbamodel_id outmodel - ModelID to which to save the filtered results (by default the filtered model is given the same ID as the input model)
+			float cutoff - Cutoff for cost per reaction above which to remove iterative gapfill solution reactions (a required argument)
+			gapfillsolution_id gapfillsln - Gapfill_solution ID (UUID.solution.#) containing the iterative gapfill solutions to filter (a required argument)
+	                string auth - The authorization token of the KBase account with workspace permissions.
+	                workspace_id workspace - ID of workspace where output and default inputs will be selected from (a required argument)
+			workspace_id input_model_ws - ID of workspace containing the input model 
+			*/
+	    typedef structure {
+		fbamodel_id model;
+		fbamodel_id outmodel;
+		float cutoff;
+		gapfillsolution_id gapfillsln;
 		workspace_id workspace;
-		fbamodel_id new_model_uid;
-		string new_rxn_sensitivity_uid;
+		workspace_id input_model_ws;
 		string auth;
-    } delete_noncontributing_reactions_params;
-    /*
-        Deleted flagged reactions from a RxnSensitivity object
-    */
-    authentication required;
-    funcdef delete_noncontributing_reactions(delete_noncontributing_reactions_params input) returns (object_metadata output);
+	    } filter_iterative_solutions_params;
 	
-	/*********************************************************************************
-	Code relating to workspace versions of genome analysis algorithms
-   	*********************************************************************************/
-	/* AnnotationParameters: parameters for all annotation functions
-	
-		bool call_selenoproteins - identify all selenoproteins
-		bool call_pyrrolysoproteins - identify all pyrrolysoproteins
-		bool call_RNAs - identify all RNAs
-		bool call_CDSs - identify all CDSs
-		bool find_close_neighbors - identify nearby genomes in CDM
-		bool gene_calling - call genes based on DNA sequences in transcripts or contigs
-		string gene_calling_algorithm - algorithm to use for gene calling
-		mapping<string,string> gene_calling_params - parameters for gene calling algorithm
-		bool assign_functions_to_CDSs - assign functions to proteins
-		string assign_functions_to_CDS_algorithm - algorithm to use for functional annotation
-		mapping<string,string> assign_functions_to_CDS_params - parameters to use for functional annotation
+	    /* 
+	        Apply a cutoff to remove high-cost iterations from an iterative gapfill run.
+		*/
+		authentication required;
+		funcdef filter_iterative_solutions(filter_iterative_solutions_params input) returns (object_metadata output);
 		
-	*/
-	typedef structure {
-		bool call_genes;
-		bool annotate_genes;
-    } AnnotationParameters;
-	
-	/* Input parameters for the "annotate_workspace_Genome" function.
+		/* Input parameters for the "delete_noncontributing_reactions" function.
+		      workspace_id workspae - Workspace for outputs and default inputs (a required argument)
+		      workspace_id rxn_sensitivity_ws - Workspace for reaction sensitivity object used as input
+		      string rxn_sensitivity - Reaction sensitivity ID
+		      fbamodel_id new_model_uid - ID for output model with noncontributing reactions deleted
+		      string new_rxn_sensitivity_uid - ID for rxnsensitivity object with bits set to indicate reactions were deleted
+		      string auth - Authorization token for user (must have appropriate permissions to read and write objects)
+		*/
+	    typedef structure {
+			workspace_id rxn_sensitivity_ws;
+			string rxn_sensitivity;
+			workspace_id workspace;
+			fbamodel_id new_model_uid;
+			string new_rxn_sensitivity_uid;
+			string auth;
+	    } delete_noncontributing_reactions_params;
+	    /*
+	        Deleted flagged reactions from a RxnSensitivity object
+	    */
+
+    
+
+###Code relating to workspace versions of genome analysis algorithms
+
+54. funcdef annotate_workspace_Genome(annotate_workspace_Genome_params params) returns (object_metadata output);
+
+		/* AnnotationParameters: parameters for all annotation functions
 		
-		string Genome_uid - user ID to be assigned to the Genome (required argument)
-		string Genome_ws - workspace with genome for annotation (optional; workspace argument will be used if no genome workspace is provided)
-		string new_uid - new ID to assign to annotated genome (optional; original genome will be overwritten if no new uid is provided)
-		workspace_id workspace - ID of workspace with Genome (required argument)
-		AnnotationParameters parameters - parameters for running annotation job
-		string auth - the authentication token of the KBase account changing workspace permissions
+			bool call_selenoproteins - identify all selenoproteins
+			bool call_pyrrolysoproteins - identify all pyrrolysoproteins
+			bool call_RNAs - identify all RNAs
+			bool call_CDSs - identify all CDSs
+			bool find_close_neighbors - identify nearby genomes in CDM
+			bool gene_calling - call genes based on DNA sequences in transcripts or contigs
+			string gene_calling_algorithm - algorithm to use for gene calling
+			mapping<string,string> gene_calling_params - parameters for gene calling algorithm
+			bool assign_functions_to_CDSs - assign functions to proteins
+			string assign_functions_to_CDS_algorithm - algorithm to use for functional annotation
+			mapping<string,string> assign_functions_to_CDS_params - parameters to use for functional annotation
+			
+		*/
+		typedef structure {
+			bool call_genes;
+			bool annotate_genes;
+	    } AnnotationParameters;
 		
-	*/
-	typedef structure {
-		string Genome_uid;
-		string Genome_ws;
-		string new_uid;
-		workspace_id workspace;
-		AnnotationParameters annotation_parameters;
-		string auth;
-    } annotate_workspace_Genome_params;
-    /*
-		Create a job that runs the genome annotation pipeline on a genome object in a workspace
-    */
-    authentication required;
-    funcdef annotate_workspace_Genome(annotate_workspace_Genome_params params) returns (object_metadata output);
-	
-	/*********************************************************************************
-	Code relating to import and analysis of ProteinSets
-   	*********************************************************************************/
+		/* Input parameters for the "annotate_workspace_Genome" function.
+			
+			string Genome_uid - user ID to be assigned to the Genome (required argument)
+			string Genome_ws - workspace with genome for annotation (optional; workspace argument will be used if no genome workspace is provided)
+			string new_uid - new ID to assign to annotated genome (optional; original genome will be overwritten if no new uid is provided)
+			workspace_id workspace - ID of workspace with Genome (required argument)
+			AnnotationParameters parameters - parameters for running annotation job
+			string auth - the authentication token of the KBase account changing workspace permissions
+			
+		*/
+		typedef structure {
+			string Genome_uid;
+			string Genome_ws;
+			string new_uid;
+			workspace_id workspace;
+			AnnotationParameters annotation_parameters;
+			string auth;
+	    } annotate_workspace_Genome_params;
+	    /*
+			Create a job that runs the genome annotation pipeline on a genome object in a workspace
+	    */
+
+###Code relating to import and analysis of ProteinSets
+
+55. funcdef gtf_to_genome(gtf_to_genome_params params) returns (object_metadata output);
+
 	/* Input parameters for the "gtf_to_genome" function.
-	
 		string contigset;
 		workspace_id contigset_ws;
 		workspace_id workspace;	
@@ -1590,7 +1499,6 @@ The Specs are :
 		int genetic_code;
 		string taxonomy;
 		string gtf_file;
-		
 	*/
 	typedef structure {
 		string contigset;
@@ -1608,96 +1516,91 @@ The Specs are :
     /*
 		Loads a gtf file to a genome typed object in the workspace      
     */
-    authentication required;
-    funcdef gtf_to_genome(gtf_to_genome_params params) returns (object_metadata output);
-	
-	/* Input parameters for the "fasta_to_ProteinSet" function.
-	
-		string uid - user assigned ID for the protein set (optional)
-		string fasta - string with sequence data from fasta file (required argument)
-		workspace_id workspace - ID of workspace for storing objects (required argument)
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		string name - name of the protein data (optional)
-		string sourceid - source ID of the protein data (optional)
-		string source - source of the protein data (optional)
-		string type - type of the protein set (optional)
-		
-	*/
-	typedef structure {
-		string uid;
-		string fasta;
-		workspace_id workspace;
-		string auth;
-		string name;
-		string sourceid;
-		string source;
-		string type;
-    } fasta_to_ProteinSet_params;
-    /*
-		Loads a fasta file as a ProteinSet object in the workspace       
-    */
-    authentication required;
-    funcdef fasta_to_ProteinSet(fasta_to_ProteinSet_params params) returns (object_metadata output);
     
-    /* Input parameters for the "ProteinSet_to_Genome" function.
+56. funcdef fasta_to_ProteinSet(fasta_to_ProteinSet_params params) returns (object_metadata output);
 	
-		string ProteinSet_uid - ID to be assigned to the ProteinSet (required argument)
-		workspace_id ProteinSet_ws - ID of workspace with the ProteinSet (optional argument; default is value of workspace argument)
-		string uid - user assigned ID for the Genome (optional)
-		workspace_id workspace - ID of workspace for storing objects (required argument)
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		string scientific_name - scientific name to assign to genome
-		string domain - domain of life for genome
-		int genetic_code - genetic code to assign to genome
-		
-	*/
-	typedef structure {
-		string ProteinSet_uid;
-		workspace_id ProteinSet_ws;
-		workspace_id workspace;
-		string uid;
-		string auth;
-		string scientific_name;
-		string domain;
-		AnnotationParameters annotation_parameters;
-    } ProteinSet_to_Genome_params;
-    /*
-		Creates a Genome associated with the ProteinSet object. You cannot recall genes on this genome.  
-    */
-    authentication required;
-    funcdef ProteinSet_to_Genome(ProteinSet_to_Genome_params params) returns (object_metadata output);
+		/* Input parameters for the "fasta_to_ProteinSet" function.
+			string uid - user assigned ID for the protein set (optional)
+			string fasta - string with sequence data from fasta file (required argument)
+			workspace_id workspace - ID of workspace for storing objects (required argument)
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			string name - name of the protein data (optional)
+			string sourceid - source ID of the protein data (optional)
+			string source - source of the protein data (optional)
+			string type - type of the protein set (optional)
+			
+		*/
+		typedef structure {
+			string uid;
+			string fasta;
+			workspace_id workspace;
+			string auth;
+			string name;
+			string sourceid;
+			string source;
+			string type;
+	    } fasta_to_ProteinSet_params;
+	    /*
+			Loads a fasta file as a ProteinSet object in the workspace       
+	    */
+57. funcdef ProteinSet_to_Genome(ProteinSet_to_Genome_params params) returns (object_metadata output);    
     
-	/*********************************************************************************
-	Code relating to import and analysis of Contigs
-   	*********************************************************************************/
-	
-	/* Input parameters for the "fasta_to_ContigSet" function.
-	
-		string uid - user assigned ID for the ContigSet (optional)
-		string fasta - string with sequence data from fasta file (required argument)
-		workspace_id workspace - ID of workspace for storing objects (required argument)
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		string name - name of the ContigSet data (optional)
-		string sourceid - source ID of the ContigSet data (optional)
-		string source - source of the ContigSet data (optional)
-		string type - type of the ContigSet (optional)
-		
-	*/
-	typedef structure {
-		string uid;
-		string fasta;
-		workspace_id workspace;
-		string auth;
-		string name;
-		string sourceid;
-		string source;
-		string type;
-    } fasta_to_ContigSet_params;
-    /*
-		Loads a fasta file as a ContigSet object in the workspace       
-    */
-    authentication required;
-    funcdef fasta_to_ContigSet(fasta_to_ContigSet_params params) returns (object_metadata output);
+	    /* Input parameters for the "ProteinSet_to_Genome" function.
+			string ProteinSet_uid - ID to be assigned to the ProteinSet (required argument)
+			workspace_id ProteinSet_ws - ID of workspace with the ProteinSet (optional argument; default is value of workspace argument)
+			string uid - user assigned ID for the Genome (optional)
+			workspace_id workspace - ID of workspace for storing objects (required argument)
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			string scientific_name - scientific name to assign to genome
+			string domain - domain of life for genome
+			int genetic_code - genetic code to assign to genome
+			
+		*/
+		typedef structure {
+			string ProteinSet_uid;
+			workspace_id ProteinSet_ws;
+			workspace_id workspace;
+			string uid;
+			string auth;
+			string scientific_name;
+			string domain;
+			AnnotationParameters annotation_parameters;
+	    } ProteinSet_to_Genome_params;
+	    /*
+			Creates a Genome associated with the ProteinSet object. You cannot recall genes on this genome.  
+	    */
+	    authentication required;
+    
+###Code relating to import and analysis of Contigs
+
+58. funcdef fasta_to_ContigSet(fasta_to_ContigSet_params params) returns (object_metadata output);
+
+		/* Input parameters for the "fasta_to_ContigSet" function.
+			string uid - user assigned ID for the ContigSet (optional)
+			string fasta - string with sequence data from fasta file (required argument)
+			workspace_id workspace - ID of workspace for storing objects (required argument)
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			string name - name of the ContigSet data (optional)
+			string sourceid - source ID of the ContigSet data (optional)
+			string source - source of the ContigSet data (optional)
+			string type - type of the ContigSet (optional)
+			
+		*/
+		typedef structure {
+			string uid;
+			string fasta;
+			workspace_id workspace;
+			string auth;
+			string name;
+			string sourceid;
+			string source;
+			string type;
+	    } fasta_to_ContigSet_params;
+	    /*
+			Loads a fasta file as a ContigSet object in the workspace       
+	    */
+	    authentication required;
+    
     
 	/* Input parameters for the "ContigSet_to_Genome" function.
 	
