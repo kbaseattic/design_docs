@@ -884,33 +884,36 @@ The Specs are :
     /*********************************************************************************
     Code relating to phenotype simulation and reconciliation
    	*********************************************************************************/
-    /* Input parameters for the "import_phenotypes" function.
-	
-		phenotype_set_id phenotypeSet - ID to be used for the imported phenotype set (an optional argument: default is 'undef')
-		workspace_id workspace - workspace where the imported phenotype set should be stored (a required argument)
-		genome_id genome - genome the imported phenotypes should be associated with (a required argument)
-		workspace_id genome_workspace - workspace containing the genome object (an optional argument: default is value of the workspace argument)
-		list<Phenotype> phenotypes - list of observed phenotypes to be imported (a required argument)
-		bool ignore_errors - a flag indicating that any errors encountered during the import should be ignored (an optional argument: default is '0')
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+
+36. funcdef import_phenotypes(import_phenotypes_params input) returns (object_metadata output);
+
+	    /* Input parameters for the "import_phenotypes" function.
 		
-	*/
-    typedef structure {
-		phenotype_set_id phenotypeSet;
-		workspace_id workspace;
-		genome_id genome;
-		workspace_id genome_workspace;
-		list<Phenotype> phenotypes;
-		string name;
-		string source;
-		bool ignore_errors;
-		string auth;
-    } import_phenotypes_params;
-    /*
-        Loads the specified phenotypes into the workspace
-    */
-    authentication required;
-    funcdef import_phenotypes(import_phenotypes_params input) returns (object_metadata output);
+			phenotype_set_id phenotypeSet - ID to be used for the imported phenotype set (an optional argument: default is 'undef')
+			workspace_id workspace - workspace where the imported phenotype set should be stored (a required argument)
+			genome_id genome - genome the imported phenotypes should be associated with (a required argument)
+			workspace_id genome_workspace - workspace containing the genome object (an optional argument: default is value of the workspace argument)
+			list<Phenotype> phenotypes - list of observed phenotypes to be imported (a required argument)
+			bool ignore_errors - a flag indicating that any errors encountered during the import should be ignored (an optional argument: default is '0')
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+	    typedef structure {
+			phenotype_set_id phenotypeSet;
+			workspace_id workspace;
+			genome_id genome;
+			workspace_id genome_workspace;
+			list<Phenotype> phenotypes;
+			string name;
+			string source;
+			bool ignore_errors;
+			string auth;
+	    } import_phenotypes_params;
+	    /*
+	        Loads the specified phenotypes into the workspace
+	    */
+
+37. funcdef simulate_phenotypes (simulate_phenotypes_params input) returns (object_metadata output);    
     
     /* Input parameters for the "simulate_phenotypes" function.
 	
@@ -943,172 +946,174 @@ The Specs are :
     /*
         Simulates the specified phenotype set
     */
-    authentication required;
-    funcdef simulate_phenotypes (simulate_phenotypes_params input) returns (object_metadata output);
     
-    /* Input parameters for the add_media_transporters function.
-
-    	phenotype_set_id phenotypeSet - ID for a phenotype set (required)
-	    workspace_id phenotypeSet_workspace - ID for the workspace in which the phenotype set is found
-		fbamodel_id model - Model to which to add the transport reactions (required)
-		workspace_id model_workspace - workspace containing the input model
-		fbamodel_id outmodel - Name of output model (with transporters added)
-		workspace_id workspace - workspace where the modified model should be saved
-		bool overwrite - Overwrite or not
-		string auth - Auth string
-		bool all_transporters - Add transporters for ALL media in the phenotypeset
-		bool positive_transporters - Add transporters for only POSITIVE (non-zero growth) media in the phenotype set
-
-    */
-    typedef structure {
-		phenotype_set_id phenotypeSet;
-		workspace_id phenotypeSet_workspace;
-		fbamodel_id model;
-		workspace_id model_workspace;
-		fbamodel_id outmodel;
-		workspace_id workspace;
-		bool overwrite;
-		string auth;
-		bool all_transporters;
-		bool positive_transporters;
-    } add_media_transporters_params;
-
-    /*
-         Adds transporters for media in a PhenotypeSet to a model
-	 
-    */
-    authentication required;
-    funcdef add_media_transporters (add_media_transporters_params input) returns (object_metadata output);
-	
-    /* Input parameters for the "export_phenotypeSimulationSet" function.
-	
-		phenotypeSimulationSet_id phenotypeSimulationSet - ID of the phenotype simulation set to be exported (a required argument)
-		workspace_id workspace - workspace where the phenotype simulation set is stored (a required argument)
-		string format - format to which phenotype simulation set should be exported (html, json)
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		
-	*/
-    typedef structure {
-		phenotypeSimulationSet_id phenotypeSimulationSet;
-		workspace_id workspace;
-		string format;
-		string auth;
-    } export_phenotypeSimulationSet_params;
-    /*
-        Export a PhenotypeSimulationSet for viewing
-    */
-    authentication optional;
-    funcdef export_phenotypeSimulationSet (export_phenotypeSimulationSet_params input) returns (string output);
+38. funcdef add_media_transporters (add_media_transporters_params input) returns (object_metadata output);
     
-    /* Input parameters for the "integrate_reconciliation_solutions" function.
+	    /* Input parameters for the add_media_transporters function.
+	    	phenotype_set_id phenotypeSet - ID for a phenotype set (required)
+		    workspace_id phenotypeSet_workspace - ID for the workspace in which the phenotype set is found
+			fbamodel_id model - Model to which to add the transport reactions (required)
+			workspace_id model_workspace - workspace containing the input model
+			fbamodel_id outmodel - Name of output model (with transporters added)
+			workspace_id workspace - workspace where the modified model should be saved
+			bool overwrite - Overwrite or not
+			string auth - Auth string
+			bool all_transporters - Add transporters for ALL media in the phenotypeset
+			bool positive_transporters - Add transporters for only POSITIVE (non-zero growth) media in the phenotype set
 	
-		fbamodel_id model - ID of model for which reconciliation solutions should be integrated (a required argument)
-		workspace_id model_workspace - workspace containing model for which solutions should be integrated (an optional argument: default is value of workspace argument)
-		list<gapfillsolution_id> gapfillSolutions - list of gapfill solutions to be integrated (a required argument)
-		list<gapgensolution_id> gapgenSolutions - list of gapgen solutions to be integrated (a required argument)
-		fbamodel_id out_model - ID to which modified model should be saved (an optional argument: default is value of workspace argument)
-		workspace_id workspace - workspace where modified model should be saved (a required argument)
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+	    */
+	    typedef structure {
+			phenotype_set_id phenotypeSet;
+			workspace_id phenotypeSet_workspace;
+			fbamodel_id model;
+			workspace_id model_workspace;
+			fbamodel_id outmodel;
+			workspace_id workspace;
+			bool overwrite;
+			string auth;
+			bool all_transporters;
+			bool positive_transporters;
+	    } add_media_transporters_params;
+	
+	    /*
+	         Adds transporters for media in a PhenotypeSet to a model
+		 
+	    */
+
+39. funcdef export_phenotypeSimulationSet (export_phenotypeSimulationSet_params input) returns (string output);    
+	
+	    /* Input parameters for the "export_phenotypeSimulationSet" function.
+			phenotypeSimulationSet_id phenotypeSimulationSet - ID of the phenotype simulation set to be exported (a required argument)
+			workspace_id workspace - workspace where the phenotype simulation set is stored (a required argument)
+			string format - format to which phenotype simulation set should be exported (html, json)
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+	    typedef structure {
+			phenotypeSimulationSet_id phenotypeSimulationSet;
+			workspace_id workspace;
+			string format;
+			string auth;
+	    } export_phenotypeSimulationSet_params;
+	    /*
+	        Export a PhenotypeSimulationSet for viewing
+	    */
+
+40. funcdef integrate_reconciliation_solutions(integrate_reconciliation_solutions_params input) returns (object_metadata modelMeta);    
+    
+	    /* Input parameters for the "integrate_reconciliation_solutions" function.
 		
-	*/
-    typedef structure {
-		fbamodel_id model;
-		workspace_id model_workspace;
-		list<gapfillsolution_id> gapfillSolutions;
-		list<gapgensolution_id> gapgenSolutions;
-		fbamodel_id out_model;
-		workspace_id workspace;
-		string auth;
-		bool overwrite;
-    } integrate_reconciliation_solutions_params;
-    /*
-        Integrates the specified gapfill and gapgen solutions into the specified model
-    */
-    authentication required;
-    funcdef integrate_reconciliation_solutions(integrate_reconciliation_solutions_params input) returns (object_metadata modelMeta);
+			fbamodel_id model - ID of model for which reconciliation solutions should be integrated (a required argument)
+			workspace_id model_workspace - workspace containing model for which solutions should be integrated (an optional argument: default is value of workspace argument)
+			list<gapfillsolution_id> gapfillSolutions - list of gapfill solutions to be integrated (a required argument)
+			list<gapgensolution_id> gapgenSolutions - list of gapgen solutions to be integrated (a required argument)
+			fbamodel_id out_model - ID to which modified model should be saved (an optional argument: default is value of workspace argument)
+			workspace_id workspace - workspace where modified model should be saved (a required argument)
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+	    typedef structure {
+			fbamodel_id model;
+			workspace_id model_workspace;
+			list<gapfillsolution_id> gapfillSolutions;
+			list<gapgensolution_id> gapgenSolutions;
+			fbamodel_id out_model;
+			workspace_id workspace;
+			string auth;
+			bool overwrite;
+	    } integrate_reconciliation_solutions_params;
+	    /*
+	        Integrates the specified gapfill and gapgen solutions into the specified model
+	    */
+
+    
     
     /*********************************************************************************
     Code relating to queuing long running jobs
    	*********************************************************************************/ 
-    /* Input parameters for the "queue_runfba" function.
+41. funcdef queue_runfba(queue_runfba_params input) returns (JobObject job);
+
+	    /* Input parameters for the "queue_runfba" function.
+			fbamodel_id model - ID of the model that FBA should be run on (a required argument)
+			workspace_id model_workspace - workspace where model for FBA should be run (an optional argument; default is the value of the workspace argument)
+			FBAFormulation formulation - a hash specifying the parameters for the FBA study (an optional argument)
+			bool fva - a flag indicating if flux variability should be run (an optional argument: default is '0')
+			bool simulateko - a flag indicating if flux variability should be run (an optional argument: default is '0')
+			bool minimizeflux - a flag indicating if flux variability should be run (an optional argument: default is '0')
+			bool findminmedia - a flag indicating if flux variability should be run (an optional argument: default is '0')
+			string notes - a string of notes to attach to the FBA study (an optional argument; defaul is '')
+			fba_id fba - ID under which the FBA results should be saved (an optional argument; defaul is 'undef')
+			workspace_id workspace - workspace where FBA results will be saved (a required argument)
+			bool add_to_model - a flag indicating if the FBA study should be attached to the model to support viewing results (an optional argument: default is '0')
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+	    typedef structure {
+	    	fbamodel_id model;
+			workspace_id model_workspace;
+			FBAFormulation formulation;
+			bool fva;
+			bool simulateko;
+			bool minimizeflux;
+			bool findminmedia;
+			string notes;
+			fba_id fba;
+			workspace_id workspace;
+			string auth;
+			bool overwrite;
+			bool add_to_model;
+	    } queue_runfba_params;
+		/*
+	        Queues an FBA job in a single media condition
+	    */
+
+42. funcdef queue_gapfill_model(gapfill_model_params input) returns (JobObject job);
+
+	Uses the same as 43
 	
-		fbamodel_id model - ID of the model that FBA should be run on (a required argument)
-		workspace_id model_workspace - workspace where model for FBA should be run (an optional argument; default is the value of the workspace argument)
-		FBAFormulation formulation - a hash specifying the parameters for the FBA study (an optional argument)
-		bool fva - a flag indicating if flux variability should be run (an optional argument: default is '0')
-		bool simulateko - a flag indicating if flux variability should be run (an optional argument: default is '0')
-		bool minimizeflux - a flag indicating if flux variability should be run (an optional argument: default is '0')
-		bool findminmedia - a flag indicating if flux variability should be run (an optional argument: default is '0')
-		string notes - a string of notes to attach to the FBA study (an optional argument; defaul is '')
-		fba_id fba - ID under which the FBA results should be saved (an optional argument; defaul is 'undef')
-		workspace_id workspace - workspace where FBA results will be saved (a required argument)
-		bool add_to_model - a flag indicating if the FBA study should be attached to the model to support viewing results (an optional argument: default is '0')
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		
-	*/
-    typedef structure {
-    	fbamodel_id model;
-		workspace_id model_workspace;
-		FBAFormulation formulation;
-		bool fva;
-		bool simulateko;
-		bool minimizeflux;
-		bool findminmedia;
-		string notes;
-		fba_id fba;
-		workspace_id workspace;
-		string auth;
-		bool overwrite;
-		bool add_to_model;
-    } queue_runfba_params;
-	/*
-        Queues an FBA job in a single media condition
-    */
-	authentication required;
-	funcdef queue_runfba(queue_runfba_params input) returns (JobObject job);
+43. funcdef gapfill_model(gapfill_model_params input) returns (object_metadata modelMeta);
    
-	/* Input parameters for the "queue_gapfill_model" function.
-	
-		fbamodel_id model - ID of the model that gapfill should be run on (a required argument)
-		workspace_id model_workspace - workspace where model for gapfill should be run (an optional argument; default is the value of the workspace argument)
-		GapfillingFormulation formulation - a hash specifying the parameters for the gapfill study (an optional argument)
-		phenotype_set_id phenotypeSet - ID of a phenotype set against which gapfilled model should be simulated (an optional argument: default is 'undef')
-		workspace_id phenotypeSet_workspace - workspace containing phenotype set to be simulated (an optional argument; default is the value of the workspace argument)
-		bool integrate_solution - a flag indicating if the first solution should be integrated in the model (an optional argument: default is '0')
-		list<string> target_reactions - a list of reactions to activate with gapfilling
-		fbamodel_id out_model - ID where the gapfilled model will be saved (an optional argument: default is 'undef')
-		gapfill_id gapFill - ID to which gapfill solution will be saved (an optional argument: default is 'undef')
-		workspace_id workspace - workspace where gapfill results will be saved (a required argument)
-		int timePerSolution - maximum time to spend to obtain each solution
-		int totalTimeLimit - maximum time to spend to obtain all solutions
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
-		bool completeGapfill - boolean indicating that all inactive reactions should be gapfilled
-	*/
-    typedef structure {
-		fbamodel_id model;
-		workspace_id model_workspace;
-		GapfillingFormulation formulation;
-		phenotype_set_id phenotypeSet;
-		workspace_id phenotypeSet_workspace;
-		bool integrate_solution;
-		list<string> target_reactions;
-		fbamodel_id out_model;
-		workspace_id workspace;
-		gapfill_id gapFill;
-		int timePerSolution;
-		int totalTimeLimit;
-		string auth;
-		bool overwrite;
-		bool completeGapfill;
-    } gapfill_model_params;
-    /*
-        Queues an FBAModel gapfilling job in single media condition
-    */
-    authentication required;
-    funcdef queue_gapfill_model(gapfill_model_params input) returns (JobObject job);
+		/* Input parameters for the "queue_gapfill_model" function.
+			fbamodel_id model - ID of the model that gapfill should be run on (a required argument)
+			workspace_id model_workspace - workspace where model for gapfill should be run (an optional argument; default is the value of the workspace argument)
+			GapfillingFormulation formulation - a hash specifying the parameters for the gapfill study (an optional argument)
+			phenotype_set_id phenotypeSet - ID of a phenotype set against which gapfilled model should be simulated (an optional argument: default is 'undef')
+			workspace_id phenotypeSet_workspace - workspace containing phenotype set to be simulated (an optional argument; default is the value of the workspace argument)
+			bool integrate_solution - a flag indicating if the first solution should be integrated in the model (an optional argument: default is '0')
+			list<string> target_reactions - a list of reactions to activate with gapfilling
+			fbamodel_id out_model - ID where the gapfilled model will be saved (an optional argument: default is 'undef')
+			gapfill_id gapFill - ID to which gapfill solution will be saved (an optional argument: default is 'undef')
+			workspace_id workspace - workspace where gapfill results will be saved (a required argument)
+			int timePerSolution - maximum time to spend to obtain each solution
+			int totalTimeLimit - maximum time to spend to obtain all solutions
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			bool completeGapfill - boolean indicating that all inactive reactions should be gapfilled
+		*/
+	    typedef structure {
+			fbamodel_id model;
+			workspace_id model_workspace;
+			GapfillingFormulation formulation;
+			phenotype_set_id phenotypeSet;
+			workspace_id phenotypeSet_workspace;
+			bool integrate_solution;
+			list<string> target_reactions;
+			fbamodel_id out_model;
+			workspace_id workspace;
+			gapfill_id gapFill;
+			int timePerSolution;
+			int totalTimeLimit;
+			string auth;
+			bool overwrite;
+			bool completeGapfill;
+	    } gapfill_model_params;
+	    /*
+	        Queues an FBAModel gapfilling job in single media condition
+	    */
+
     
-    authentication required;
-    funcdef gapfill_model(gapfill_model_params input) returns (object_metadata modelMeta);
+    
+  
+    
     
     /* Input parameters for the "queue_gapgen_model" function.
 	
