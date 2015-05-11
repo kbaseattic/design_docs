@@ -1911,227 +1911,232 @@ The Specs are :
 	    */
 	    authentication required;
     
-68.	
+68. funcdef adjust_template_reaction(adjust_template_reaction_params params) returns (object_metadata modelMeta);	
+		typedef structure {
+			template_id templateModel;
+			workspace_id workspace;
+			string reaction;
+			bool clearComplexes;
+			bool new;
+			bool delete;
+			compartment_id compartment;
+			list<complex_id> complexesToAdd;
+			list<complex_id> complexesToRemove;
+			string direction;
+			string type;
+			string auth;
+	    } adjust_template_reaction_params;
+	    /*
+			Modifies a reaction of a template model       
+	    */
+	    authentication required;
+	    
+69. funcdef adjust_template_biomass(adjust_template_biomass_params params) returns (object_metadata modelMeta);
+	
+		typedef structure {
+			template_id templateModel;
+			workspace_id workspace;
+			string biomass;
+			bool new;
+			bool delete;
+			bool clearBiomassCompounds;
+			string name;
+			string type;
+			string other;
+			string protein;
+			string dna;
+			string rna;
+			string cofactor;
+			string energy;
+			string cellwall;
+			string lipid;
+			list<tuple<compound_id compound,compartment_id compartment>> compoundsToRemove;
+			list<tuple<compound_id compound,compartment_id compartment,string cpdclass,string universal,string coefficientType,string coefficient,list<tuple<string coeffficient,compound_id compound> > linkedCompounds>> compoundsToAdd;
+			string auth;
+	    } adjust_template_biomass_params;
+	    /*
+			Modifies the biomass of a template model        
+	    */
+	    authentication required;
 
-	typedef structure {
-		template_id templateModel;
-		workspace_id workspace;
-		string reaction;
-		bool clearComplexes;
-		bool new;
-		bool delete;
-		compartment_id compartment;
-		list<complex_id> complexesToAdd;
-		list<complex_id> complexesToRemove;
-		string direction;
-		string type;
-		string auth;
-    } adjust_template_reaction_params;
-    /*
-		Modifies a reaction of a template model       
-    */
-    authentication required;
-    funcdef adjust_template_reaction(adjust_template_reaction_params params) returns (object_metadata modelMeta);
 	
-	typedef structure {
-		template_id templateModel;
-		workspace_id workspace;
-		string biomass;
-		bool new;
-		bool delete;
-		bool clearBiomassCompounds;
-		string name;
-		string type;
-		string other;
-		string protein;
-		string dna;
-		string rna;
-		string cofactor;
-		string energy;
-		string cellwall;
-		string lipid;
-		list<tuple<compound_id compound,compartment_id compartment>> compoundsToRemove;
-		list<tuple<compound_id compound,compartment_id compartment,string cpdclass,string universal,string coefficientType,string coefficient,list<tuple<string coeffficient,compound_id compound> > linkedCompounds>> compoundsToAdd;
-		string auth;
-    } adjust_template_biomass_params;
-    /*
-		Modifies the biomass of a template model        
-    */
-    authentication required;
-    funcdef adjust_template_biomass(adjust_template_biomass_params params) returns (object_metadata modelMeta);
-	
-	/*********************************************************************************
-    Code relating to reconstruction, import, and analysis of regulatory models
-   	*********************************************************************************/
+
+###Code relating to reconstruction, import, and analysis of regulatory models
+
+70. funcdef add_stimuli(add_stimuli_params params) returns (object_metadata output);
+
 	/* Input parameters for the "add_stimuli" function.
-	
-		string biochemid - ID of biochemistry with stimuli (optional)
-		string biochem_workspace - ID of workspace with biochemistry with stimuli (optional)
-		string stimuliid - ID for the stimuli to be created (optional)
-		string name - Name for the stimuli (required)
-		string abbreviation - Abbreviation for the stimuli (optional)
-		string type - Type of the stimuli (required)
-		list<string> compounds - Compounds associated with stimuli (optional)
-		string workspace - ID of workspace where all output objects will be stored (optional argument, default is current workspace)
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
 		
-	*/
-	typedef structure {
-		string biochemid;
-		string biochem_workspace;
-		string stimuliid;
-		string name;
-		string abbreviation;
-		string type;
-		string description;
-		list<string> compounds;
-		string workspace;
-		string auth;
-    } add_stimuli_params;
-    /*
-		Adds a stimuli either to the central database or as an object in a workspace        
-    */
-    authentication required;
-    funcdef add_stimuli(add_stimuli_params params) returns (object_metadata output);
+			string biochemid - ID of biochemistry with stimuli (optional)
+			string biochem_workspace - ID of workspace with biochemistry with stimuli (optional)
+			string stimuliid - ID for the stimuli to be created (optional)
+			string name - Name for the stimuli (required)
+			string abbreviation - Abbreviation for the stimuli (optional)
+			string type - Type of the stimuli (required)
+			list<string> compounds - Compounds associated with stimuli (optional)
+			string workspace - ID of workspace where all output objects will be stored (optional argument, default is current workspace)
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+		typedef structure {
+			string biochemid;
+			string biochem_workspace;
+			string stimuliid;
+			string name;
+			string abbreviation;
+			string type;
+			string description;
+			list<string> compounds;
+			string workspace;
+			string auth;
+	    } add_stimuli_params;
+	    /*
+			Adds a stimuli either to the central database or as an object in a workspace        
+	    */
+	    authentication required;
     
-    
-    typedef structure {
-		kbase_id kbid;
-		string name;
-		string abbreviation;
-		string description;
-		string type;
-		list<kbase_id> compound_kbids;
-    } Stimuli;
-    
-    typedef structure {
-		kbase_id kbid;
-		kbase_id stimuli_kbid;
-		bool is_inhibitor;
-		float strength;
-		float min_concentration;
-		float max_concentration;
-		list<kbase_id> regulator_kbids;	
-    } RegulatoryModelRegulonStimuli;
-    
-    typedef structure {
-		kbase_id kbid;
-		string name;
-		list<kbase_id> feature_kbids;
-		list<RegulatoryModelRegulonStimuli> stimuli;
-    } RegulatoryModelRegulon;
-    
-	typedef structure {
-		kbase_id kbid;
-		string name;
-		string type;
-		ws_ref genome_wsid;
-		list<RegulatoryModelRegulon> regulons;
-    } RegulatoryModel;
-	
-	typedef structure {
-		string regmodel_uid;
-		workspace_id workspace;
-		string genome;
-		workspace_id genome_ws;
-		string name;
-		string type;
-		list<tuple<string name,list<string> features,list<tuple<string stimuli,bool in_inhibitor,float strength,float min_conc,float max_conc,list<kbase_id> regulators>> stimuli>> regulons;
-		string auth;
-    } import_regulatory_model_params;
-    /*
-		Imports a regulatory model into the KBase workspace       
-    */
-    authentication required;
-    funcdef import_regulatory_model(import_regulatory_model_params params) returns (object_metadata output);
-	
-    /*********************************************************************************
-    Functions relating to comparison of models
-   	*********************************************************************************/
-   	/* Input parameters for the "compare_models" function.
-	
-		string tag - tag of error to be retrieved
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+71. funcdef import_regulatory_model(import_regulatory_model_params params) returns (object_metadata output);    
+  
+	    typedef structure {
+			kbase_id kbid;
+			string name;
+			string abbreviation;
+			string description;
+			string type;
+			list<kbase_id> compound_kbids;
+	    } Stimuli;
+	    
+	    typedef structure {
+			kbase_id kbid;
+			kbase_id stimuli_kbid;
+			bool is_inhibitor;
+			float strength;
+			float min_concentration;
+			float max_concentration;
+			list<kbase_id> regulator_kbids;	
+	    } RegulatoryModelRegulonStimuli;
+	    
+	    typedef structure {
+			kbase_id kbid;
+			string name;
+			list<kbase_id> feature_kbids;
+			list<RegulatoryModelRegulonStimuli> stimuli;
+	    } RegulatoryModelRegulon;
+	    
+		typedef structure {
+			kbase_id kbid;
+			string name;
+			string type;
+			ws_ref genome_wsid;
+			list<RegulatoryModelRegulon> regulons;
+	    } RegulatoryModel;
 		
-	*/
-	typedef structure {
-		list<fbamodel_id> models;
-		list<workspace_id> workspaces;
-		string auth;
-    } compare_models_params;
+		typedef structure {
+			string regmodel_uid;
+			workspace_id workspace;
+			string genome;
+			workspace_id genome_ws;
+			string name;
+			string type;
+			list<tuple<string name,list<string> features,list<tuple<string stimuli,bool in_inhibitor,float strength,float min_conc,float max_conc,list<kbase_id> regulators>> stimuli>> regulons;
+			string auth;
+	    } import_regulatory_model_params;
+	    /*
+			Imports a regulatory model into the KBase workspace       
+	    */
+	    authentication required;
     
-    /* Data structure to hold model comparison data
 	
-		fbamodel_id model - id of the fba model
-		workspace_id workspace - id of workspace with model
-		string model_name - name of the fba model
-		genome_id genome - id of the genome for the fba model
-		string genome_name - name of the genome for the fba model
-		int core_reactions - number of core reactions in the fba model
-		int unique_reactions - number of unique reactions in the fba model
+
+###Functions relating to comparison of models
+
+72. funcdef compare_models(compare_models_params params) returns (ModelComparisonData output);
+	   	/* Input parameters for the "compare_models" function.
 		
-	*/
-    typedef structure {
-		fbamodel_id model;
-		workspace_id workspace;
-		string model_name;
-		genome_id genome;
-		string genome_name;
-		int gapfilled_reactions;
-		int core_reactions;
-		int noncore_reactions;
-    } ModelComparisonModel;
-    
-    /* Data structure to hold model reaction comparison data
-	
-		reaction_id reaction - id of the reaction
-		compartment_id compartment - id of the reaction compartment
-		string equation - equation for the reaction
-		bool core - boolean indicating if the reaction is core
-		mapping<fbamodel_id,list<feature_id> > model_features - map of models and features for reaction
-		string role - role associated with the reaction
-		string subsytem - subsystem associated with role
-		string primclass - class one of the subsystem
-		string subclass - class two of the subsystem
-		int number_models - number of models with reaction
-		float fraction_models - fraction of models with reaction
+			string tag - tag of error to be retrieved
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+		typedef structure {
+			list<fbamodel_id> models;
+			list<workspace_id> workspaces;
+			string auth;
+	    } compare_models_params;
+	    
+	    /* Data structure to hold model comparison data
 		
-	*/
-    typedef structure {
-		reaction_id reaction;
-		string compartment;
-		string equation;
-		bool core;
-		mapping<fbamodel_id,list<feature_id> > model_features;
-		string role;
-		string subsystem;
-		string primclass;
-		string subclass;
-		int number_models;
-		float fraction_models;
-    } ModelCompareReaction;
+			fbamodel_id model - id of the fba model
+			workspace_id workspace - id of workspace with model
+			string model_name - name of the fba model
+			genome_id genome - id of the genome for the fba model
+			string genome_name - name of the genome for the fba model
+			int core_reactions - number of core reactions in the fba model
+			int unique_reactions - number of unique reactions in the fba model
+			
+		*/
+	    typedef structure {
+			fbamodel_id model;
+			workspace_id workspace;
+			string model_name;
+			genome_id genome;
+			string genome_name;
+			int gapfilled_reactions;
+			int core_reactions;
+			int noncore_reactions;
+	    } ModelComparisonModel;
+	    
+	    /* Data structure to hold model reaction comparison data
+		
+			reaction_id reaction - id of the reaction
+			compartment_id compartment - id of the reaction compartment
+			string equation - equation for the reaction
+			bool core - boolean indicating if the reaction is core
+			mapping<fbamodel_id,list<feature_id> > model_features - map of models and features for reaction
+			string role - role associated with the reaction
+			string subsytem - subsystem associated with role
+			string primclass - class one of the subsystem
+			string subclass - class two of the subsystem
+			int number_models - number of models with reaction
+			float fraction_models - fraction of models with reaction
+			
+		*/
+	    typedef structure {
+			reaction_id reaction;
+			string compartment;
+			string equation;
+			bool core;
+			mapping<fbamodel_id,list<feature_id> > model_features;
+			string role;
+			string subsystem;
+			string primclass;
+			string subclass;
+			int number_models;
+			float fraction_models;
+	    } ModelCompareReaction;
+	    
+	    /* Output structure for the "compare_models" function.
+		
+			list<ModelComparisonModel> model_comparisons;
+			list<ModelCompareReaction> reaction_comparisons;
+					
+		*/
+	    typedef structure {
+			list<ModelComparisonModel> model_comparisons;
+			list<ModelCompareReaction> reaction_comparisons;
+			string auth;
+	    } ModelComparisonData;
+	    
+	    /*
+			Compares the specified models and computes unique reactions and core reactions
+	    */
+	    authentication optional;
     
-    /* Output structure for the "compare_models" function.
-	
-		list<ModelComparisonModel> model_comparisons;
-		list<ModelCompareReaction> reaction_comparisons;
-				
-	*/
-    typedef structure {
-		list<ModelComparisonModel> model_comparisons;
-		list<ModelCompareReaction> reaction_comparisons;
-		string auth;
-    } ModelComparisonData;
-    
-    /*
-		Compares the specified models and computes unique reactions and core reactions
-    */
-    authentication optional;
-    funcdef compare_models(compare_models_params params) returns (ModelComparisonData output);
    	
-   	/*********************************************************************************
-    Functions relating to comparison of genomes
-   	*********************************************************************************/
+
+###Functions relating to comparison of genomes
+
+73. funcdef compare_genomes(compare_genomes_params params) returns (object_metadata output);
+
    	/* Input parameters for the "compare_genomes" function.
 	
 		list<genome_id> genomes
@@ -2151,122 +2156,128 @@ The Specs are :
 		Compares the specified genomes and computes unique features and core features
     */
     authentication optional;
-    funcdef compare_genomes(compare_genomes_params params) returns (object_metadata output);
-   	
-   	/*********************************************************************************
-    Functions relating to construction of community models
-   	*********************************************************************************/ 
-    /* Structure for the "MetagenomeAnnotationOTUFunction" object
-		
-		list<string> reference_genes - list of genes associated with hit
-		string functional_role - annotated function
-		string kbid - kbase ID of OTU function in metagenome
-		int abundance - number of hits with associated role and OTU
-		float confidence - confidence of functional role hit
-		string confidence_type - type of functional role hit
-				
-	*/
-    typedef structure {
-		string kbid;
-		list<string> reference_genes;
-		string functional_role;
-		int abundance;
-		float confidence;
-    } MetagenomeAnnotationOTUFunction;
-     
-    /* Structure for the "MetagenomeAnnotationOTU" object
-	
-		string name - name of metagenome OTU
-		string kbid - KBase ID of OTU of metagenome object
-		string source_id - ID used for OTU in metagenome source
-		string source - source OTU ID
-		list<MetagenomeAnnotationOTUFunction> functions - list of functions in OTU
-		
-	*/
-    typedef structure {
-    	float ave_confidence;
-		float ave_coverage;
-		string kbid;
-		string name;
-		string source_id;
-		string source;
-		list<MetagenomeAnnotationOTUFunction> functions;
-    } MetagenomeAnnotationOTU;
     
-    /* Structure for the "MetagenomeAnnotation" object
-	
-		string type - type of metagenome object
-		string name - name of metagenome object
-		string kbid - KBase ID of metagenome object
-		string source_id - ID used in metagenome source
-		string source - source of metagenome data
-		string confidence_type - type of confidence score
-		list<MetagenomeAnnotationOTU> otus - list of otus in metagenome
+
+###Functions relating to construction of community models
+
+74. funcdef import_metagenome_annotation(import_metagenome_annotation_params params) returns (object_metadata output);
+
+	    /* Structure for the "MetagenomeAnnotationOTUFunction" object
+			
+			list<string> reference_genes - list of genes associated with hit
+			string functional_role - annotated function
+			string kbid - kbase ID of OTU function in metagenome
+			int abundance - number of hits with associated role and OTU
+			float confidence - confidence of functional role hit
+			string confidence_type - type of functional role hit
+					
+		*/
+	    typedef structure {
+			string kbid;
+			list<string> reference_genes;
+			string functional_role;
+			int abundance;
+			float confidence;
+	    } MetagenomeAnnotationOTUFunction;
+	     
+	    /* Structure for the "MetagenomeAnnotationOTU" object
 		
-	*/
-    typedef structure {
-		string type;
-		string name;
-		string kbid;
-		string source_id;
-		string source;
-		string confidence_type;
-		list<MetagenomeAnnotationOTU> otus;
-    } MetagenomeAnnotation;
-    
-    /* Input parameters for the "import_metagenome_annotation" function.
-	
-		string metaanno_uid - ID to save metagenome in workspace
-		workspace_id workspace - ID of workspace for metagenome object
-		string source_id - ID used in metagenome data source
-		string source - metagenome data source
-		string type - type of metagenome
-		string confidence_type - type of confidence score
-		string name - name of metagenome
-		list<tuple<list<string> genes,string functional_role,string otu,int abundance,float confidence,string confidence_type>> annotations;
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			string name - name of metagenome OTU
+			string kbid - KBase ID of OTU of metagenome object
+			string source_id - ID used for OTU in metagenome source
+			string source - source OTU ID
+			list<MetagenomeAnnotationOTUFunction> functions - list of functions in OTU
+			
+		*/
+	    typedef structure {
+	    	float ave_confidence;
+			float ave_coverage;
+			string kbid;
+			string name;
+			string source_id;
+			string source;
+			list<MetagenomeAnnotationOTUFunction> functions;
+	    } MetagenomeAnnotationOTU;
+	    
+	    /* Structure for the "MetagenomeAnnotation" object
 		
-	*/
-	typedef structure {
-		string metaanno_uid;
-		workspace_id workspace;
-		string source_id;
-		string source;
-		string type;
-		string confidence_type;
-		string name;
-		list<tuple<list<string> genes,string functional_role,string otu,int abundance,float confidence>> annotations;
-		string auth;
-    } import_metagenome_annotation_params;
-    
-    /*
-		Imports metagenome annotation data into a metagenome annotation object
-    */
-    authentication required;
-    funcdef import_metagenome_annotation(import_metagenome_annotation_params params) returns (object_metadata output);
-   	
-   	/* Input parameters for the "models_to_community_model" function.
-	
-		string model_uid - ID of community model
-		workspace_id workspace - workspace where community model should be saved
-		string name - name of community model
-		list<tuple<string model_uid,string model_ws,float abundance>> models - models to be merged into community model
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			string type - type of metagenome object
+			string name - name of metagenome object
+			string kbid - KBase ID of metagenome object
+			string source_id - ID used in metagenome source
+			string source - source of metagenome data
+			string confidence_type - type of confidence score
+			list<MetagenomeAnnotationOTU> otus - list of otus in metagenome
+			
+		*/
+	    typedef structure {
+			string type;
+			string name;
+			string kbid;
+			string source_id;
+			string source;
+			string confidence_type;
+			list<MetagenomeAnnotationOTU> otus;
+	    } MetagenomeAnnotation;
+	    
+	    /* Input parameters for the "import_metagenome_annotation" function.
 		
-	*/
-	typedef structure {
-		string model_uid;
-		workspace_id workspace;
-		string name;
-		list<tuple<string model_uid,string model_ws,float abundance>> models;
-		string auth;
-    } models_to_community_model_params;
+			string metaanno_uid - ID to save metagenome in workspace
+			workspace_id workspace - ID of workspace for metagenome object
+			string source_id - ID used in metagenome data source
+			string source - metagenome data source
+			string type - type of metagenome
+			string confidence_type - type of confidence score
+			string name - name of metagenome
+			list<tuple<list<string> genes,string functional_role,string otu,int abundance,float confidence,string confidence_type>> annotations;
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+		typedef structure {
+			string metaanno_uid;
+			workspace_id workspace;
+			string source_id;
+			string source;
+			string type;
+			string confidence_type;
+			string name;
+			list<tuple<list<string> genes,string functional_role,string otu,int abundance,float confidence>> annotations;
+			string auth;
+	    } import_metagenome_annotation_params;
+	    
+	    /*
+			Imports metagenome annotation data into a metagenome annotation object
+	    */
+	    authentication required;
     
-    /*
-		Combines multiple single genome models into a single community model
-    */
-    authentication required;
-    funcdef models_to_community_model(import_metagenome_annotation_params params) returns (object_metadata output);
+75. funcdef models_to_community_model(import_metagenome_annotation_params params) returns (object_metadata output);   	
+	   	/* Input parameters for the "models_to_community_model" function.
+		
+			string model_uid - ID of community model
+			workspace_id workspace - workspace where community model should be saved
+			string name - name of community model
+			list<tuple<string model_uid,string model_ws,float abundance>> models - models to be merged into community model
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+		typedef structure {
+			string model_uid;
+			workspace_id workspace;
+			string name;
+			list<tuple<string model_uid,string model_ws,float abundance>> models;
+			string auth;
+	    } models_to_community_model_params;
+	    
+	    /*
+			Combines multiple single genome models into a single community model
+	    */
+	    authentication required;
+   
+
+
+
+
+
    	
    	/* Input parameters for the "metagenome_to_fbamodel" function.
 	
