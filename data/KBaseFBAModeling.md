@@ -2420,17 +2420,17 @@ The Specs are :
 
 
 83. funcdef add_biochemistry_compounds(add_biochemistry_compounds_params params) returns (object_metadata output);	    
-		/*
-		    Add specified compounds to specified biochemistry
-		*/
-		typedef structure {
-		list<tuple<string abbreviation,string name,list<string> aliases,string formula,float charge,bool isCofactor,string structureString,string structureType,string id>> compounds;
-		    string workspace;
-		    string biochemistry;
-		    string biochemistry_ws;
-		    string output_id;
-		} add_biochemistry_compounds_params;
-		authentication required;
+			/*
+			    Add specified compounds to specified biochemistry
+			*/
+			typedef structure {
+			list<tuple<string abbreviation,string name,list<string> aliases,string formula,float charge,bool isCofactor,string structureString,string structureType,string id>> compounds;
+			    string workspace;
+			    string biochemistry;
+			    string biochemistry_ws;
+			    string output_id;
+			} add_biochemistry_compounds_params;
+			authentication required;
 
 84. funcdef update_object_references(update_object_references_params params) returns (object_metadata output);
     
