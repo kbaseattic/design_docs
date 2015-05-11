@@ -1915,24 +1915,24 @@ The Specs are :
 	    authentication required;
     
 71. funcdef adjust_template_reaction(adjust_template_reaction_params params) returns (object_metadata modelMeta);	
-		typedef structure {
-			template_id templateModel;
-			workspace_id workspace;
-			string reaction;
-			bool clearComplexes;
-			bool new;
-			bool delete;
-			compartment_id compartment;
-			list<complex_id> complexesToAdd;
-			list<complex_id> complexesToRemove;
-			string direction;
-			string type;
-			string auth;
-		} adjust_template_reaction_params;
-		/*
-			Modifies a reaction of a template model       
-		*/
-		authentication required;
+	typedef structure {
+		template_id templateModel;
+		workspace_id workspace;
+		string reaction;
+		bool clearComplexes;
+		bool new;
+		bool delete;
+		compartment_id compartment;
+		list<complex_id> complexesToAdd;
+		list<complex_id> complexesToRemove;
+		string direction;
+		string type;
+		string auth;
+	} adjust_template_reaction_params;
+	/*
+		Modifies a reaction of a template model       
+	*/
+	authentication required;
 
 72. funcdef adjust_template_biomass(adjust_template_biomass_params params) returns (object_metadata modelMeta);
 	
