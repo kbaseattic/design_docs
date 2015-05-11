@@ -2273,203 +2273,204 @@ The Specs are :
 	    */
 	    authentication required;
    
+76. funcdef metagenome_to_fbamodels(metagenome_to_fbamodels_params params) returns (list<object_metadata> outputs);
 
-
-
-
-
-   	
-   	/* Input parameters for the "metagenome_to_fbamodel" function.
-	
-		string model_uid - ID of community model
-		workspace_id workspace - workspace where community model should be saved
-		string name - name of community model
-		list<tuple<string model_uid,workspace_id model_ws,float abundance>> models - models to be merged into community model
-		string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+	   	/* Input parameters for the "metagenome_to_fbamodel" function.
 		
-	*/
-	typedef structure {
-		mapping<string,string> model_uids;
+			string model_uid - ID of community model
+			workspace_id workspace - workspace where community model should be saved
+			string name - name of community model
+			list<tuple<string model_uid,workspace_id model_ws,float abundance>> models - models to be merged into community model
+			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
+			
+		*/
+		typedef structure {
+			mapping<string,string> model_uids;
+			workspace_id workspace;
+			string metaanno_uid;
+			workspace_id metaanno_ws;
+			float min_abundance;
+			float confidence_threshold;
+			int max_otu_models;
+			int min_reactions;
+			mapping<string,tuple<workspace_id template_ws,template_id template_uid>> templates;
+			string auth;
+	    } metagenome_to_fbamodels_params;
+	    
+	    /*
+			Constructs models from metagenome annotation OTUs
+	    */
+	    authentication required;
+
+77. funcdef import_expression(import_expression_params input) returns (object_metadata expression_meta); 
+    
+		    /*
+		      ID of gene expression sample
+		     */
+		    typedef string sample_id;
+		    /*
+		      ID of gene expression sample series 
+		     */
+		    typedef string series_id;
+		
+		    /*
+		      Normilized gene expression value
+		     */
+		    typedef float measurement;
+		
+		    typedef structure {
+			    string sample_id;
+			    mapping<feature_id, measurement> data_expression_levels_for_sample;
+		    } ExpressionDataSample;
+		
+		        /* Input parameters for the "simulate_expression" function.
+			
+		    	   	mapping<sample_id, ExpressionDataSample> expression_data_sample_series - gene expression data (a required argument)
+				series_id series -  ID of series (a required argument)
+				string source_id - ID of the source (an optional argument: default is '')
+				string source_date - Date of the source (an optional argument: default is '')
+				string processing_comments - comment (an optional argument: default is '')
+				string description - description (an optional argument: default is '')
+				workspace_id workspace - workspace to contain the data (an optional argument: default is value of workspace argument)		
+				string numerical_interpretation - Numerical interpretation
+			*/
+		    typedef structure {
+			    mapping<sample_id, ExpressionDataSample> expression_data_sample_series;
+			    series_id series;
+			    string source_id;
+			    string source_date;
+			    string description;
+			    string processing_comments;
+			    workspace_id workspace;
+			    genome_id genome_id;
+			    string numerical_interpretation;
+		    } import_expression_params;
+		
+		    /*
+		      Import gene expression.
+		    */
+		    authentication required;
+   
+
+78. funcdef import_regulome(import_regulome_params input) returns (object_metadata regulome_meta);
+
+	    /*
+	     Import RegPrecise regulome.
+	    */
+	
+	    typedef structure {
+		    string name;
+		    string class;
+	    } effector;
+	
+	    typedef structure {
+		string name;
+		string locus;
+	    } locus;
+	
+	    typedef list<locus> operon;
+	
+	    typedef structure {
+		list<operon> operons;
+		locus transcription_factor;
+		list<effector> effectors;	
+		string sign;
+	    } regulon;
+	
+	    typedef structure {
+		list<regulon> regulons;
 		workspace_id workspace;
-		string metaanno_uid;
-		workspace_id metaanno_ws;
-		float min_abundance;
-		float confidence_threshold;
-		int max_otu_models;
-		int min_reactions;
-		mapping<string,tuple<workspace_id template_ws,template_id template_uid>> templates;
-		string auth;
-    } metagenome_to_fbamodels_params;
-    
-    /*
-		Constructs models from metagenome annotation OTUs
-    */
-    authentication required;
-    funcdef metagenome_to_fbamodels(metagenome_to_fbamodels_params params) returns (list<object_metadata> outputs);
-
-    /*
-      ID of gene expression sample
-     */
-    typedef string sample_id;
-    /*
-      ID of gene expression sample series 
-     */
-    typedef string series_id;
-
-    /*
-      Normilized gene expression value
-     */
-    typedef float measurement;
-
-    typedef structure {
-	    string sample_id;
-	    mapping<feature_id, measurement> data_expression_levels_for_sample;
-    } ExpressionDataSample;
-
-        /* Input parameters for the "simulate_expression" function.
+		workspace_id genome_workspace;
+		genome_id genome_id;
+	    } import_regulome_params;
 	
-    	   	mapping<sample_id, ExpressionDataSample> expression_data_sample_series - gene expression data (a required argument)
-		series_id series -  ID of series (a required argument)
-		string source_id - ID of the source (an optional argument: default is '')
-		string source_date - Date of the source (an optional argument: default is '')
-		string processing_comments - comment (an optional argument: default is '')
-		string description - description (an optional argument: default is '')
-		workspace_id workspace - workspace to contain the data (an optional argument: default is value of workspace argument)		
-		string numerical_interpretation - Numerical interpretation
-	*/
-    typedef structure {
-	    mapping<sample_id, ExpressionDataSample> expression_data_sample_series;
-	    series_id series;
-	    string source_id;
-	    string source_date;
-	    string description;
-	    string processing_comments;
-	    workspace_id workspace;
-	    genome_id genome_id;
-	    string numerical_interpretation;
-    } import_expression_params;
-
-    /*
-      Import gene expression.
-    */
-    authentication required;
-    funcdef import_expression(import_expression_params input) returns (object_metadata expression_meta);
-
-
-    /*
-     Import RegPrecise regulome.
-    */
-
-
-    typedef structure {
-	    string name;
-	    string class;
-    } effector;
-
-    typedef structure {
-	string name;
-	string locus;
-    } locus;
-
-    typedef list<locus> operon;
-
-    typedef structure {
-	list<operon> operons;
-	locus transcription_factor;
-	list<effector> effectors;	
-	string sign;
-    } regulon;
-
-    typedef structure {
-	list<regulon> regulons;
-	workspace_id workspace;
-	workspace_id genome_workspace;
-	genome_id genome_id;
-    } import_regulome_params;
-
-    authentication required;
-    funcdef import_regulome(import_regulome_params input) returns (object_metadata regulome_meta);
-
-    /*
-    Named parameters for 'create_promconstraint' method.  Currently all options are required.
+	    authentication required;
     
-        genome_id genome_id             - the workspace ID of the genome to link to the prom object
-        series_id series_id     - the workspace ID of the expression data collection needed to
-                                                       build the PROM constraints.
-        regulome_id  regulome_id        - the workspace ID of the regulatory network data to use
-	promconstraint_id promconstraint_id - the the workspace ID for the new PROM constraint
-    */
-    typedef structure {
-        genome_id genome_id;
-        series_id series_id;
-        regulome_id regulome_id;
-	promconstraint_id promconstraint_id;
-    } CreatePromConstraintParameters;
+79. funcdef add_biochemistry_compounds(add_biochemistry_compounds_params params) returns (object_metadata output);
+
+	    /*
+	    Named parameters for 'create_promconstraint' method.  Currently all options are required.
+	    
+	        genome_id genome_id             - the workspace ID of the genome to link to the prom object
+	        series_id series_id     - the workspace ID of the expression data collection needed to
+	                                                       build the PROM constraints.
+	        regulome_id  regulome_id        - the workspace ID of the regulatory network data to use
+		promconstraint_id promconstraint_id - the the workspace ID for the new PROM constraint
+	    */
+	    typedef structure {
+	        genome_id genome_id;
+	        series_id series_id;
+	        regulome_id regulome_id;
+		promconstraint_id promconstraint_id;
+	    } CreatePromConstraintParameters;
+	    
+	    /*
+	    This method creates a set of Prom constraints for a given genome annotation based on a regulatory network
+	    and a collection of gene expression data stored on a workspace.  Parameters are specified in the
+	    CreatePromconstraintParameters object.  
+	    The ID of the new Prom constraints object is returned. The Prom constraints can then be used in conjunction
+	    with an FBA model using FBA Model Services.
+	    */
+	    authentication required;
+	    funcdef create_promconstraint(CreatePromConstraintParameters params) returns (object_metadata promconstraint_meta);
+		
+		/*
+	    	Add specified compounds to specified biochemistry
+	    */
+	    typedef structure {
+	        list<tuple<string abbreviation,string name,list<string> aliases,string formula,float charge,bool isCofactor,string structureString,string structureType,string id>> compounds;
+	    	string workspace;
+	    	string biochemistry;
+	    	string biochemistry_ws;
+	    	string output_id;
+	    } add_biochemistry_compounds_params;
+	    authentication required;
     
-    /*
-    This method creates a set of Prom constraints for a given genome annotation based on a regulatory network
-    and a collection of gene expression data stored on a workspace.  Parameters are specified in the
-    CreatePromconstraintParameters object.  
-    The ID of the new Prom constraints object is returned. The Prom constraints can then be used in conjunction
-    with an FBA model using FBA Model Services.
-    */
-    authentication required;
-    funcdef create_promconstraint(CreatePromConstraintParameters params) returns (object_metadata promconstraint_meta);
-	
-	/*
-    	Add specified compounds to specified biochemistry
-    */
-    typedef structure {
-        list<tuple<string abbreviation,string name,list<string> aliases,string formula,float charge,bool isCofactor,string structureString,string structureType,string id>> compounds;
-    	string workspace;
-    	string biochemistry;
-    	string biochemistry_ws;
-    	string output_id;
-    } add_biochemistry_compounds_params;
-    authentication required;
-    funcdef add_biochemistry_compounds(add_biochemistry_compounds_params params) returns (object_metadata output);
+80. funcdef update_object_references(update_object_references_params params) returns (object_metadata output);
     
-    /*
-    	Update object references
-    */
-    typedef structure {
-    	string object;
-    	string object_workspace;
-    	
-    	string original_object;
-    	string original_workspace;
-    	string original_instance;
-    	
-    	string reference_field;
-    	
-    	string newobject;
-    	string newobject_workspace;
-    	string newobject_instance;
-    	
-    	bool create_newobject;
-    	bool update_subrefs;
-    	string output_id;
-    	string workspace;
-    } update_object_references_params;
-    authentication required;
-    funcdef update_object_references(update_object_references_params params) returns (object_metadata output);
-	/*********************************************************************************
-    Functions relating to editing of genomes and models
-   	*********************************************************************************/
-   	/* Input parameters for the "add_reactions" function.
-	*/
-	typedef structure {
-		string model;
-		string model_workspace;
-		string output_id;
-		string workspace;
-		list<tuple<string reaction_id,string compartment,string direction,string gpr,string pathway,string name,string reference,string enzyme,string equation>> reactions;
-    } add_reactions_params;
-    /*
-		Add new reactions to the model from the biochemistry or custom reactions
-    */
-    authentication required;
-    funcdef add_reactions(add_reactions_params params) returns (object_metadata output);
+	    /*
+	    	Update object references
+	    */
+	    typedef structure {
+	    	string object;
+	    	string object_workspace;
+	    	
+	    	string original_object;
+	    	string original_workspace;
+	    	string original_instance;
+	    	
+	    	string reference_field;
+	    	
+	    	string newobject;
+	    	string newobject_workspace;
+	    	string newobject_instance;
+	    	
+	    	bool create_newobject;
+	    	bool update_subrefs;
+	    	string output_id;
+	    	string workspace;
+	    } update_object_references_params;
+	    authentication required;
+    
+
+###Functions relating to editing of genomes and models
+
+81. funcdef add_reactions(add_reactions_params params) returns (object_metadata output);
+
+	   	/* Input parameters for the "add_reactions" function.
+		*/
+		typedef structure {
+			string model;
+			string model_workspace;
+			string output_id;
+			string workspace;
+			list<tuple<string reaction_id,string compartment,string direction,string gpr,string pathway,string name,string reference,string enzyme,string equation>> reactions;
+	    } add_reactions_params;
+	    /*
+			Add new reactions to the model from the biochemistry or custom reactions
+	    */
+	    authentication required;
+    
    	
 	/* Input parameters for the "remove_reactions" function.
 	*/
