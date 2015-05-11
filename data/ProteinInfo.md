@@ -1,7 +1,5 @@
 #Protein Info Service (ProteinInfoService)
-##Description: The protein info service returns certain protein
-annotations about fids, such as domain assignments, operons, and
-orthologs.
+##Description: The protein info service returns certain protein annotations about fids, such as domain assignments, operons, and orthologs.
 
 Note that none these methods are available through the Narrative
 interface, and that they depend on a legacy MySQL database from
@@ -11,7 +9,7 @@ does not have precalculated domains for public genomes like MO does.
 
 ##Data
 * Uses the MicrobesOnline MySQL database
-* Central Store data are used, through the CDMI API
+* Does not use Central Store data directly, but depends on the CDMI API (see below)
 * Does not use Workspace
 * Does not use Shock
 
