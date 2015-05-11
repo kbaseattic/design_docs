@@ -2471,170 +2471,180 @@ The Specs are :
 	    */
 	    authentication required;
     
-   	
-	/* Input parameters for the "remove_reactions" function.
-	*/
-	typedef structure {
-		string model;
-		string model_workspace;
-		string output_id;
-		string workspace;
-		list<string> reactions;
-    } remove_reactions_params;
-    /*
-		Remove reactions from the model
-    */
-    authentication required;
-    funcdef remove_reactions(remove_reactions_params params) returns (object_metadata output);
-	
-	/* Input parameters for the "modify_reactions" function.
-	*/
-	typedef structure {
-		string model;
-		string model_workspace;
-		string output_id;
-		string workspace;
-		list<tuple<string reaction_id,string direction,string gpr,string pathway,string name,string reference,string enzyme>> reactions;
-    } modify_reactions_params;
-    /*
-		Modify reactions in the model
-    */
-    authentication required;
-    funcdef modify_reactions(modify_reactions_params params) returns (object_metadata output);
-	
-	/* Input parameters for the "add_features" function.
-	*/
-	typedef structure {
-		string genome;
-		string genome_workspace;
-		string output_id;
-		string workspace;
-		list<tuple<feature_id feature,string function,string type,list<string> aliases,list<string> publications,list<string> annotations,string protein_translation,string dna_sequence,list<tuple<string,int,string,int>> locations>> genes;
-    } add_features_params;
-    /*
-		Add new features to the genome
-    */
-    authentication required;
-    funcdef add_features(add_features_params params) returns (object_metadata output);
-   	
-	/* Input parameters for the "remove_features" function.
-	*/
-	typedef structure {
-		string genome;
-		string genome_workspace;
-		string output_id;
-		string workspace;
-		list<string> features;
-    } remove_features_params;
-    /*
-		Remove features from the genome
-    */
-    authentication required;
-    funcdef remove_features(remove_features_params params) returns (object_metadata output);
-	
-	/* Input parameters for the "modify_genes" function.
-	*/
-	typedef structure {
-		string genome;
-		string genome_workspace;
-		string output_id;
-		string workspace;
-		list<tuple<feature_id feature,string function,string type,list<string> aliases,list<string> publications,list<string> annotations,string protein_translation,string dna_sequence,list<tuple<string,int,string,int>> locations>> genes;
-    } modify_features_params;
-    /*
-		Modify features in the genome
-    */
-    authentication required;
-    funcdef modify_features(modify_features_params params) returns (object_metadata output);
-    
-    /*********************************************************************************
-    Functions relating to classification of genomes
-   	*********************************************************************************/
-   	/* Input parameters for the "import_trainingset" function.
-	*/
-	typedef structure {
-		list<tuple<string workspace_id,string genome_id,string class>> workspace_training_set;
-		list<tuple<string database,string genome_id,string class,list<string> attributes>> external_training_set;
-		string description;
-		list<tuple<string class,string description>> class_data;
-		string attribute_type;
-		bool preload_attributes;
-		string workspace;
-		string output_id;
-    } import_trainingset_params;
-    /*
-		Import a training set of genomes and classifications
-    */
-    authentication required;
-    funcdef import_trainingset(import_trainingset_params params) returns (object_metadata output);
+82. funcdef remove_reactions(remove_reactions_params params) returns (object_metadata output);
 
-	/* Input parameters for the "preload_trainingset" function.
-	*/
-	typedef structure {
-		string trainingset;
-		string trainingset_ws;
-		string attribute_type;
-		string workspace;
-		string output_id;
-    } preload_trainingset_params;
-    /*
-		Preloads a training set with attributes, cutting time to produce distinct classifiers
-    */
-    authentication required;
-    funcdef preload_trainingset(preload_trainingset_params params) returns (object_metadata output);
+		/* Input parameters for the "remove_reactions" function.
+		*/
+		typedef structure {
+			string model;
+			string model_workspace;
+			string output_id;
+			string workspace;
+			list<string> reactions;
+	    } remove_reactions_params;
+	    /*
+			Remove reactions from the model
+	    */
+	    authentication required;
+	    
+83. funcdef modify_reactions(modify_reactions_params params) returns (object_metadata output);
 	
+		/* Input parameters for the "modify_reactions" function.
+		*/
+		typedef structure {
+			string model;
+			string model_workspace;
+			string output_id;
+			string workspace;
+			list<tuple<string reaction_id,string direction,string gpr,string pathway,string name,string reference,string enzyme>> reactions;
+	    } modify_reactions_params;
+	    /*
+			Modify reactions in the model
+	    */
+	    authentication required;
+    
+84. funcdef add_features(add_features_params params) returns (object_metadata output);
+	
+		/* Input parameters for the "add_features" function.
+		*/
+		typedef structure {
+			string genome;
+			string genome_workspace;
+			string output_id;
+			string workspace;
+			list<tuple<feature_id feature,string function,string type,list<string> aliases,list<string> publications,list<string> annotations,string protein_translation,string dna_sequence,list<tuple<string,int,string,int>> locations>> genes;
+	    } add_features_params;
+	    /*
+			Add new features to the genome
+	    */
+	    authentication required;
+
+85. funcdef remove_features(remove_features_params params) returns (object_metadata output);
    	
-   	/* Input parameters for the "build_classifier" function.
-	*/
-	typedef structure {
-		string trainingset;
-		string trainingset_ws;
-		string attribute_type;
-		string classifier_type;
-		string workspace;
-		string output_id;
-    } build_classifier_params;
-    /*
-		Build a classifier for the input set of genomes
-    */
-    authentication required;
-    funcdef build_classifier(build_classifier_params params) returns (object_metadata output);
+		/* Input parameters for the "remove_features" function.
+		*/
+		typedef structure {
+			string genome;
+			string genome_workspace;
+			string output_id;
+			string workspace;
+			list<string> features;
+	    } remove_features_params;
+	    /*
+			Remove features from the genome
+	    */
+	    authentication required;
     
-    /* Input parameters for the "classify_genomes" function.
-	*/
-	typedef structure {
-		list<tuple<string workspace_id,string genome_id>> workspace_genomes; 
-		list<tuple<string database,string genome_id>> external_genomes;
-		string workspace;
-		string output_id;
-		string classifier_ws;
-		string classifier;
-    } classify_genomes_params;
-    /*
-		Build a classifier for the input set of genomes
-    */
-    authentication required;
-    funcdef classify_genomes(classify_genomes_params params) returns (object_metadata output);
+86. funcdef modify_features(modify_features_params params) returns (object_metadata output);
+	
+		/* Input parameters for the "modify_genes" function.
+		*/
+		typedef structure {
+			string genome;
+			string genome_workspace;
+			string output_id;
+			string workspace;
+			list<tuple<feature_id feature,string function,string type,list<string> aliases,list<string> publications,list<string> annotations,string protein_translation,string dna_sequence,list<tuple<string,int,string,int>> locations>> genes;
+	    } modify_features_params;
+	    /*
+			Modify features in the genome
+	    */
+	    authentication required;
     
-    /*********************************************************************************
-    Functions relating to modeling of expression data
-   	*********************************************************************************/
-   	/* Input parameters for the "build_tissue_model" function.
-	*/
-	typedef structure {
-		string expsample_ws;
-		string expsample;
-		string model_ws;
-		string model;
-		string workspace;
-		string output_id;
-    } build_tissue_model_params;
-    /*
-		Build a tissue model based on the input expression data
-    */
-    authentication required;
-    funcdef build_tissue_model(build_tissue_model_params params) returns (object_metadata output);
-};
+    
+###Functions relating to classification of genomes
+
+87. funcdef import_trainingset(import_trainingset_params params) returns (object_metadata output);
+
+	   	/* Input parameters for the "import_trainingset" function.
+		*/
+		typedef structure {
+			list<tuple<string workspace_id,string genome_id,string class>> workspace_training_set;
+			list<tuple<string database,string genome_id,string class,list<string> attributes>> external_training_set;
+			string description;
+			list<tuple<string class,string description>> class_data;
+			string attribute_type;
+			bool preload_attributes;
+			string workspace;
+			string output_id;
+	    } import_trainingset_params;
+	    /*
+			Import a training set of genomes and classifications
+	    */
+	    authentication required;
+    
+88. funcdef preload_trainingset(preload_trainingset_params params) returns (object_metadata output);
+
+		/* Input parameters for the "preload_trainingset" function.
+		*/
+		typedef structure {
+			string trainingset;
+			string trainingset_ws;
+			string attribute_type;
+			string workspace;
+			string output_id;
+	    } preload_trainingset_params;
+	    /*
+			Preloads a training set with attributes, cutting time to produce distinct classifiers
+	    */
+	    authentication required;
+    
+89. funcdef build_classifier(build_classifier_params params) returns (object_metadata output);	
+   	
+	   	/* Input parameters for the "build_classifier" function.
+		*/
+		typedef structure {
+			string trainingset;
+			string trainingset_ws;
+			string attribute_type;
+			string classifier_type;
+			string workspace;
+			string output_id;
+	    } build_classifier_params;
+	    /*
+			Build a classifier for the input set of genomes
+	    */
+	    authentication required;
+    
+90. funcdef classify_genomes(classify_genomes_params params) returns (object_metadata output); 
+   
+	    /* Input parameters for the "classify_genomes" function.
+		*/
+		typedef structure {
+			list<tuple<string workspace_id,string genome_id>> workspace_genomes; 
+			list<tuple<string database,string genome_id>> external_genomes;
+			string workspace;
+			string output_id;
+			string classifier_ws;
+			string classifier;
+	    } classify_genomes_params;
+	    /*
+			Build a classifier for the input set of genomes
+	    */
+	    authentication required;
+    
+    
+
+###Functions relating to modeling of expression data
+
+91. funcdef build_tissue_model(build_tissue_model_params params) returns (object_metadata output);
+
+	   	/* Input parameters for the "build_tissue_model" function.
+		*/
+		typedef structure {
+			string expsample_ws;
+			string expsample;
+			string model_ws;
+			string model;
+			string workspace;
+			string output_id;
+	    } build_tissue_model_params;
+	    /*
+			Build a tissue model based on the input expression data
+	    */
+	    authentication required;
+    
+
 
 
 
