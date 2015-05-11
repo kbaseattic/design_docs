@@ -2670,11 +2670,299 @@ KBaseFBA
 ##Types for FBAModel.spec
 ###FBA
 ####Description 
+FBA object holds the formulation and results of a flux balance analysis study
 
 ####Relationships
+	Reference to regulome
+	@id ws KBaseRegulation.Regulome
+	*/
+	typedef string regulome_ref;
+	
+	
+	/*
+	Reference to metabolic model
+	@id ws KBaseFBA.FBAModel
+	*/
+	typedef string fbamodel_ref;
+	
+	/*
+	Reference to PROM constraints
+	@id ws KBaseFBA.PromConstraint
+	*/
+	typedef string promconstraint_ref;
+	
+	/*
+	Reference to expression data
+	@id ws KBaseExpression.ExpressionSample
+	*/
+	typedef string expression_sample_ref;
+	
+	/*
+	Reference to a model template
+	@id ws KBaseBiochem.Media
+	*/
+	typedef string media_ref;
+	
+	/*
+	Reference to a phenotype set object
+	@id ws KBasePhenotypes.PhenotypeSet
+	*/
+	typedef string phenotypeset_ref;
+	
+	/*
+	Reference to a feature of a genome object
+	@id subws KBaseGenomes.Genome.features.[*].id
+	*/
+	typedef string feature_ref;
+	
+	/*
+	Reference to a reaction object in a model
+	@id subws KBaseFBA.FBAModel.modelreactions.[*].id
+	*/
+	typedef string modelreaction_ref;
+	
+	/*
+	Reference to a compound object in a model
+	@id subws KBaseFBA.FBAModel.modelcompounds.[*].id
+	*/
+	typedef string modelcompound_ref;
+	
+	/*
+	Reference to a phenotype simulation set object
+	@id ws KBasePhenotypes.PhenotypeSimulationSet
+	*/
+	typedef string phenotypesimulationset_ref;
+	
+	/*
+	Reference to a compound object
+	@id subws KBaseBiochem.Biochemistry.compounds.[*].id
+	*/
+	typedef string compound_ref;
+	
+	/*
+	Reference to a reaction object in a biochemistry
+	@id subws KBaseBiochem.Biochemistry.reactions.[*].id
+	*/
+	typedef string reaction_ref;
+	
+	/*
+	Reference to a compartment object
+	@id subws KBaseBiochem.Biochemistry.compartments.[*].id
+	*/
+	typedef string compartment_ref;
+	
+	/*
+	Reference to a biomass object in a model
+	@id subws KBaseFBA.FBAModel.biomasses.[*].id
+	*/
+	typedef string biomass_ref;
+
 
 ####Fields
+		fba_id id; (string)
+		bool fva; (int)
+		bool fluxMinimization; (int)
+		bool findMinimalMedia; (int)
+		bool allReversible; (int)
+		bool simpleThermoConstraints; (int)
+		bool thermodynamicConstraints; (int)
+		bool noErrorThermodynamicConstraints; (int)
+		bool minimizeErrorThermodynamicConstraints; (int)
+		bool quantitativeOptimization; (int)
+		bool maximizeObjective; (int)
+		mapping<modelcompound_id, float> compoundflux_objterms;
+		mapping<modelreaction_id, float> reactionflux_objterms;
+		mapping<biomass_id, float> biomassflux_objterms;
+		int comboDeletions;
+		int numberOfSolutions;
+		float objectiveConstraintFraction;
+		float defaultMaxFlux;
+		float defaultMaxDrainFlux;
+		float defaultMinDrainFlux;
+		float PROMKappa;
+		float tintleW;
+		float tintleKappa;
+		bool decomposeReversibleFlux; (int)
+		bool decomposeReversibleDrainFlux; (int)
+		bool fluxUseVariables; (int)
+		bool drainfluxUseVariables; (int)
+		bool minimize_reactions; (int)
+		regulome_ref regulome_ref; (string ws_ref)
+		fbamodel_ref fbamodel_ref; (string ws_ref)
+		promconstraint_ref promconstraint_ref; (string ws_ref)
+		expression_sample_ref tintlesample_ref; (string ws_ref)
+		media_ref media_ref; (string ws_ref)
+		phenotypeset_ref phenotypeset_ref; (string ws_ref)
+		list<feature_ref> geneKO_refs; (strings ws_refs)
+		list<modelreaction_ref> reactionKO_refs; (strings ws_refs)
+		list<modelcompound_ref> additionalCpd_refs; (strings ws_refs)
+		mapping<string, float> uptakeLimits;
+		mapping<modelreaction_id, float> minimize_reaction_costs;
+		mapping<string, string> parameters;
+		mapping<string, list<string>> inputfiles;
+		list<FBAConstraint> FBAConstraints; (see below)
+		list<FBAReactionBound> FBAReactionBounds; (see below)
+		list<FBACompoundBound> FBACompoundBounds; (see below)
+		float objectiveValue;
+		mapping<string, list<string>> outputfiles;
+		phenotypesimulationset_ref phenotypesimulationset_ref;
+		list<FBACompoundVariable> FBACompoundVariables; (see below)
+		list<FBAReactionVariable> FBAReactionVariables; (see below)
+		list<FBABiomassVariable> FBABiomassVariables; (see below)
+		list<FBAPromResult> FBAPromResults; (see below)
+		list<FBATintleResult> FBATintleResults; (see below)
+		list<FBADeletionResult> FBADeletionResults; (see below)
+		list<FBAMinimalMediaResult> FBAMinimalMediaResults; (see below)
+		list<FBAMetaboliteProductionResult> FBAMetaboliteProductionResults; (see below)
+		list<FBAMinimalReactionsResult> FBAMinimalReactionsResults; (see below)
+		list<QuantitativeOptimizationSolution> QuantitativeOptimizationSolutions; (see below)
+		list<GapfillingSolution> gapfillingSolutions; (see below)
+		
+	Subobjects:	
+		typedef structure {
+		  string name;
+		  float rhs;
+		  string sign;
+		  mapping<modelcompound_id, float> compound_terms;
+		  mapping<modelreaction_id, float> reaction_terms;
+		  mapping<biomass_id, float> biomass_terms;
+		} FBAConstraint;
+		
+		typedef structure {
+		  modelreaction_ref modelreaction_ref;
+		  string variableType;
+		  float upperBound;
+		  float lowerBound;
+		} FBAReactionBound;
+		
+		typedef structure {
+		  modelcompound_ref modelcompound_ref;
+		  string variableType;
+		  float upperBound;
+		  float lowerBound;
+		} FBACompoundBound;
 
+		typedef structure {
+		  modelcompound_ref modelcompound_ref;
+		  string variableType;
+		  float upperBound;
+		  float lowerBound;
+		  string class;
+		  float min;
+		  float max;
+		  float value;
+		} FBACompoundVariable;
+		
+		typedef structure {
+		  modelreaction_ref modelreaction_ref;
+		  string variableType;
+		  float upperBound;
+		  float lowerBound;
+		  string class;
+		  float min;
+		  float max;
+		  float value;
+		} FBAReactionVariable;
+		
+		typedef structure {
+		  biomass_ref biomass_ref;
+		  string variableType;
+		  float upperBound;
+		  float lowerBound;
+		  string class;
+		  float min;
+		  float max;
+		  float value;
+		} FBABiomassVariable;
+		
+		typedef structure {
+		  float objectFraction;
+		  float alpha;
+		  float beta;
+		} FBAPromResult;
+		
+		typedef structure {
+		  float originalGrowth;
+		  float growth;
+		  float originalObjective;
+		  float objective;
+		  mapping<conflict_state, feature_id> conflicts;
+		} FBATintleResult;
+		
+		typedef structure {
+		  list<feature_ref> feature_refs;
+		  float growthFraction;
+		} FBADeletionResult;
+		
+		typedef structure {
+		  list<compound_ref> essentialNutrient_refs;
+		  list<compound_ref> optionalNutrient_refs;
+		} FBAMinimalMediaResult;
+		
+		typedef structure {
+		  modelcompound_ref modelcompound_ref;
+		  float maximumProduction;
+		} FBAMetaboliteProductionResult;
+		
+		typedef structure {
+		  string id;
+		  bool suboptimal;
+		  float totalcost;
+		  list<modelreaction_ref> reaction_refs;
+		  list<string> reaction_directions;
+		} FBAMinimalReactionsResult;
+		
+		typedef structure {
+		  string biomass_component;
+		  float mod_coefficient;
+		} QuantOptBiomassMod;
+		
+		typedef structure {
+		  modelreaction_ref modelreaction_ref;
+		  modelcompound_ref modelcompound_ref;
+		  bool reaction;
+		  float mod_upperbound;
+		} QuantOptBoundMod;
+		
+		typedef structure {
+		  float atp_synthase;
+		  float atp_maintenance;
+		  list<QuantOptBiomassMod> QuantOptBiomassMods;
+		  list<QuantOptBoundMod> QuantOptBoundMods;
+		} QuantitativeOptimizationSolution;
+		
+		typedef structure {
+		  int round;
+		  reaction_ref reaction_ref;
+		  compartment_ref compartment_ref;
+		  string direction;
+		  int compartmentIndex;
+		  list<feature_ref> candidateFeature_refs;
+		} GapfillingReaction;
+		
+		typedef structure {
+		  int round;
+		  modelreaction_ref modelreaction_ref;
+		} ActivatedReaction;
+		
+		typedef structure {
+		  gapfillsol_id id;
+		  float solutionCost;
+		  list<modelcompound_ref> biomassRemoval_refs;
+		  list<modelcompound_ref> mediaSupplement_refs;
+		  list<modelreaction_ref> koRestore_refs;
+		  bool integrated;
+		  bool suboptimal;
+		  float objective;
+		  float gfscore;
+		  float actscore;
+		  float rejscore;
+		  float candscore;
+		  list<GapfillingReaction> rejectedCandidates;
+		  list<modelreaction_ref> failedReaction_refs;
+		  list<ActivatedReaction> activatedReactions;
+		  list<GapfillingReaction> gapfillingSolutionReactions;
+		} GapfillingSolution;
 
 ###FBAModel
 ####Description 
@@ -2757,3 +3045,174 @@ KBaseFBA
 
 
 -----BIOCHEM?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
