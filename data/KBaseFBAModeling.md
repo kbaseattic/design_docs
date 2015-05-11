@@ -2966,10 +2966,236 @@ FBA object holds the formulation and results of a flux balance analysis study
 
 ###FBAModel
 ####Description 
+FBAModel object
 
 ####Relationships
 
+		/*
+		Reference to a model template
+		@id ws KBaseGenomes.Genome
+		*/
+		typedef string genome_ref;
+		
+		/*
+		Reference to a metagenome object
+		@id ws KBaseGenomes.MetagenomeAnnotation
+		*/
+		typedef string metagenome_ref;
+		
+		/*
+		Reference to an OTU in a metagenome
+		@id subws KBaseGenomes.MetagenomeAnnotation.otus.[*].id
+		*/
+		typedef string metagenome_otu_ref;
+		
+		/*
+		Reference to a model template
+		@id ws KBaseFBA.ModelTemplate
+		*/
+		typedef string template_ref;
+		
+		/*
+		Reference to a gapfilling object
+		@id ws KBaseFBA.Gapfilling
+		*/
+		typedef string gapfill_ref;
+		
+		/*
+		Reference to a FBA object
+		@id ws KBaseFBA.FBA
+		*/
+		typedef string fba_ref;
+		
+		/*
+		Reference to a model template
+		@id ws KBaseBiochem.Media
+		*/
+		typedef string media_ref;
+		
+		/*
+		Reference to a gapgen object
+		@id ws KBaseFBA.Gapgeneration
+		*/
+		typedef string gapgen_ref;
+		
+		/*
+		Reference to a compound object in a model
+		@id subws KBaseFBA.FBAModel.modelcompounds.[*].id
+		*/
+		typedef string modelcompound_ref;
+		
+		/*
+		Reference to a compartment object
+		@id subws KBaseBiochem.Biochemistry.compartments.[*].id
+		*/
+		typedef string compartment_ref;
+		
+		/*
+		Reference to a compound object
+		@id subws KBaseBiochem.Biochemistry.compounds.[*].id
+		*/
+		typedef string compound_ref;
+		
+		/*
+		Reference to a compartment object in a model
+		@id subws KBaseFBA.FBAModel.modelcompartments.[*].id
+		*/
+		typedef string modelcompartment_ref;
+		
+		/*
+		Reference to a reaction object in a biochemistry
+		@id subws KBaseBiochem.Biochemistry.reactions.[*].id
+		*/
+		typedef string reaction_ref;
+		
+		/*
+		Reference to a complex object
+		@id subws KBaseOntology.Mapping.complexes.[*].id
+		*/
+		typedef string complex_ref;
+		
+		/*
+		Reference to a feature of a genome object
+		@id subws KBaseGenomes.Genome.features.[*].id
+		*/
+		typedef string feature_ref;
+
+
 ####Fields
+		
+		  fbamodel_id id; (string)
+		  string source; 
+		  source_id source_id; (string)
+		  string name;
+		  string type;
+		  genome_ref genome_ref; (string)
+		  metagenome_ref metagenome_ref; (string)
+		  metagenome_otu_ref metagenome_otu_ref; (string)
+		  template_ref template_ref; (string)
+		  float ATPSynthaseStoichiometry;
+		  float ATPMaintenance;
+		  list<template_ref> template_refs; (strings)
+		  list<ModelGapfill> gapfillings; (see below)
+		  list<ModelGapgen> gapgens; (see below)
+		  list<ModelQuantOpt> quantopts; (see below)
+		  list<Biomass> biomasses; (see below)
+		  list<ModelCompartment> modelcompartments; (see below)
+		  list<ModelCompound> modelcompounds; (see below)
+		  list<ModelReaction> modelreactions; (see below)
+	
+	Subtypes:	  
+		  typedef structure {
+		  gapfill_id id;
+		  gapfill_id gapfill_id;
+		  gapfill_ref gapfill_ref;
+		  fba_ref fba_ref;
+		  bool integrated;
+		  string integrated_solution;
+		  media_ref media_ref;
+		} ModelGapfill;
+		
+		typedef structure {
+		  gapgen_id id;
+		  gapgen_id gapgen_id;
+		  gapgen_ref gapgen_ref;
+		  fba_ref fba_ref;
+		  bool integrated;
+		  string integrated_solution;
+		  media_ref media_ref;
+		} ModelGapgen;
+		
+		typedef structure {
+		  bool integrated;
+		  list<tuple<string, float, bool>> ReactionMaxBounds;
+		  list<tuple<string, float>> UptakeMaxBounds;
+		  list<tuple<string, string, float>> BiomassChanges;
+		  float ATPSynthase;
+		  float ATPMaintenance;
+		} QuantOptSolution;
+		
+		typedef structure {
+		  string id;
+		  fba_ref fba_ref;
+		  media_ref media_ref;
+		  bool integrated;
+		  int integrated_solution;
+		  list<QuantOptSolution> solutions;
+		} ModelQuantOpt;
+		
+		typedef structure {
+		  modelcompound_ref modelcompound_ref;
+		  float coefficient;
+		} BiomassCompound;
+		
+		typedef structure {
+		  biomass_id id;
+		  string name;
+		  float other;
+		  float dna;
+		  float rna;
+		  float protein;
+		  float cellwall;
+		  float lipid;
+		  float cofactor;
+		  float energy;
+		  list<BiomassCompound> biomasscompounds;
+		} Biomass;
+		
+		typedef structure {
+		  modelcompartment_id id;
+		  compartment_ref compartment_ref;
+		  int compartmentIndex;
+		  string label;
+		  float pH;
+		  float potential;
+		} ModelCompartment;
+		
+		typedef structure {
+		  modelcompound_id id;
+		  compound_ref compound_ref;
+		  list<string> aliases;
+		  string name;
+		  float charge;
+		  float maxuptake;
+		  string formula;
+		  modelcompartment_ref modelcompartment_ref;
+		} ModelCompound;
+		
+		typedef structure {
+		  modelcompound_ref modelcompound_ref;
+		  float coefficient;
+		} ModelReactionReagent
+		
+		typedef structure {
+		  string role;
+		  bool triggering;
+		  bool optionalSubunit;
+		  string note;
+		  list<feature_ref> feature_refs;
+		} ModelReactionProteinSubunit;
+		
+		typedef structure {
+		  complex_ref complex_ref;
+		  string note;
+		  list<ModelReactionProteinSubunit> modelReactionProteinSubunits;
+		} ModelReactionProtein;
+		
+		typedef structure {
+		  modelreaction_id id;
+		  reaction_ref reaction_ref;
+		  string name;
+		  list<string> aliases;
+		  string pathway;
+		  string reference;
+		  string direction;
+		  float protons;
+		  float maxforflux;
+		  float maxrevflux;
+		  modelcompartment_ref modelcompartment_ref;
+		  float probability;
+		  list<ModelReactionReagent> modelReactionReagents;
+		  list<ModelReactionProtein> modelReactionProteins;
+		} ModelReaction;
 
 
 ###FBAModelSet
