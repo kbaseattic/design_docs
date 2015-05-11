@@ -1266,8 +1266,7 @@ The Specs are :
 	        Queues an FBAModel reconciliation job
 	    */
 
-49. funcdef set_cofactors(set_cofactors_params input) returns (object_metadata output);
-    	
+49. funcdef run_job(run_job_params input) returns (JobObject job);
 		/* Input parameters for the "run_job" function.
 			job_id job - ID of the job object (a required argument)
 			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
@@ -1281,7 +1280,8 @@ The Specs are :
 	        Runs specified job
 	    */
 		authentication required;
-		funcdef run_job(run_job_params input) returns (JobObject job);
+
+50. funcdef queue_job(queue_job_params input) returns (JobObject job);
 		
 		/* Input parameters for the "queue_job" function.
 		
@@ -1297,8 +1297,9 @@ The Specs are :
 	        Queues the specified command to run as a job
 	    */
 		authentication required;
-		funcdef queue_job(queue_job_params input) returns (JobObject job);
-		
+
+51. funcdef set_cofactors(set_cofactors_params input) returns (object_metadata output);
+
 		/* Input parameters for the "set_cofactors" function.
 		
 			list<compound_id> cofactors - list of compounds that are universal cofactors (required)
@@ -1317,8 +1318,9 @@ The Specs are :
 			bool overwrite;
 			string auth;
 		} set_cofactors_params;
+		authentication required;	
 	
-50. funcdef find_reaction_synonyms(find_reaction_synonyms_params input) returns (object_metadata output);	
+52. funcdef find_reaction_synonyms(find_reaction_synonyms_params input) returns (object_metadata output);	
 	
 		/* Input parameters for the "find_reaction_synonyms" function.
 			reaction_synonyms - ID of reaction synonyms object (required argument)
@@ -1338,7 +1340,7 @@ The Specs are :
 			string auth;
 		} find_reaction_synonyms_params;
 			
-51. funcdef role_to_reactions(role_to_reactions_params params) returns (list<RoleComplexReactions> output);
+53. funcdef role_to_reactions(role_to_reactions_params params) returns (list<RoleComplexReactions> output);
 
 		/* Input parameters for the "role_to_reactions" function.
 			template_id templateModel - ID of the template model to be used to determine mapping (default is '')
@@ -1356,7 +1358,7 @@ The Specs are :
     
 ###Code relating to assessing model sensitivity to reaction knockouts
 
-52. funcdef reaction_sensitivity_analysis(reaction_sensitivity_analysis_params input) returns (object_metadata output);
+54. funcdef reaction_sensitivity_analysis(reaction_sensitivity_analysis_params input) returns (object_metadata output);
 
 		/* Input parameters for the "reaction_sensitivity_analysis" function.
 			fbamodel_id model - ID of model to be analyzed (a required argument)
@@ -1388,7 +1390,7 @@ The Specs are :
 	        Queues a sensitivity analysis on the knockout of model reactions
 	    */
 
-53. funcdef delete_noncontributing_reactions(delete_noncontributing_reactions_params input) returns (object_metadata output);
+55. funcdef delete_noncontributing_reactions(delete_noncontributing_reactions_params input) returns (object_metadata output);
     
 	        /* Input parameters for the "filter_iterative_solutions" function.
 		        fbamodel_id model - Model ID for which to filter iterative gapfill solutions (a required argument)
@@ -1439,7 +1441,7 @@ The Specs are :
 
 ###Code relating to workspace versions of genome analysis algorithms
 
-54. funcdef annotate_workspace_Genome(annotate_workspace_Genome_params params) returns (object_metadata output);
+56. funcdef annotate_workspace_Genome(annotate_workspace_Genome_params params) returns (object_metadata output);
 
 		/* AnnotationParameters: parameters for all annotation functions
 		
@@ -1485,7 +1487,7 @@ The Specs are :
 
 ###Code relating to import and analysis of ProteinSets
 
-55. funcdef gtf_to_genome(gtf_to_genome_params params) returns (object_metadata output);
+57. funcdef gtf_to_genome(gtf_to_genome_params params) returns (object_metadata output);
 
 		/* Input parameters for the "gtf_to_genome" function.
 			string contigset;
@@ -1517,7 +1519,7 @@ The Specs are :
 			Loads a gtf file to a genome typed object in the workspace      
 	    */
     
-56. funcdef fasta_to_ProteinSet(fasta_to_ProteinSet_params params) returns (object_metadata output);
+58. funcdef fasta_to_ProteinSet(fasta_to_ProteinSet_params params) returns (object_metadata output);
 	
 		/* Input parameters for the "fasta_to_ProteinSet" function.
 			string uid - user assigned ID for the protein set (optional)
@@ -1543,7 +1545,7 @@ The Specs are :
 	    /*
 			Loads a fasta file as a ProteinSet object in the workspace       
 	    */
-57. funcdef ProteinSet_to_Genome(ProteinSet_to_Genome_params params) returns (object_metadata output);    
+59. funcdef ProteinSet_to_Genome(ProteinSet_to_Genome_params params) returns (object_metadata output);    
     
 	    /* Input parameters for the "ProteinSet_to_Genome" function.
 			string ProteinSet_uid - ID to be assigned to the ProteinSet (required argument)
@@ -1573,7 +1575,7 @@ The Specs are :
     
 ###Code relating to import and analysis of Contigs
 
-58. funcdef fasta_to_ContigSet(fasta_to_ContigSet_params params) returns (object_metadata output);
+60. funcdef fasta_to_ContigSet(fasta_to_ContigSet_params params) returns (object_metadata output);
 
 		/* Input parameters for the "fasta_to_ContigSet" function.
 			string uid - user assigned ID for the ContigSet (optional)
@@ -1601,7 +1603,7 @@ The Specs are :
 	    */
 	    authentication required;
     
-59. funcdef ContigSet_to_Genome(ContigSet_to_Genome_params params) returns (object_metadata output);   
+61. funcdef ContigSet_to_Genome(ContigSet_to_Genome_params params) returns (object_metadata output);   
 
 		/* Input parameters for the "ContigSet_to_Genome" function.
 			string ContigSet_uid - ID to be assigned to the ContigSet (required argument)
@@ -1635,7 +1637,7 @@ The Specs are :
 
 ###Code relating to analysis of probabilistic annotations
 
-60. funcdef probanno_to_genome(probanno_to_genome_params params) returns (object_metadata output);
+62. funcdef probanno_to_genome(probanno_to_genome_params params) returns (object_metadata output);
 	
 		/* Input parameters for the "probanno_to_genome" function.
 			probanno_id pa_id - ID of the probanno object (required)
@@ -1662,7 +1664,7 @@ The Specs are :
 	
 ###Code relating to loading, retrieval, and curation of mappings
 
-61. funcdef get_mapping(get_mapping_params params) returns (Mapping output);
+63. funcdef get_mapping(get_mapping_params params) returns (Mapping output);
 
 		typedef structure {
 			role_id id;
@@ -1710,7 +1712,7 @@ The Specs are :
 	    */
     authentication optional;
     
-62. funcdef subsystem_of_roles(subsystem_of_roles_params params) returns (mapping<string,subsysclasses> output);
+64. funcdef subsystem_of_roles(subsystem_of_roles_params params) returns (mapping<string,subsysclasses> output);
     
 	    typedef tuple<string,string> subsysclass;
 	    typedef mapping<string,subsysclass> subsysclasses;
@@ -1724,7 +1726,7 @@ The Specs are :
 	    */
 	    authentication optional;
 
-63. funcdef adjust_mapping_role(adjust_mapping_role_params params) returns (FunctionalRole output);
+65. funcdef adjust_mapping_role(adjust_mapping_role_params params) returns (FunctionalRole output);
     
 		/* Input parameters for the "adjust_mapping_role" function.
 			mapping_id map - ID of the mapping object to be edited
@@ -1756,7 +1758,7 @@ The Specs are :
 	    */
 	    authentication required;
 
-64. funcdef adjust_mapping_complex(adjust_mapping_complex_params params) returns (Complex output);
+66. funcdef adjust_mapping_complex(adjust_mapping_complex_params params) returns (Complex output);
 	
 		/* Input parameters for the "adjust_mapping_complex" function.
 			mapping_id map - ID of the mapping object to be edited
@@ -1787,7 +1789,7 @@ The Specs are :
 	    */
 	    authentication required;
 
-65. funcdef adjust_mapping_subsystem(adjust_mapping_subsystem_params params) returns (Subsystem output);
+67. funcdef adjust_mapping_subsystem(adjust_mapping_subsystem_params params) returns (Subsystem output);
 	
 		/* Input parameters for the "adjust_mapping_subsystem" function.
 			mapping_id map - ID of the mapping object to be edited
@@ -1826,7 +1828,7 @@ The Specs are :
 	
 ###Code relating to loading, retrieval, and curation of template models
 
-66. funcdef get_template_model(get_template_model_params params) returns (TemplateModel output);
+68. funcdef get_template_model(get_template_model_params params) returns (TemplateModel output);
 
 		typedef string temprxn_id;
 		typedef structure {
@@ -1877,7 +1879,7 @@ The Specs are :
 	    */
 	    authentication optional;
     
-67. funcdef import_template_fbamodel(import_template_fbamodel_params input) returns (object_metadata modelMeta);
+69. funcdef import_template_fbamodel(import_template_fbamodel_params input) returns (object_metadata modelMeta);
 	
 		/* Input parameters for the "import_template_fbamodel" function.
 			mapping_id map - ID of the mapping to associate the template model with (an optional argument; default is 'default')
@@ -1911,7 +1913,7 @@ The Specs are :
 	    */
 	    authentication required;
     
-68. funcdef adjust_template_reaction(adjust_template_reaction_params params) returns (object_metadata modelMeta);	
+70. funcdef adjust_template_reaction(adjust_template_reaction_params params) returns (object_metadata modelMeta);	
 		typedef structure {
 			template_id templateModel;
 			workspace_id workspace;
@@ -1931,7 +1933,7 @@ The Specs are :
 	    */
 	    authentication required;
 	    
-69. funcdef adjust_template_biomass(adjust_template_biomass_params params) returns (object_metadata modelMeta);
+71. funcdef adjust_template_biomass(adjust_template_biomass_params params) returns (object_metadata modelMeta);
 	
 		typedef structure {
 			template_id templateModel;
@@ -1963,7 +1965,7 @@ The Specs are :
 
 ###Code relating to reconstruction, import, and analysis of regulatory models
 
-70. funcdef add_stimuli(add_stimuli_params params) returns (object_metadata output);
+72. funcdef add_stimuli(add_stimuli_params params) returns (object_metadata output);
 
 	/* Input parameters for the "add_stimuli" function.
 		
@@ -1995,7 +1997,7 @@ The Specs are :
 	    */
 	    authentication required;
     
-71. funcdef import_regulatory_model(import_regulatory_model_params params) returns (object_metadata output);    
+73. funcdef import_regulatory_model(import_regulatory_model_params params) returns (object_metadata output);    
   
 	    typedef structure {
 			kbase_id kbid;
@@ -2050,7 +2052,7 @@ The Specs are :
 
 ###Functions relating to comparison of models
 
-72. funcdef compare_models(compare_models_params params) returns (ModelComparisonData output);
+74. funcdef compare_models(compare_models_params params) returns (ModelComparisonData output);
 	   	/* Input parameters for the "compare_models" function.
 		
 			string tag - tag of error to be retrieved
@@ -2135,7 +2137,7 @@ The Specs are :
 
 ###Functions relating to comparison of genomes
 
-73. funcdef compare_genomes(compare_genomes_params params) returns (object_metadata output);
+75. funcdef compare_genomes(compare_genomes_params params) returns (object_metadata output);
 
    	/* Input parameters for the "compare_genomes" function.
 	
@@ -2160,7 +2162,7 @@ The Specs are :
 
 ###Functions relating to construction of community models
 
-74. funcdef import_metagenome_annotation(import_metagenome_annotation_params params) returns (object_metadata output);
+77. funcdef import_metagenome_annotation(import_metagenome_annotation_params params) returns (object_metadata output);
 
 	    /* Structure for the "MetagenomeAnnotationOTUFunction" object
 			
@@ -2250,7 +2252,7 @@ The Specs are :
 	    */
 	    authentication required;
     
-75. funcdef models_to_community_model(import_metagenome_annotation_params params) returns (object_metadata output);   	
+77. funcdef models_to_community_model(import_metagenome_annotation_params params) returns (object_metadata output);   	
 	   	/* Input parameters for the "models_to_community_model" function.
 		
 			string model_uid - ID of community model
@@ -2273,7 +2275,7 @@ The Specs are :
 	    */
 	    authentication required;
    
-76. funcdef metagenome_to_fbamodels(metagenome_to_fbamodels_params params) returns (list<object_metadata> outputs);
+78. funcdef metagenome_to_fbamodels(metagenome_to_fbamodels_params params) returns (list<object_metadata> outputs);
 
 	   	/* Input parameters for the "metagenome_to_fbamodel" function.
 		
@@ -2302,7 +2304,7 @@ The Specs are :
 	    */
 	    authentication required;
 
-77. funcdef import_expression(import_expression_params input) returns (object_metadata expression_meta); 
+79. funcdef import_expression(import_expression_params input) returns (object_metadata expression_meta); 
     
 		    /*
 		      ID of gene expression sample
@@ -2352,7 +2354,7 @@ The Specs are :
 		    authentication required;
    
 
-78. funcdef import_regulome(import_regulome_params input) returns (object_metadata regulome_meta);
+80. funcdef import_regulome(import_regulome_params input) returns (object_metadata regulome_meta);
 
 	    /*
 	     Import RegPrecise regulome.
@@ -2386,7 +2388,7 @@ The Specs are :
 	
 	    authentication required;
     
-79. funcdef add_biochemistry_compounds(add_biochemistry_compounds_params params) returns (object_metadata output);
+81. funcdef add_biochemistry_compounds(add_biochemistry_compounds_params params) returns (object_metadata output);
 
 	    /*
 	    Named parameters for 'create_promconstraint' method.  Currently all options are required.
@@ -2426,7 +2428,7 @@ The Specs are :
 	    } add_biochemistry_compounds_params;
 	    authentication required;
     
-80. funcdef update_object_references(update_object_references_params params) returns (object_metadata output);
+82. funcdef update_object_references(update_object_references_params params) returns (object_metadata output);
     
 	    /*
 	    	Update object references
@@ -2455,7 +2457,7 @@ The Specs are :
 
 ###Functions relating to editing of genomes and models
 
-81. funcdef add_reactions(add_reactions_params params) returns (object_metadata output);
+83. funcdef add_reactions(add_reactions_params params) returns (object_metadata output);
 
 	   	/* Input parameters for the "add_reactions" function.
 		*/
@@ -2471,7 +2473,7 @@ The Specs are :
 	    */
 	    authentication required;
     
-82. funcdef remove_reactions(remove_reactions_params params) returns (object_metadata output);
+84. funcdef remove_reactions(remove_reactions_params params) returns (object_metadata output);
 
 		/* Input parameters for the "remove_reactions" function.
 		*/
@@ -2487,7 +2489,7 @@ The Specs are :
 	    */
 	    authentication required;
 	    
-83. funcdef modify_reactions(modify_reactions_params params) returns (object_metadata output);
+85. funcdef modify_reactions(modify_reactions_params params) returns (object_metadata output);
 	
 		/* Input parameters for the "modify_reactions" function.
 		*/
@@ -2503,7 +2505,7 @@ The Specs are :
 	    */
 	    authentication required;
     
-84. funcdef add_features(add_features_params params) returns (object_metadata output);
+86. funcdef add_features(add_features_params params) returns (object_metadata output);
 	
 		/* Input parameters for the "add_features" function.
 		*/
@@ -2519,7 +2521,7 @@ The Specs are :
 	    */
 	    authentication required;
 
-85. funcdef remove_features(remove_features_params params) returns (object_metadata output);
+87. funcdef remove_features(remove_features_params params) returns (object_metadata output);
    	
 		/* Input parameters for the "remove_features" function.
 		*/
@@ -2535,7 +2537,7 @@ The Specs are :
 	    */
 	    authentication required;
     
-86. funcdef modify_features(modify_features_params params) returns (object_metadata output);
+88. funcdef modify_features(modify_features_params params) returns (object_metadata output);
 	
 		/* Input parameters for the "modify_genes" function.
 		*/
@@ -2554,7 +2556,7 @@ The Specs are :
     
 ###Functions relating to classification of genomes
 
-87. funcdef import_trainingset(import_trainingset_params params) returns (object_metadata output);
+89. funcdef import_trainingset(import_trainingset_params params) returns (object_metadata output);
 
 	   	/* Input parameters for the "import_trainingset" function.
 		*/
@@ -2573,7 +2575,7 @@ The Specs are :
 	    */
 	    authentication required;
     
-88. funcdef preload_trainingset(preload_trainingset_params params) returns (object_metadata output);
+90. funcdef preload_trainingset(preload_trainingset_params params) returns (object_metadata output);
 
 		/* Input parameters for the "preload_trainingset" function.
 		*/
@@ -2589,7 +2591,7 @@ The Specs are :
 	    */
 	    authentication required;
     
-89. funcdef build_classifier(build_classifier_params params) returns (object_metadata output);	
+91. funcdef build_classifier(build_classifier_params params) returns (object_metadata output);	
    	
 	   	/* Input parameters for the "build_classifier" function.
 		*/
@@ -2606,7 +2608,7 @@ The Specs are :
 	    */
 	    authentication required;
     
-90. funcdef classify_genomes(classify_genomes_params params) returns (object_metadata output); 
+92. funcdef classify_genomes(classify_genomes_params params) returns (object_metadata output); 
    
 	    /* Input parameters for the "classify_genomes" function.
 		*/
@@ -2627,7 +2629,7 @@ The Specs are :
 
 ###Functions relating to modeling of expression data
 
-91. funcdef build_tissue_model(build_tissue_model_params params) returns (object_metadata output);
+93. funcdef build_tissue_model(build_tissue_model_params params) returns (object_metadata output);
 
 	   	/* Input parameters for the "build_tissue_model" function.
 		*/
