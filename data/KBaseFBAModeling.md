@@ -1914,7 +1914,8 @@ The Specs are :
 	    */
 	    authentication required;
     
-71. funcdef adjust_template_reaction(adjust_template_reaction_params params) returns (object_metadata modelMeta);	
+71. funcdef adjust_template_reaction(adjust_template_reaction_params params) returns (object_metadata modelMeta);
+
 		typedef structure {
 			template_id templateModel;
 			workspace_id workspace;
@@ -2419,7 +2420,8 @@ The Specs are :
 		authentication required;
 
 
-83. funcdef add_biochemistry_compounds(add_biochemistry_compounds_params params) returns (object_metadata output);	    
+83. funcdef add_biochemistry_compounds(add_biochemistry_compounds_params params) returns (object_metadata output); 
+
 			/*
 			    Add specified compounds to specified biochemistry
 			*/
