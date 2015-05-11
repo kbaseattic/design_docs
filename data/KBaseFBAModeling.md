@@ -1390,8 +1390,8 @@ The Specs are :
 	        Queues a sensitivity analysis on the knockout of model reactions
 	    */
 
-55. funcdef delete_noncontributing_reactions(delete_noncontributing_reactions_params input) returns (object_metadata output);
-    
+55. funcdef filter_iterative_solutions(filter_iterative_solutions_params input) returns (object_metadata output);
+
 	        /* Input parameters for the "filter_iterative_solutions" function.
 		        fbamodel_id model - Model ID for which to filter iterative gapfill solutions (a required argument)
 			fbamodel_id outmodel - ModelID to which to save the filtered results (by default the filtered model is given the same ID as the input model)
@@ -1415,7 +1415,8 @@ The Specs are :
 	        Apply a cutoff to remove high-cost iterations from an iterative gapfill run.
 		*/
 		authentication required;
-		funcdef filter_iterative_solutions(filter_iterative_solutions_params input) returns (object_metadata output);
+
+56. funcdef delete_noncontributing_reactions(delete_noncontributing_reactions_params input) returns (object_metadata output);
 		
 		/* Input parameters for the "delete_noncontributing_reactions" function.
 		      workspace_id workspae - Workspace for outputs and default inputs (a required argument)
@@ -1441,7 +1442,7 @@ The Specs are :
 
 ###Code relating to workspace versions of genome analysis algorithms
 
-56. funcdef annotate_workspace_Genome(annotate_workspace_Genome_params params) returns (object_metadata output);
+57. funcdef annotate_workspace_Genome(annotate_workspace_Genome_params params) returns (object_metadata output);
 
 		/* AnnotationParameters: parameters for all annotation functions
 		
