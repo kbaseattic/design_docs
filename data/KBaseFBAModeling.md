@@ -4018,14 +4018,18 @@ Metabolic Map object
 	  map_id map_id;
 	} MapLink;
 
+#Types for Expression.spec
+This is copied from the expression module.  Since this is a copy the spec may inconsistent with the actual WS spec.
+Please see https://github.com/kbase/design_docs/blob/master/data/Expression.md
 
-#Types for Biochem.spec
+
+#Types for Genome.spec
 
 ##Workspace Module
-KBaseBiochem
+KBaseGenomes
 
 ##Workspace with Data
-?
+KBasePublicGenomesV5
 
 ###Biochemistry
 ####Description 
