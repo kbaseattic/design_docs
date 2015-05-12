@@ -10,7 +10,6 @@ https://github.com/kbase/KBaseFBAModeling
 
 ##Data Sources
 * Uses mongo db
-* CS - Uses CDMI
 * Workspace
 * idserver - which uses mongo
 
@@ -1073,7 +1072,7 @@ The Specs are :
 
 42. funcdef queue_gapfill_model(gapfill_model_params input) returns (JobObject job);
 
-	Uses the same as 43
+	Uses the same as gapfill_model
 	
 43. funcdef gapfill_model(gapfill_model_params input) returns (object_metadata modelMeta);
    
@@ -1116,7 +1115,7 @@ The Specs are :
 
 44. funcdef queue_gapgen_model(gapgen_model_params input) returns (JobObject job);    
 
-	same as 45.
+	same as gapgen_model
 
 45. funcdef gapgen_model(gapgen_model_params input) returns (object_metadata modelMeta);
 
