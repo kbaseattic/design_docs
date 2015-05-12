@@ -1270,6 +1270,7 @@ The Specs are :
 	    */
 
 49. funcdef run_job(run_job_params input) returns (JobObject job);
+
 		/* Input parameters for the "run_job" function.
 			job_id job - ID of the job object (a required argument)
 			string auth - the authentication token of the KBase account changing workspace permissions; must have 'admin' privelages to workspace (an optional argument; user is "public" if auth is not provided)
@@ -2258,8 +2259,8 @@ The Specs are :
 	    authentication required;
     
 78. funcdef models_to_community_model(import_metagenome_annotation_params params) returns (object_metadata output);   	
-	   	/* Input parameters for the "models_to_community_model" function.
-		
+			/* Input parameters for the "models_to_community_model" function.
+			
 			string model_uid - ID of community model
 			workspace_id workspace - workspace where community model should be saved
 			string name - name of community model
