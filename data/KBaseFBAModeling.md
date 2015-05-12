@@ -3223,6 +3223,7 @@ is an FBAModel object reference.
 
 ###Classifier
 ####Description 
+Unknown
 
 ####Relationships
 
@@ -3265,58 +3266,449 @@ is an FBAModel object reference.
 	
 ###ClassifierResult
 ####Description 
+Unknown
 
 ####Relationships
 
+	/*
+	Reference to a classifier object
+	@id ws KBaseFBA.Classifier
+	*/
+	typedef string Classifier_ref;
+	
+	/*
+	Reference to a model template
+	@id ws KBaseGenomes.Genome
+	*/
+	typedef string genome_ref;
+
 ####Fields
 
+	string id;
+	Classifier_ref classifier_ref;
+	list<WorkspaceGenomeClassPrediction> workspace_genomes; (see below)
+	list<ExternalGenomeClassPrediction> external_genomes; (see below)
+	
+	typedef tuple<genome_ref, string, float> WorkspaceGenomeClassPrediction;
+	
+	typedef tuple<string, string, string, float> ExternalGenomeClassPrediction;
 
 ###ETC
 ####Description 
+ElectronTransportChains (ETC) object
 
 ####Relationships
+None
 
 ####Fields
 
+	list<ETCPathwayObj> pathways; (see below)
+	
+	typedef structure {
+	  list<string> reactions;
+	} ETCStep;
+	
+	typedef structure {
+	  string electron_acceptor;
+	  list<ETCStep> steps;
+	} ETCPathwayObj;
+	
 
 ###Gapfilling
 ####Description 
+GapFilling object holds data on the formulations and solutions of a gapfilling analysis
 
 ####Relationships
 
+	/*
+	Reference to a FBA object
+	@id ws KBaseFBA.FBA
+	*/
+	typedef string fba_ref;
+	
+	/*
+	Reference to a model template
+	@id ws KBaseBiochem.Media
+	*/
+	typedef string media_ref;
+	
+	/*
+	Reference to metabolic model
+	@id ws KBaseFBA.FBAModel
+	*/
+	typedef string fbamodel_ref;
+	
+	/*
+	Reference to probabilistic annotation
+	@id ws KBaseProbabilisticAnnotation.ProbAnno
+	*/
+	typedef string probanno_ref;
+	
+	/*
+	Reference to a reaction object in a biochemistry
+	@id subws KBaseBiochem.Biochemistry.reactions.[*].id
+	*/
+	typedef string reaction_ref;
+	
+	/*
+	Reference to a compartment object
+	@id subws KBaseBiochem.Biochemistry.compartments.[*].id
+	*/
+	typedef string compartment_ref;
+	
+	/*
+	Reference to a compound object in a model
+	@id subws KBaseFBA.FBAModel.modelcompounds.[*].id
+	*/
+	typedef string modelcompound_ref;
+	
+	/*
+	Reference to a reaction object in a model
+	@id subws KBaseFBA.FBAModel.modelreactions.[*].id
+	*/
+	typedef string modelreaction_ref;
+	
+	/*
+	Reference to a feature of a genome object
+	@id subws KBaseGenomes.Genome.features.[*].id
+	*/
+	typedef string feature_ref;
+
 ####Fields
 
+	typedef structure {
+	  gapfill_id id; (string)
+	  fba_ref fba_ref;
+	  media_ref media_ref;
+	  fbamodel_ref fbamodel_ref;
+	  probanno_ref probanno_ref;
+	  bool mediaHypothesis; (int)
+	  bool biomassHypothesis; (int)
+	  bool gprHypothesis; (int)
+	  bool reactionAdditionHypothesis; (int)
+	  bool balancedReactionsOnly; (int)
+	  bool completeGapfill; (int)
+	  bool simultaneousGapfill; (int)
+	  list<reaction_ref> guaranteedReaction_refs;
+	  list<reaction_ref> targetedreaction_refs;
+	  list<reaction_ref> blacklistedReaction_refs;
+	  list<compartment_ref> allowableCompartment_refs;
+	  float reactionActivationBonus;
+	  float drainFluxMultiplier;
+	  float directionalityMultiplier;
+	  float deltaGMultiplier;
+	  float noStructureMultiplier;
+	  float noDeltaGMultiplier;
+	  float biomassTransporterMultiplier;
+	  float singleTransporterMultiplier;
+	  float transporterMultiplier;
+	  int timePerSolution;
+	  int totalTimeLimit;
+	  mapping<reaction_ref, float> reactionMultipliers;
+	  list<GapfillingSolution> gapfillingSolutions; (see below)
+	} Gapfilling;
+	
+	typedef structure {
+	  int round;
+	  reaction_ref reaction_ref;
+	  compartment_ref compartment_ref;
+	  string direction;
+	  int compartmentIndex;
+	  list<feature_ref> candidateFeature_refs;
+	} GapfillingReaction;
+	
+	typedef structure {
+	  int round;
+	  modelreaction_ref modelreaction_ref;
+	} ActivatedReaction;
+	
+	typedef structure {
+	  gapfillsol_id id;
+	  float solutionCost;
+	  list<modelcompound_ref> biomassRemoval_refs;
+	  list<modelcompound_ref> mediaSupplement_refs;
+	  list<modelreaction_ref> koRestore_refs;
+	  bool integrated;
+	  bool suboptimal;
+	  float objective;
+	  float gfscore;
+	  float actscore;
+	  float rejscore;
+	  float candscore;
+	  list<GapfillingReaction> rejectedCandidates;
+	  list<modelreaction_ref> failedReaction_refs;
+	  list<ActivatedReaction> activatedReactions;
+	  list<GapfillingReaction> gapfillingSolutionReactions;
+	} GapfillingSolution;
 
 ###Gapgeneration
 ####Description 
+GapGeneration object holds data on formulation and solutions from gapgen analysis
 
 ####Relationships
 
+	/*
+	Reference to a FBA object
+	@id ws KBaseFBA.FBA
+	*/
+	typedef string fba_ref;
+	
+	/*
+	Reference to metabolic model
+	@id ws KBaseFBA.FBAModel
+	*/
+	typedef string fbamodel_ref;
+	
+	/*
+	Reference to a model template
+	@id ws KBaseBiochem.Media
+	*/
+	typedef string media_ref;
+	
+	/*
+	Reference to a compound object in a model
+	@id subws KBaseFBA.FBAModel.modelcompounds.[*].id
+	*/
+	typedef string modelcompound_ref;
+	
+	/*
+	Reference to a reaction object in a model
+	@id subws KBaseFBA.FBAModel.modelreactions.[*].id
+	*/
+	typedef string modelreaction_ref;
+
 ####Fields
 
+	typedef structure {
+	  gapgen_id id; (string)
+	  fba_ref fba_ref;
+	  fbamodel_ref fbamodel_ref;
+	  bool mediaHypothesis; (int)
+	  bool biomassHypothesis; (int)
+	  bool gprHypothesis; (int)
+	  bool reactionRemovalHypothesis; (int)
+	  media_ref media_ref;
+	  media_ref referenceMedia_ref;
+	  int timePerSolution;
+	  int totalTimeLimit;
+	  list<GapgenerationSolution> gapgenSolutions; (see below)
+	} Gapgeneration;
+	
+	typedef structure {
+	  modelreaction_ref modelreaction_ref;
+	  string direction;
+	} GapgenerationSolutionReaction;
+	
+	typedef structure {
+	  gapgensol_id id;
+	  float solutionCost;
+	  list<modelcompound_ref> biomassSuppplement_refs;
+	  list<modelcompound_ref> mediaRemoval_refs;
+	  list<modelreaction_ref> additionalKO_refs;
+	  bool integrated;
+	  bool suboptimal;
+	  list<GapgenerationSolutionReaction> gapgenSolutionReactions;
+	} GapgenerationSolution;
 
 ###ModelTemplate
 ####Description 
+ModelTemplate object holds data on how a model is constructed from an annotation
 
 ####Relationships
 
+	/*
+	Reference to a mapping object
+	@id ws KBaseOntology.Mapping
+	*/
+	typedef string mapping_ref;
+	
+	/*
+	Reference to a biochemistry object
+	@id ws KBaseBiochem.Biochemistry
+	*/
+	typedef string Biochemistry_ref;
+	
+	/*
+	Template reaction ID
+	@id external
+	*/
+	typedef string templatereaction_id;
+	
+	/*
+	Reference to a reaction object in a biochemistry
+	@id subws KBaseBiochem.Biochemistry.reactions.[*].id
+	*/
+	typedef string reaction_ref;
+	
+	/*
+	Reference to a compartment object
+	@id subws KBaseBiochem.Biochemistry.compartments.[*].id
+	*/
+	typedef string compartment_ref;
+	
+	/*
+	Reference to a complex object
+	@id subws KBaseOntology.Mapping.complexes.[*].id
+	*/
+	typedef string complex_ref;
+	
+	/*
+	Reference to a compound object
+	@id subws KBaseBiochem.Biochemistry.compounds.[*].id
+	*/
+	typedef string compound_ref;
+
 ####Fields
 
+	typedef structure {
+	  modeltemplate_id id; (string)
+	  string name;
+	  string modelType;
+	  string domain;
+	  mapping_ref mapping_ref;
+	  Biochemistry_ref biochemistry_ref;
+	  list<TemplateReaction> templateReactions; (see below)
+	  list<TemplateBiomass> templateBiomasses; (see below)
+	} ModelTemplate;
+	
+	typedef structure {
+	  templatereaction_id id;
+	  reaction_ref reaction_ref;
+	  compartment_ref compartment_ref;
+	  list<complex_ref> complex_refs;
+	  string direction;
+	  string GapfillDirection;
+	  string type;
+	  float base_cost;
+	  float forward_penalty;
+	  float reverse_penalty;
+	} TemplateReaction;
+	
+	typedef structure {
+	  templatebiomasscomponent_id id;
+	  string class;
+	  compound_ref compound_ref;
+	  compartment_ref compartment_ref;
+	  string coefficientType;
+	  float coefficient;
+	  list<compound_ref> linked_compound_refs;
+	  list<float> link_coefficients;
+	} TemplateBiomassComponent;
+	
+	typedef structure {
+	  templatebiomass_id id;
+	  string name;
+	  string type;
+	  float other;
+	  float dna;
+	  float rna;
+	  float protein;
+	  float lipid;
+	  float cellwall;
+	  float cofactor;
+	  float energy;
+	  list<TemplateBiomassComponent> templateBiomassComponents;
+	} TemplateBiomass;
 
 ###PromConstraint
 ####Description 
+An object that encapsulates the information necessary to apply PROM-based constraints to an FBA model. This
+includes a regulatory network consisting of a set of regulatory interactions (implied by the set of TFtoTGmap
+objects) and interaction probabilities as defined in each TargetGeneProbabilities object.  A link the the annotation
+object is required in order to properly link to an FBA model object.  A reference to the expression_data_collection
+used to compute the interaction probabilities is provided for future reference.
+
 
 ####Relationships
 
+	/*
+	Reference to a model template
+	@id ws KBaseGenomes.Genome
+	*/
+	typedef string genome_ref;
+	
+	/*
+	Reference to expression data
+	@id ws KBaseExpression.ExpressionSeries
+	*/
+	typedef string expression_series_ref;
+	
+	/*
+	Reference to regulome
+	@id ws KBaseRegulation.Regulome
+	*/
+	typedef string regulome_ref;
+
 ####Fields
 
+	typedef structure {
+	  string id;
+	  genome_ref genome_ref;
+	  list<TFtoTGmap> transcriptionFactorMaps; (see below)
+	  expression_series_ref expression_series_ref;
+	  regulome_ref regulome_ref;
+	} PromConstraint;
+	
+	typedef structure {
+	  string transcriptionFactor_ref;
+	  list<TargetGeneProbabilities> targetGeneProbs;
+	} TFtoTGmap;
+	
+	typedef structure {
+	  string target_gene_ref;
+	  float probTGonGivenTFoff;
+	  float probTGonGivenTFon;
+	} TargetGeneProbabilities;
 
 ###ReactionSensitivityAnalysis
 ####Description 
+Object for holding reaction knockout sensitivity results
 
 ####Relationships
 
+	/*
+	Reference to metabolic model
+	@id ws KBaseFBA.FBAModel
+	*/
+	typedef string fbamodel_ref;
+	
+	/*
+	Reference to a reaction object in a model
+	@id subws KBaseFBA.FBAModel.modelreactions.[*].id
+	*/
+	typedef string modelreaction_ref;
+
 ####Fields
+
+	typedef structure {
+	  string id;
+	  fbamodel_ref fbamodel_ref;
+	  string type;
+	  bool deleted_noncontributing_reactions; (int)
+	  bool integrated_deletions_in_model; (int)
+	  list<ReactionSensitivityAnalysisReaction> reactions; (see below)
+	  list<ReactionSensitivityAnalysisCorrectedReaction> corrected_reactions; (see below)
+	} ReactionSensitivityAnalysis;
+	
+	typedef structure {
+	  modelreaction_ref modelreaction_ref;
+	  float normalized_required_reaction_count;
+	  list<modelreaction_id> required_reactions;
+	} ReactionSensitivityAnalysisCorrectedReaction;
+	
+	typedef structure {
+	  string id;
+	  modelreaction_ref modelreaction_ref;
+	  float growth_fraction;
+	  bool delete; (int)
+	  bool deleted; (int)
+	  string direction;
+	  float normalized_activated_reaction_count;
+	  list<modelcompound_id> biomass_compounds; (strings)
+	  list<modelreaction_id> new_inactive_rxns; (strings)
+	  list<feature_id> new_essentials; (strings)
+	} ReactionSensitivityAnalysisReaction;
+
 
 
 -----BIOCHEM?
