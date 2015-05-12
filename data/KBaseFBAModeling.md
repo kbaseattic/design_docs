@@ -30,6 +30,9 @@ Note there are 12 spec files.
 11 appear to be WS specs and one is a spec file for 95 functions.
 Note that many of these specs are duplicated from other repos.
 Since the spec is being stored in two locations there is a probability for the WS specs in this repo to be out of date.
+Note mutiple specs have the same name structure but they are already out of sync with one another.
+Example Biochemistry in fbaModelServices.spec is not consistent with the Biochemistry in Biochem.spec
+
 The Specs are : 
 
 1. Biochem.spec 
@@ -2651,23 +2654,20 @@ The Specs are :
 			Build a tissue model based on the input expression data
 	    */
 	    authentication required;
-    
+ 
 
 
 
 
 
-
-
-
-
-##Workspace with Data
-?
+#Types for FBAModel.spec
 
 ##Workspace Module
 KBaseFBA
 
-##Types for FBAModel.spec
+##Workspace with Data
+?
+
 ###FBA
 ####Description 
 FBA object holds the formulation and results of a flux balance analysis study
@@ -3710,27 +3710,327 @@ Object for holding reaction knockout sensitivity results
 	} ReactionSensitivityAnalysisReaction;
 
 
+#Types for Biochem.spec
 
------BIOCHEM?
+##Workspace Module
+KBaseBiochem
+
+##Workspace with Data
+?
+
+###Biochemistry
+####Description 
+Biochemistry object
+
+####Relationships
+
+	/*
+	Reference to a compound object in a biochemistry
+	@id subws KBaseBiochem.Biochemistry.compounds.[*].id
+	*/
+	typedef string compound_ref;
+	
+	/*
+	Reference to a reaction object in a biochemistry
+	@id subws KBaseBiochem.BiochemistryStructures.structures.[*].id
+	*/
+	typedef string structure_ref;
+	
+	/*
+	Reference to a cue object in a biochemistry
+	@id subws KBaseBiochem.Biochemistry.cues.[*].id
+	*/
+	typedef string cue_ref;
+	
+	/*
+	Reference to a reaction object in a biochemistry
+	@id subws KBaseBiochem.Biochemistry.reactions.[*].id
+	*/
+	typedef string reaction_ref;
+	
+	/*
+	Reference to a compartment object in a biochemistry
+	@id subws KBaseBiochem.Biochemistry.compartments.[*].id
+	*/
+	typedef string compartment_ref;
+
+####Fields
+
+	typedef structure {
+	  biochem_id id; (string)
+	  string name;
+	  string description;
+	  list<Compartment> compartments; (see below)
+	  list<Compound> compounds; (see below)
+	  list<Reaction> reactions; (see below)
+	  list<ReactionSet> reactionSets; (see below)
+	  list<CompoundSet> compoundSets; (see below)
+	  list<Cue> cues; (see below)
+	  mapping<compound_id, mapping<string, list<string>>> compound_aliases;
+	  mapping<reaction_id, mapping<string, list<string>>> reaction_aliases;
+	} Biochemistry;
+	
+	typedef structure {
+	  cue_id id; (string)
+	  string name;
+	  string abbreviation;
+	  string formula;
+	  string unchargedFormula;
+	  float mass;
+	  float defaultCharge;
+	  float deltaG;
+	  float deltaGErr;
+	  bool smallMolecule; (int)
+	  int priority;
+	  string structure_key;
+	  string structure_data;
+	  string structure_type;
+	} Cue;
+	
+	typedef structure {
+	  compoundset_id id;
+	  string name;
+	  string class;
+	  string type;
+	  list<compound_ref> compound_refs;
+	} CompoundSet;
+	
+	typedef structure {
+	  reactionset_id id;
+	  string name;
+	  string class;
+	  string type;
+	  list<reaction_ref> reaction_refs;
+	} ReactionSet;
+	
+	typedef structure {
+	  reaction_id id;
+	  string name;
+	  string abbreviation;
+	  string md5;
+	  string direction;
+	  string thermoReversibility;
+	  string status;
+	  float defaultProtons;
+	  float deltaG;
+	  float deltaGErr;
+	  reaction_ref abstractReaction_ref;
+	  mapping<cue_ref, float> cues;
+	  list<Reagent> reagents; (see below)
+	} Reaction;
+	
+	typedef structure {
+	  compound_ref compound_ref;
+	  compartment_ref compartment_ref;
+	  float coefficient;
+	  bool isCofactor;
+	} Reagent;
+	
+	typedef structure {
+	  compound_id id;
+	  bool isCofactor;
+	  string name;
+	  string abbreviation;
+	  string md5;
+	  string formula;
+	  string unchargedFormula;
+	  float mass;
+	  float defaultCharge;
+	  float deltaG;
+	  float deltaGErr;
+	  compound_ref abstractCompound_ref;
+	  list<compound_ref> comprisedOfCompound_refs;
+	  structure_ref structure_ref;
+	  mapping<cue_ref, float> cues;
+	  mapping<int, list<float>> pkas;
+	  mapping<int, list<float>> pkbs;
+	} Compound;
+	
+	typedef structure {
+	  compartment_id id;
+	  string name;
+	  int hierarchy;
+	} Compartment;
+
+###BiochemistryStructures
+####Description 
+BiochemistryStructures object
+
+####Relationships
+None
+
+####Fields
+
+	typedef structure {
+	  biochemstruct_id id; (string)
+	  string name;
+	  string description;
+	  list<CompoundStructure> structures; (see below)
+	} BiochemistryStructures;
+	
+	typedef structure {
+	  structure_id id; (string)
+	  string type;
+	  string data;
+	} CompoundStructure;
+
+###Media
+####Description 
+Media object
+
+####Relationships
+
+	/*
+	Reference to a compound object in a biochemistry
+	@id subws KBaseBiochem.Biochemistry.compounds.[*].id
+	*/
+	typedef string compound_ref;
+
+####Fields
+
+	typedef structure {
+	  media_id id; (string)
+	  string name;
+	  source_id source_id;
+	  string source;
+	  string protocol_link;
+	  bool isDefined; (int)
+	  bool isMinimal; (int)
+	  bool isAerobic; (int)
+	  string type;
+	  string pH_data;
+	  float temperature;
+	  string atmosphere;
+	  string atmosphere_addition;
+	  list<MediaReagent> reagents; (see below)
+	  list<MediaCompound> mediacompounds; (see below)
+	} Media;
+	
+	typedef structure {
+	  string id;
+	  string name;
+	  float concentration;
+	  string concentration_units;
+	  float molecular_weight;
+	  mapping<string, float> associated_compounds;
+	} MediaReagent;
+	
+	typedef structure {
+	  compound_ref compound_ref;
+	  float concentration;
+	  float maxFlux;
+	  float minFlux;
+	} MediaCompound;
+
+###MetabolicMap
+####Description 
+Metabolic Map object
+
+####Relationships
+
+	/*
+	Reference to a compound object in a metabolic map
+	@id subws KBaseBiochem.MetabolicMap.compounds.[*].id
+	*/
+	typedef string mapcompound_ref;
+	
+	/*
+	Reference to a compound object in a metabolic map
+	@id subws KBaseBiochem.MetabolicMap.linkedmaps.[*].id
+	*/
+	typedef string maplink_ref;
+
+####Fields
+
+	typedef structure {
+	  map_id id; (string)
+	  string name;
+	  string source_id;
+	  string source;
+	  string link;
+	  string description;
+	  list<string> reaction_ids;
+	  list<string> compound_ids;
+	  list<ReactionGroup> groups; (see below)
+	  list<MapReaction> reactions; (see below)
+	  list<MapCompound> compounds; (see below)
+	  list<MapLink> linkedmaps; (see below)
+	} MetabolicMap;
+	
+	typedef structure {
+	  list<string> rxn_ids;
+	  int x;
+	  int y;
+	  list<tuple<int, int>> substrate_path;
+	  list<tuple<int, int>> product_path;
+	  string spline;
+	  string dasharray;
+	} ReactionGroup;
+	
+	typedef structure {
+	  int id;
+	  mapcompound_ref compound_ref;
+	} MapReactionReactant;
+	
+	typedef structure {
+	  string id;
+	  bool reversible;
+	  string name;
+	  string ec;
+	  string shape;
+	  string link;
+	  int h;
+	  int w;
+	  int y;
+	  int x;
+	  list<string> rxns;
+	  list<MapReactionReactant> substrate_refs;
+	  list<MapReactionReactant> product_refs;
+	} MapReaction;
+	
+	typedef structure {
+	  string id;
+	  string label;
+	  int label_x;
+	  int label_y;
+	  string name;
+	  string shape;
+	  string link;
+	  int h;
+	  int w;
+	  int y;
+	  int x;
+	  list<string> cpds;
+	  list<maplink_ref> link_refs;
+	} MapCompound;
+	
+	typedef structure {
+	  string id;
+	  string map_ref;
+	  string name;
+	  string shape;
+	  string link;
+	  int h;
+	  int w;
+	  int y;
+	  int x;
+	  map_id map_id;
+	} MapLink;
 
 
+#Types for Biochem.spec
 
+##Workspace Module
+KBaseBiochem
 
+##Workspace with Data
+?
 
+###Biochemistry
+####Description 
+Biochemistry object
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+####Relationships
 
 
 
