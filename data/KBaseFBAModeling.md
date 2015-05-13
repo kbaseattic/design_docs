@@ -4252,14 +4252,87 @@ Some top level info about the contig set and then details for each contig.  Esse
 	} Contig;
 
 
+###GenomeComparison
+####Description 
+GenomeComparisonData object: this object holds information about a multigenome comparison.
+NOTE: This is not the same thing as the ProteomeComparison object in the GenomeComparisonRepo.
+
+####Relationships
+
+	Reference to a Proteome Comparison object in the workspace
+	@id ws GenomeComparison.ProteomeComparison
+	*/
+	typedef string Protcomp_ref;
+	
+	/*
+	Reference to a Pangenome object in the workspace
+	@id ws KBaseGenomes.Pangenome
+	*/
+	typedef string Pangenome_ref;
+	
+	/*
+	Reference to a Genome object in the workspace
+	@id ws KBaseGenomes.Genome
+	*/
+	typedef string Genome_ref;
+
+####Fields
+
+	typedef structure {
+	  string id;
+	  string name;
+	  int core_functions;
+	  int core_families;
+	  Protcomp_ref protcomp_ref;
+	  Pangenome_ref pangenome_ref;
+	  list<GenomeComparisonGenome> genomes; (see below)
+	  list<GenomeComparisonFamily> families; (see below)
+	  list<GenomeComparisonFunction> functions; (see below)
+	} GenomeComparison;
+	
+	typedef structure {
+	  int core;
+	  mapping<string, list<tuple<Feature_id, int, float>>> genome_features;
+	  string id;
+	  list<tuple<Reaction_id, string>> reactions;
+	  string subsystem;
+	  string primclass;
+	  string subclass;
+	  int number_genomes;
+	  float fraction_genomes;
+	  float fraction_consistent_families;
+	  string most_consistent_family;
+	} GenomeComparisonFunction;
+	
+	typedef structure {
+	  int core;
+	  mapping<string, list<tuple<Feature_id, list<int>, float>>> genome_features;
+	  string id;
+	  string type;
+	  string protein_translation;
+	  int number_genomes;
+	  float fraction_genomes;
+	  float fraction_consistent_annotations;
+	  string most_consistent_role;
+	} GenomeComparisonFamily;
+	
+	typedef structure {
+	  string id;
+	  Genome_ref genome_ref;
+	  mapping<string, tuple<int, int>> genome_similarity;
+	  string name;
+	  string taxonomy;
+	  int features;
+	  int families;
+	  int functions;
+	} GenomeComparisonGenome;
 
 
+###GenomeDomainData
+####Description 
+GenomeDomainData object: this object holds all data regarding protein domains in a genome in KBase
 
-
-
-
-
-
+####Relationships
 
 
 
