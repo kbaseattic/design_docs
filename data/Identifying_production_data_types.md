@@ -4,7 +4,7 @@
 * [assembly](Assembly.md)
 * [communities_api]
 * [communities_qc]
-* [cbd (Compression Based Distance)]
+* [cbd (Compression Based Distance)](cbd.md)
 * [data_import_export](data_import_export.md)
 * [KBaseFBAModeling]
 * [gene_families](GeneFamilies.md)
@@ -15,7 +15,7 @@
 * [meme](MEME.md)
 * [networks](Networks.md)
 * [ontology_service](ontology_service.md)
-* [probabilistic_annotation]
+* [probabilistic_annotation](probabilistic_annotation.md)
 * [protein_info_service]
 * [trees]
 
