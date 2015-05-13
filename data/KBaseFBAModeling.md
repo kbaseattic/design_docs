@@ -4037,10 +4037,96 @@ Genome object
 
 ####Relationships
 
+	/*
+	Reference to a ContigSet object containing the contigs for this genome in the workspace
+	    @id ws KBaseGenomes.ContigSet
+	*/
+	typedef string ContigSet_ref;
 
-
-
-
+####Fields
+	
+	typedef structure {
+	  Genome_id id; (string)
+	  string scientific_name;
+	  string domain;
+	  int genetic_code;
+	  int dna_size;
+	  int num_contigs;
+	  list<Contig> contigs; (see below)
+	  list<int> contig_lengths;
+	  list<Contig_id> contig_ids; strings
+	  string source;
+	  source_id source_id;
+	  string md5;
+	  string taxonomy;
+	  float gc_content;
+	  int complete;
+	  list<publication> publications; (see below)
+	  list<Feature> features; (see below)
+	  ContigSet_ref contigset_ref; 
+	  Genome_quality_measure quality;
+	  list<Close_genome> close_genomes; (see below) 
+	  list<Analysis_event> analysis_events; (see below)
+	} Genome;
+	
+	typedef structure {
+	  Contig_id id;
+	  int length;
+	  string md5;
+	  string sequence;
+	  int genetic_code;
+	  string cell_compartment;
+	  string replicon_type;
+	  string replicon_geometry;
+	  string name;
+	  string description;
+	  Bool complete;
+	} Contig;
+	
+	typedef tuple<int, string, string, string, string, string, string> publication;
+	
+	typedef structure {
+	  float frameshift_error_rate;
+	  float sequence_error_rate;
+	} Genome_quality_measure;
+	
+	typedef structure {
+	  Genome_id genome;
+	  float closeness_measure;
+	} Close_genome;
+	
+	typedef structure {
+	  Analysis_event_id id;
+	  string tool_name;
+	  float execution_time;
+	  list<string> parameters;
+	  string hostname;
+	} Analysis_event;
+	
+	typedef structure {
+	  Feature_id id;
+	  list<tuple<Contig_id, int, string, int>> location;
+	  string type;
+	  string function;
+	  string md5;
+	  string protein_translation;
+	  string dna_sequence;
+	  int protein_translation_length;
+	  int dna_sequence_length;
+	  list<publication> publications;
+	  list<string> subsystems;
+	  list<ProteinFamily> protein_families;
+	  list<string> aliases;
+	  list<tuple<string, float>> orthologs;
+	  list<annotation> annotations;
+	  list<subsystem_data> subsystem_data;
+	  list<regulon_data> regulon_data;
+	  list<atomic_regulon> atomic_regulons;
+	  list<coexpressed_fid> coexpressed_fids;
+	  list<co_occurring_fid> co_occurring_fids;
+	  Feature_quality_measure quality;
+	  Analysis_event feature_creation_event;
+	} Feature;
 
 
 
