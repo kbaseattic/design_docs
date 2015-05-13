@@ -4103,6 +4103,18 @@ Genome object
 	  string hostname;
 	} Analysis_event;
 	
+	See Feature in the Feature section below.
+
+
+###Feature
+####Description 
+Feature object. Structure for a single feature of a genome
+
+####Relationships
+None
+
+####Fields
+
 	typedef structure {
 	  Feature_id id;
 	  list<tuple<Contig_id, int, string, int>> location;
@@ -4127,17 +4139,117 @@ Genome object
 	  Feature_quality_measure quality;
 	  Analysis_event feature_creation_event;
 	} Feature;
+	
+	publication is the same as in the Genome object above. 
+	
+	/*
+	Structure for a protein family
+	        @optional query_begin query_end subject_begin subject_end score evalue subject_description release_version
+	*/
+	typedef structure {
+	  string id;
+	  string subject_db;
+	  string release_version;
+	  string subject_description;
+	  int query_begin;
+	  int query_end;
+	  int subject_begin;
+	  int subject_end;
+	  float score;
+	  float evalue;
+	} ProteinFamily;
+	
+	typedef tuple<string, string, float> annotation;
+	
+	/*
+	Structure for subsystem data (from CDMI API)
+	*/
+	typedef tuple<string, string, string> subsystem_data;
+	
+	/*
+	Structure for regulon data (from CDMI API)
+	*/
+	typedef tuple<string, list<Feature_id>, list<Feature_id>> regulon_data;
+	
+	/*
+	Structure for an atomic regulon (from CDMI API)
+	*/
+	typedef tuple<string, int> atomic_regulon;
+	
+	/*
+	Structure for coexpressed fids (from CDMI API)
+	*/
+	typedef tuple<Feature_id, float> coexpressed_fid;
+	
+	/*
+	Structure for co-occurring fids (from CDMI API)
+	*/
+	typedef tuple<Feature_id, float> co_occurring_fid;
+	
+	/*
+	@optional weighted_hit_count hit_count existence_priority overlap_rules pyrrolysylprotein truncated_begin truncated_end existence_confidence frameshifted selenoprotein
+	*/
+	typedef structure {
+	  Bool truncated_begin; (int)
+	  Bool truncated_end; (int)
+	  float existence_confidence;
+	  Bool frameshifted; (int)
+	  Bool selenoprotein; (int)
+	  Bool pyrrolysylprotein; (int)
+	  list<string> overlap_rules;
+	  float existence_priority;
+	  float hit_count;
+	  float weighted_hit_count;
+	} Feature_quality_measure;
+	
+	Analysis_event is the same as in the Genome object above. 
+
+###ContigSet
+####Description 
+Some top level info about the contig set and then details for each contig.  Essentially is an assembly.
+
+####Relationships
+
+	/*
+	Reference to a reads file in shock
+	@id shock
+	*/
+	typedef string Reads_ref;
+	
+	/*
+	Reference to a fasta file in shock
+	@id shock
+	*/
+	typedef string Fasta_ref;
 
 
+####Fields
 
-
-
-
-
-
-
-
-
+	typedef structure {
+	  ContigSet_id id;
+	  string name;
+	  string md5;
+	  source_id source_id;
+	  string source;
+	  string type;
+	  Reads_ref reads_ref;
+	  Fasta_ref fasta_ref;
+	  list<Contig> contigs; (see below)
+	} ContigSet;
+	
+	typedef structure {
+	  Contig_id id;
+	  int length;
+	  string md5;
+	  string sequence;
+	  int genetic_code;
+	  string cell_compartment;
+	  string replicon_type;
+	  string replicon_geometry;
+	  string name;
+	  string description;
+	  Bool complete; (int)
+	} Contig;
 
 
 
