@@ -4031,9 +4031,9 @@ KBaseGenomes
 ##Workspace with Data
 KBasePublicGenomesV5
 
-###Biochemistry
+###Genome
 ####Description 
-Biochemistry object
+Genome object
 
 ####Relationships
 
