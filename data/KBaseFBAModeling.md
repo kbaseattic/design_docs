@@ -4568,19 +4568,88 @@ This appears to be a similar data object to the ExpressionReplicateGroup.
 
 ####Fields
 
-    typedef structure {
-        string id;
-        metabolome_sample_ids metabolome_sample_ids;
-    } MetabolomeReplicateGroup;
+	    typedef structure {
+	        string id;
+	        metabolome_sample_ids metabolome_sample_ids;
+	    } MetabolomeReplicateGroup;
+
+
+#Types for Ontology.spec
+This is copied from the ontology_service repo module.  Since this is a copy the spec may inconsistent with the actual WS spec.
+Please see https://github.com/kbase/ontology_service/blob/master/workspace.spec
+
+
+#Types for Phenotypes.spec
+
+##Workspace Module - 
+Unknown 
+
+##Workspace with Data
+Unknown
+
+
+###Met
+####Description 
+
+####Relationships
+
+####Fields
 
 
 
 
 
+#Types for ProbabilisticAnnotation.spec
+
+##Workspace Module - 
+Unknown 
+
+##Workspace with Data
+Unknown
+
+
+###Met
+####Description 
+
+####Relationships
+
+####Fields
 
 
 
+#Types for Regulation.spec
 
+##Workspace Module - 
+Unknown 
+
+##Workspace with Data
+Unknown
+
+
+###Met
+####Description 
+
+####Relationships
+
+####Fields
+
+
+
+#Types for RegulatoryFBA.spec
+
+##Workspace Module - 
+Unknown 
+
+##Workspace with Data
+Unknown
+
+
+###Met
+####Description 
+
+####Relationships
+
+####Fields
 
 
 
