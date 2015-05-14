@@ -4469,15 +4469,109 @@ Object to carry alternative functions and probabilities for genes in a genome
 	*/
 	typedef tuple<string, float> function_probability;
 
+#Types for GenomeComparison.spec
+This is copied from the GenomeComparison repo module.  Since this is a copy the spec may inconsistent with the actual WS spec.
+Please see https://github.com/kbase/genome_comparison/blob/master/GenomeComparison.spec
+NOTE: This is not the same thing as the GenomeComparison object in the KBaseFBAModeling repo Genomes spec that contains a GenomeComparison typed object.
 
 
+#Types for Metabolome.spec
+
+##Workspace Module - NOTE THE SPEC EXISTS BUT THERE APPEARS TO BE NO REGISTERED WS OBJECTS
+Unknown 
+
+##Workspace with Data
+Unknown
+
+##Author
+I think Sam Seaver made this part.
+
+###MetabolomeSample
+####Description 
+This appears to be a similar data object to the ExpressionSample.  I am quessing he is making this type to put his stuff into the expression sample.
+
+####Relationships
+
+####Fields
+
+	    typedef structure {
+	        string id;
+	        string source_id;
+	        sample_type type;
+	        string numerical_interpretation;
+	        string description;
+	        string title;
+	        int data_quality_level;
+	        float original_median;
+		string external_source_date;
+	        data_metabolome_levels_for_sample metabolome_levels; 
+		biochemistry_id biochemistry_id; 
+	        metabolome_ontology_terms metabolome_ontology_terms;
+	        metabolome_sample_id default_control_sample; 
+	        metabolome_sample_ids averaged_from_samples; 
+	        Protocol protocol; 
+	        Strain strain; 
+	        persons persons;
+	        string data_source; 
+	        string shock_url;
+	        string processing_comments;
+	        metabolome_series_ids metabolome_series_ids;
+	        string characteristics;
+	    } MetabolomeSample;
 
 
+###MetabolomeSeries
+####Description 
+This appears to be a similar data object to the ExpressionSeries.  But instead of mapping samples to genomes it appears to be mapping samples to biochemistries.
+
+####Relationships
+
+	    /* 
+	        KBase BiochemistryID 
+	        id ws KB.Biochmistry
+	
+	        "ws" may change to "to" in the future 
+	    */
+	    typedef string biochemistry_id;
+
+####Fields
+
+	    typedef structure { 
+	        string id; 
+	        string source_id;
+	        biochemistry_metabolome_sample_ids_map biochemistry_metabolome_sample_ids_map; (see below)
+	        string title; 
+	        string summary;
+	        string design; 
+	        string publication_id; 
+		string external_source_date;
+	    } MetabolomeSeries; 
+	    
+	    /* map between biochemistry ids and a list of samples from that biochemistry in this sample */
+	    typedef mapping<biochemistry_id biochemistry_id, metabolome_sample_ids> biochemistry_metabolome_sample_ids_map; 
 
 
+###MetabolomeReplicateGroup
+####Description 
+This appears to be a similar data object to the ExpressionReplicateGroup.  
 
+####Relationships
 
+	    /*
+	       id for the metabolome sample
+	
+	       @id ws KBaseMetabolome.MetabolomeSample
+	
+	       "ws" may go to "to" in the future
+	    */
+	    typedef string metabolome_sample_id;
 
+####Fields
+
+    typedef structure {
+        string id;
+        metabolome_sample_ids metabolome_sample_ids;
+    } MetabolomeReplicateGroup;
 
 
 
