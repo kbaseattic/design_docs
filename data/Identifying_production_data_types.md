@@ -16,8 +16,8 @@
 * [networks](Networks.md)
 * [ontology_service](ontology_service.md)
 * [probabilistic_annotation](probabilistic_annotation.md)
-* [protein_info_service]
-* [trees]
+* [protein_info_service](ProteinInfo.md)
+* [trees](Trees.md)
 
 # Additional repos examined for data
 ***
