@@ -4334,17 +4334,140 @@ GenomeDomainData object: this object holds all data regarding protein domains in
 
 ####Relationships
 
+	/*
+	Reference to a Genome object in the workspace
+	@id ws KBaseGenomes.Genome
+	*/
+	typedef string Genome_ref;
+
+####Fields
+
+	typedef structure {
+	  string id;
+	  Genome_id genome_id;
+	  string scientific_name;
+	  Genome_ref genome_ref;
+	  int num_domains;
+	  int num_features;
+	  list<Domain> domains; (see below)
+	  list<FeatureDomainData> featuredomains; (see below)
+	} GenomeDomainData;
+	
+	typedef structure {
+	  string id;
+	  string source_id;
+	  string type;
+	  string name;
+	  string description;
+	} Domain;
+	
+	/*
+	FeatureDomain - a subobject holding information on how a domain appears in a gene
+	*/
+	typedef structure {
+	  string id;
+	  string feature_id;
+	  string feature_ref;
+	  string function;
+	  int feature_length;
+	  list<tuple<string, int, int, int, int, float, float, float, float, float, float>> domains;
+	} FeatureDomainData;
+
+###MetagenomeAnnotation
+####Description 
+MetagenomeAnnotation
+
+####Relationships
+None
+
+####Fields
+
+	typedef structure {
+	  string type;
+	  string name;
+	  string id;
+	  string source_id;
+	  string source;
+	  string confidence_type;
+	  list<MetagenomeAnnotationOTU> otus; (see below)
+	} MetagenomeAnnotation;
+	
+	typedef structure {
+	  string id;
+	  list<string> reference_genes;
+	  string functional_role;
+	  int abundance;
+	  float confidence;
+	} MetagenomeAnnotationOTUFunction;
+	
+	typedef structure {
+	  float ave_confidence;
+	  float ave_coverage;
+	  string id;
+	  string name;
+	  string source_id;
+	  string source;
+	  list<MetagenomeAnnotationOTUFunction> functions; (see above)
+	} MetagenomeAnnotationOTU;
+
+###Pangenome
+####Description 
+Pangenome object: this object holds all data regarding a pangenome
+
+####Relationships
+
+	/*
+	Reference to a Genome object in the workspace
+	@id ws KBaseGenomes.Genome
+	*/
+	typedef string Genome_ref;
+
+####Fields
+
+	typedef structure {
+	  string id;
+	  string name;
+	  string type;
+	  list<Genome_ref> genome_refs;
+	  list<OrthologFamily> orthologs;
+	} Pangenome;
+	
+	typedef structure {
+	  string id;
+	  string type;
+	  string function;
+	  string md5;
+	  string protein_translation;
+	  list<tuple<string, float, string>> orthologs;
+	} OrthologFamily;
+	
+###ProbabilisticAnnotation
+####Description 
+Object to carry alternative functions and probabilities for genes in a genome    
+
+####Relationships
+
+	/*
+	Reference to a Genome object in the workspace
+	@id ws KBaseGenomes.Genome
+	*/
+	typedef string Genome_ref;
 
 
+####Fields
 
-
-
-
-
-
-
-
-
+	typedef structure {
+	  ProbabilisticAnnotation_id id;
+	  Genome_ref genome_ref;
+	  mapping<Feature_id, list<function_probability>> roleset_probabilities; (see below)
+	  list<Feature_id> skipped_features;
+	} ProbabilisticAnnotation; (strings)
+	
+	/*
+	A function_probability is a (annotation, probability) pair associated with a gene
+	An annotation is a "///"-delimited list of roles that could be associated with that gene.
+	*/
+	typedef tuple<string, float> function_probability;
 
 
 
