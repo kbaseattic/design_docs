@@ -4582,58 +4582,304 @@ Please see https://github.com/kbase/ontology_service/blob/master/workspace.spec
 #Types for Phenotypes.spec
 
 ##Workspace Module - 
-Unknown 
+KBasePhenotypes
 
 ##Workspace with Data
 Unknown
 
 
-###Met
+###PhenotypeSet
 ####Description 
+PhenotypeSet object contains a set of phenotype objects
 
 ####Relationships
 
+	/*
+	Reference to a feature of a genome object
+	@id ws KBaseGenomes.Genome
+	*/
+	typedef string genome_ref;
+	
+	/*
+	Reference to a mapping object
+	@id ws KBaseBiochem.Media
+	*/
+	typedef string media_ref;
+	
+	/*
+	Reference to a feature of a genome object
+	@id subws KBaseGenomes.Genome.features.[*].id
+	*/
+	typedef string feature_ref;
+	
+	/*
+	Reference to a compound object
+	@id subws KBaseBiochem.Biochemistry.compounds.[*].id
+	*/
+	typedef string compound_ref;
+
 ####Fields
 
+	typedef structure {
+	  phenotypeset_id id;
+	  source_id source_id;
+	  string source;
+	  string name;
+	  genome_ref genome_ref;
+	  list<Phenotype> phenotypes; (see below)
+	  string importErrors;
+	  string type;
+	} PhenotypeSet;
+	
+	typedef structure {
+	  phenotype_id id;
+	  media_ref media_ref;
+	  list<feature_ref> geneko_refs;
+	  list<compound_ref> additionalcompound_refs;
+	  float normalizedGrowth;
+	  string name;
+	} Phenotype;
 
+###PhenotypeSimulationSet
+####Description 
+PhenotypeSimulationSet object holds data on simulations of many phenotypes
 
+####Relationships
 
+	/*
+	Reference to a model object
+	@id ws KBaseFBA.FBAModel
+	*/
+	typedef string fbamodel_ref;
+	
+	/*
+	Reference to a PhenotypeSet object
+	@id ws KBasePhenotypes.PhenotypeSet
+	*/
+	typedef string phenotypeset_ref;
+	
+	/*
+	Reference to a PhenotypeSet object
+	@id subws KBasePhenotypes.PhenotypeSet.phenotypes.[*].id
+	*/
+	typedef string phenotype_ref;
+
+####Fields
+
+	typedef structure {
+	  phenosimset_id id;
+	  fbamodel_ref fbamodel_ref;
+	  phenotypeset_ref phenotypeset_ref;
+	  list<PhenotypeSimulation> phenotypeSimulations; (see below)
+	} PhenotypeSimulationSet;
+	
+	typedef structure {
+	  phenosim_id id;
+	  phenotype_ref phenotype_ref;
+	  float simulatedGrowth;
+	  float simulatedGrowthFraction;
+	  int numGapfilledReactions;
+	  list<string> gapfilledReactions;
+	  string phenoclass;
+	} PhenotypeSimulation;
 
 #Types for ProbabilisticAnnotation.spec
 
 ##Workspace Module - 
-Unknown 
+ProbabilisticAnnotation
+
+##Author 
+Mike Mundy
 
 ##Workspace with Data
 Unknown
 
-
-###Met
+###ProbAnno
 ####Description 
+Object to carry alternative functions and probabilities for genes in a genome   
 
 ####Relationships
 
+	NOTE THESE ARE NOT WS REFERENCES
+	
+	/*
+	A string identifier for a genome.
+	*/
+	typedef string genome_id;
+	
+	/*
+	A string identifier for a workspace. Any string consisting of alphanumeric characters and "-" is acceptable.
+	*/
+	typedef string workspace_id;
+
 ####Fields
 
+	typedef structure {
+	  probanno_id id;
+	  genome_id genome;
+	  workspace_id genome_workspace;
+	  mapping<feature_id, list<function_probability>> roleset_probabilities; (see below)
+	  list<feature_id> skipped_features; (strings)
+	} ProbAnno;
+	
+	/*
+	A function_probability is a (annotation, probability) pair associated with a gene
+	An annotation is a "///"-delimited list of roles that could be associated with that gene.
+	*/
+	typedef tuple<string, float> function_probability;
+
+###RxnProbs
+####Description 
+Object to hold reaction probabilities for a genome  
+
+####Relationships
+
+	NOTE THESE ARE NOT WS REFERENCES
+	
+	/*
+	A string identifier for a workspace. Any string consisting of alphanumeric characters and "-" is acceptable.
+	*/
+	typedef string workspace_id;
+	
+	/*
+	A string identifier for a genome.
+	*/
+	typedef string genome_id;
+	
+	/*
+	A string identifier for a probabilistic annotation object.
+	*/
+	typedef string probanno_id;
+	
+	/*
+	A string identifier for a reaction object.
+	*/
+	typedef string reaction_id;
+
+####Fields
+
+	typedef structure {
+	  rxnprobs_id id; (string)
+	  template_id template_model;
+	  workspace_id template_workspace;
+	  genome_id genome; (string, not ws reference)
+	  workspace_id genome_workspace; (string, not ws reference)
+	  probanno_id probanno; (string, not ws reference)
+	  workspace_id probanno_workspace; (string, not ws reference)
+	  list<reaction_probability> reaction_probabilities; (see below)
+	} RxnProbs;
+	
+	/*
+	Data structure to hold probability of a reaction
+	
+	        reaction_id reaction - ID of the reaction
+	        float probability - Probability of the reaction
+	        string type - Type of complexes ("HASCOMPLEXES" or "NOCOMPLEXES")
+	        string complex_info - Detailed information on complexes
+	        string gene_list - List of genes most likely to be attached to reaction
+	*/
+	typedef tuple<reaction_id, float, string, string, string> reaction_probability;
 
 
 #Types for Regulation.spec
 
 ##Workspace Module - 
-Unknown 
+KBaseRegulation
+
+I suspect this is copied from another repo, and therefore has the possibility of being inconsistent
+
+##Author
+Pavel
 
 ##Workspace with Data
 Unknown
 
 
-###Met
+###Regulome
 ####Description 
+Represents regulome - collection of regulons for a given genome
 
 ####Relationships
 
+	/*
+	Represents WS reference to a genome object
+	@id ws KBaseGenomes.Genome
+	*/
+	typedef string genome_ref;
+
 ####Fields
 
-
+	typedef structure {
+	  regulome_id regulome_id;
+	  regulome_source regulome_source;
+	  string regulome_name;
+	  Genome genome;
+	  list<Regulon> regulons; (see below)
+	  list<Evidence> evidesnces; (see below)
+	} Regulome;
+	
+	typedef structure {
+	  regulon_id regulon_id;
+	  Regulator regulator; (see below)
+	  list<Effector> effectors; (see below)
+	  list<TranscriptionFactor> tfs; (see below)
+	  list<RegulatedOperon> operons; (see below)
+	  list<Evidence> evidesnces; (see below)
+	} Regulon;
+	
+	typedef structure {
+	  operon_id operon_id;
+	  list<Gene> genes; (see below)
+	  list<RegulatorySite> sites; (see below)
+	} RegulatedOperon;
+	
+	typedef structure {
+	  regulatory_site_id regulatory_site_id;
+	  string sequence;
+	  int position;
+	  float score;
+	  regulatory_mechanism regulatory_mechanism;
+	  list<Evidence> evidesnces; (note misspelled)
+	} RegulatorySite;
+	
+	typedef structure {
+	  evidence_type evidence_type;
+	  string pubmed_id;
+	} Evidence;
+	
+	typedef structure {
+	  gene_id gene_id;
+	  string locus_tag;
+	  string name;
+	} Gene;
+	
+	typedef structure {
+	  transcription_factor_id transcription_factor_id;
+	  string locus_tag;
+	  string name;
+	} TranscriptionFactor;
+	
+	typedef structure {
+	  effector_id effector_id;
+	  string effector_class;
+	  string effector_name;
+	} Effector;
+	
+	typedef structure {
+	  regulator_id regulator_id;
+	  regulation_type regulation_type;
+	  string regulator_name;
+	  string taxonomy;
+	  string tf_family;
+	  string rfam_id;
+	} Regulator;
+	
+	typedef structure {
+	  genome_id genome_id;
+	  genome_ref genome_ref;
+	  string genome_name;
+	  int ncbi_taxonomy_id;
+	} Genome;
 
 #Types for RegulatoryFBA.spec
 
