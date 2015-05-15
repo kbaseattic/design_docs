@@ -4882,20 +4882,39 @@ Represents regulome - collection of regulons for a given genome
 	} Genome;
 
 #Types for RegulatoryFBA.spec
-
-##Workspace Module - 
+##Workspace Module - THIS DOES NOT APPEAR TO BE REGISTERED WITH THE WORKSPACE AT ALL
 Unknown 
 
 ##Workspace with Data
 Unknown
 
+The spec itself is very small and is below:
 
-###Met
-####Description 
-
-####Relationships
-
-####Fields
+	module KBaseRegulatoryFBA {
+	     /*
+	      Genome feature
+	      */
+	    typedef string feature_id;
+	    /*
+	      Expresion sample id
+	    */
+	    typedef string expression_sample_id;
+	    /*
+	      collection of eflux expression scores for each feature in a genome,
+	      representing a single gene expression sample
+	    */
+	    typedef structure {
+		    mapping<feature_id, float> eflux_scores;
+		    string expression_sample_ref;
+	    } EfluxExpressionSample
+	    /*
+	      Eflux values computed for an entire gene expression series
+	    */
+	    typedef structure {
+		string eflux_collection_id;
+		mapping<expression_sample_id, EfluxExpressionSample> efluxExpressionSamples;
+	    } EfluxExpressionCollection;
+	};
 
 
 
