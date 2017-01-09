@@ -316,3 +316,180 @@ Looked at:
 README.md 
 GenomeAnnotation.spec
 genome_annotation/t/script-tests/*
+
+
+#Note the actual saving of the WS Genome object happens in special code in the Narrative_Job_Service
+https://github.com/kbase/narrative_job_service/blob/master/scripts/njs-run-genome-annotation.pl
+  
+#GenomeAnnotation types
+
+##Workspace Module - THIS DOES NOT APPEAR TO BE REGISTERED WITH THE WORKSPACE AT ALL
+
+###GenomeTO
+####Description 
+This appears to be an internally used object to the service that contains both the 
+information for the workspace Genome and ContigSet typed objects.
+
+####Relationships
+Handle? Not being used.
+
+####Fields
+    
+    /* All of the information about particular genome */
+    typedef structure {
+	genome_id id;
+	string scientific_name;
+	string domain;
+	int genetic_code;
+	string source;
+	string source_id;
+	string taxonomy;
+	int ncbi_taxonomy_id;
+	genome_quality_measure quality;	
+	list<contig> contigs;
+	Handle contigs_handle;
+	list<feature> features;
+	list<close_genome> close_genomes;
+	list <analysis_event> analysis_events;
+    } genomeTO;
+    
+    Subtypes:
+    /* A feature object represents a feature on the genome. It contains 
+       the location on the contig with a type, the translation if it
+       represents a protein, associated aliases, etc. It also contains
+       information gathered during the annotation process that is involved
+       in stages that perform overlap removal, quality testing, etc.
+    */
+    typedef structure {
+	feature_id id;
+	location location;
+	feature_type type;
+	string function;
+	string protein_translation;
+	list<string> aliases;
+	list<tuple<string source, string alias>> alias_pairs;
+	list<annotation> annotations;
+	feature_quality_measure quality;
+	analysis_event_id feature_creation_event;
+    } feature;
+
+    /* Data for DNA contig */
+    typedef structure {
+	contig_id id;
+	string dna;
+	int genetic_code;
+	string cell_compartment;
+	string replicon_type;
+	/* circular / linear */
+	string replicon_geometry;
+	bool complete;
+    } contig;
+
+    typedef structure {
+	genome_id genome;
+	string genome_name;
+	float closeness_measure;
+	string analysis_method;
+    } close_genome;
+    
+        /* A region of DNA is maintained as a tuple of four components:
+
+		the contig
+		the beginning position (from 1)
+		the strand
+		the length
+
+	   We often speak of "a region".  By "location", we mean a sequence
+	   of regions from the same genome (perhaps from distinct contigs).
+
+	   Strand is either '+' or '-'.
+        */
+    typedef tuple<contig_id, int begin, string strand,int length> region_of_dna;
+
+    /*
+	a "location" refers to a sequence of regions
+    */
+    typedef list<region_of_dna> location;
+
+    typedef string analysis_event_id;
+    typedef structure {
+	analysis_event_id id;
+	string tool_name;
+	float execution_time;
+	list<string> parameters;
+	string hostname;
+    } analysis_event;
+
+    typedef tuple<string comment, string annotator, int annotation_time, analysis_event_id> annotation;
+
+    typedef structure {
+	bool truncated_begin;
+	bool truncated_end;
+	/* Is this a real feature? */
+	float existence_confidence;
+
+	bool frameshifted;
+	bool selenoprotein;
+	bool pyrrolysylprotein;
+
+	/*
+	 * List of rules that govern the overlap removal procedure for
+	 * this feature. We don't yet have a strict definition for this but
+	 * the notion is that this will consiste of entries of the form
+	 * +feature-type which will allow overlap with the given feature type;
+	 * -feature-type which will disallow overlap with the given feature type.
+	 */
+	list<string> overlap_rules;
+
+	/*
+	 * The numeric priority of this feature's right to exist. Specialty
+	 * tools will give the features they create a high priority; more generic
+	 * tools will give their features a lower priority. The overlap removal procedure
+	 * will use this priority to determine which of a set of overlapping features
+	 * should be removed.
+	 *
+	 * The intent is that a change of 1 in the priority value represents a factor of 2 in
+	 * preference.
+	 */
+	float existence_priority;
+
+	float hit_count;
+	float weighted_hit_count;
+	float genemark_score;
+    } feature_quality_measure;
+    
+    
+    
+    
+     /*
+     * Genome metadata. We use this structure to define common metadata
+     * settings used in the API calls below. It is possible this data should
+     * have been separated in this way in the genome object itself, but there
+     * is an extant body of code that assumes the current structure of the genome
+     * object.
+     */
+    typedef structure
+    {
+	genome_id id;
+	string scientific_name;
+	string domain;
+	int genetic_code;
+	string source;
+	string source_id;
+	int ncbi_taxonomy_id;
+	string taxonomy;
+    } genome_metadata;
+    
+        /*
+     * This is a handle service handle object, used for by-reference
+     * passing of data files.
+     */
+    typedef structure {
+	string file_name;
+	string id;
+	string type;
+	string url;
+	string remote_md5;
+	string remote_sha1;
+    } Handle;
+   
